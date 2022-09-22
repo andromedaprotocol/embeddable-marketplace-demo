@@ -12,8 +12,9 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { IToken } from "../types";
 import { MoreHorizontalIcon } from "@/theme/icons";
+import { IToken } from "../types";
+import { LINKS } from "@/utils/links";
 
 interface CardProps {
   token: IToken;
@@ -21,7 +22,7 @@ interface CardProps {
 const Card: FC<CardProps> = ({ token }) => {
   return (
     <Box border="1px solid" borderColor="gray.300" p={5} borderRadius="lg">
-      <Link href={`/collections/generic/4037`} passHref>
+      <Link href={LINKS.token(token.id)} passHref>
         <a>
           <Image src={token.image} alt="Image" borderRadius="lg" />
         </a>
@@ -35,7 +36,7 @@ const Card: FC<CardProps> = ({ token }) => {
         </Text>
       </Flex>
 
-      <Flex justify="space-between" align="start" mt='3' gap='2'>
+      <Flex justify="space-between" align="start" mt="3" gap="2">
         <Box>
           <Text fontSize="xs" textStyle="light">
             Floor price
@@ -57,7 +58,7 @@ const Card: FC<CardProps> = ({ token }) => {
             as={IconButton}
             icon={<MoreHorizontalIcon width={16} />}
             variant="link"
-            alignSelf='end'
+            alignSelf="end"
           />
           <MenuList>
             <MenuItem>Burn</MenuItem>

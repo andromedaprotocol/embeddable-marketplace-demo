@@ -1,4 +1,4 @@
-import { TokenCard } from "@/modules/token-card";
+import { TokenCard } from "@/modules/token";
 import { SearchIcon } from "@/theme/icons";
 import { NFT_TRENDING } from "@/utils/seed";
 import {
