@@ -6,8 +6,8 @@ export const COLLECTIONS: ICollection[] = [
     id: "1",
     image:
       "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-1",
+    name: "Austin",
+    slug: "austin",
     marketcap: "12,567,802 UST",
     chain: "TERRA",
   },
@@ -15,8 +15,8 @@ export const COLLECTIONS: ICollection[] = [
     id: "2",
     image:
       "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-2",
+    name: "Bleins",
+    slug: "bleins",
     marketcap: "12,567,802 UST",
     chain: "TERRA",
   },
@@ -24,116 +24,8 @@ export const COLLECTIONS: ICollection[] = [
     id: "3",
     image:
       "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-3",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "4",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-4",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "5",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-5",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "6",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-6",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "7",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-7",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "8",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-8",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "9",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-9",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "10",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-10",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "11",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-11",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "12",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-12",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "13",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-13",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "14",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-14",
-    marketcap: "12,567,802 UST",
-    chain: "TERRA",
-  },
-  {
-    id: "15",
-    image:
-      "https://lh3.googleusercontent.com/sDhM1yz--cp9As0bh1yPE5HY4f7lOp-Yh3_wMPTXitrXrNxKMjAHarW1st3fchHZ_4lOCH8sBMKDMYgYXf_YCvMt377ERZ2cpRBNow=w600",
-    name: "Moonbirds",
-    slug: "moonbirds-15",
+    name: "Genuine Undead",
+    slug: "genuine-undead",
     marketcap: "12,567,802 UST",
     chain: "TERRA",
   },
