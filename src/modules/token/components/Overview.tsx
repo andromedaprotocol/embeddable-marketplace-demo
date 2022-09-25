@@ -22,6 +22,9 @@ const Overview: FC<OverviewProps> = (props) => {
       <Text fontWeight="bold" fontSize="xl" mt='8'>
         Details
       </Text>
+      <Box mt='4' p='10' rounded='2xl' border='1px' borderColor='gray.300'>
+        Details
+      </Box>
     </Box>
   );
 };
