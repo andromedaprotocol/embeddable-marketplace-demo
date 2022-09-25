@@ -1,5 +1,5 @@
 import { ICollection } from "@/modules/collection/types";
-import { IToken } from "@/modules/token-card/types";
+import { IToken } from "@/modules/token/types";
 
 export const COLLECTIONS: ICollection[] = [
   {
