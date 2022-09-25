@@ -10,7 +10,7 @@ const Layout: FC<LayoutProps> = (props) => {
   return (
     <Box>
       <Box borderBottom="1px" borderColor="gray.300" py="8"></Box>
-      <Box px="24" py="6">
+      <Box px="24" py="16">
         {children}
       </Box>
     </Box>

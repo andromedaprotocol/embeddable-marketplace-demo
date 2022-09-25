@@ -26,7 +26,7 @@ const TokenPage: FC<TokenPageProps> = (props) => {
 
   return (
     <Box>
-      <SimpleGrid columns={2} mt="10">
+      <SimpleGrid columns={2}>
         <GridItem>
           <Box>
             <Image src={token.image} alt="Image" borderRadius="lg" maxW="md" />

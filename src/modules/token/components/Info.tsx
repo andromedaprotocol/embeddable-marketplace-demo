@@ -18,7 +18,7 @@ const Info: FC<InfoProps> = (props) => {
   const {} = props;
 
   return (
-    <Box>
+    <Box w='full'>
       <HStack justify="space-between">
         <Box>
           <Text fontSize="2xl" fontWeight="bold">
@@ -39,6 +39,7 @@ const Info: FC<InfoProps> = (props) => {
         mt="4"
         p="4"
         minW="xs"
+        w='full'
       >
         <SimpleGrid columns={2} spacing="2">
           <Box>
