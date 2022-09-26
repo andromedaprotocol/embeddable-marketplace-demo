@@ -1,16 +1,15 @@
-import theme from "@/theme";
-import { ChakraProvider } from "@chakra-ui/react";
+import { AppProvider } from "@/lib/app";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
+    <AppProvider>
       <Head>
         <title>Marketplace</title>
       </Head>
       <Component {...pageProps} />
-    </ChakraProvider>
+    </AppProvider>
   );
 }
 

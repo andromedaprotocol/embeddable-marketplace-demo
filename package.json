@@ -12,6 +12,7 @@
   "dependencies": {
     "@andromedaprotocol/andromeda.js": "^0.0.27",
     "@chakra-ui/react": "^2.3.4",
+    "@cosmjs/proto-signing": "^0.28.11",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "framer-motion": "^6.5.1",
@@ -21,6 +22,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@keplr-wallet/types": "^0.10.12",
     "@types/node": "18.7.18",
     "@types/react": "18.0.20",
     "@types/react-dom": "18.0.6",
