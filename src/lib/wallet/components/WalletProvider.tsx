@@ -18,7 +18,9 @@ interface WalletProviderProps {
   children: ReactNode;
   chainId?: ChainConfig["chainId"];
 }
-const WalletProvider: FC<WalletProviderProps> = memo((props) => {
+const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
+  props
+) {
   const { chainId: defaultChainId, children } = props;
   const [config, setConfig] = useState(configs[0]);
   const [signer, setSigner] = useState<OfflineSigner | undefined>();

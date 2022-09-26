@@ -25,7 +25,6 @@ interface ModalState {
   onClose?: () => Promise<void>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components: Record<ModalType, React.FC<any>> = {
   [ModalType.Wallet]: WalletModal,
 };
@@ -33,69 +32,71 @@ const components: Record<ModalType, React.FC<any>> = {
 interface GlobalModalProviderProps {
   children: ReactNode;
 }
-const GlobalModalProvider: FC<GlobalModalProviderProps> = memo((props) => {
-  const { children } = props;
+const GlobalModalProvider: FC<GlobalModalProviderProps> = memo(
+  function GlobalModalProvider(props) {
+    const { children } = props;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [modalState, setModalState] = useState<ModalState | undefined>();
-  const [error, setError] = useState<Error | undefined>();
-  const open = useCallback(
-    <T extends ModalProps>(
-      type: T["modalType"],
-      props?: Omit<T, "modalType">,
-      _onClose?: () => Promise<void>
-    ) => {
-      const state = {
-        type,
-        props,
-        onClose: _onClose,
-      };
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [modalState, setModalState] = useState<ModalState | undefined>();
+    const [error, setError] = useState<Error | undefined>();
+    const open = useCallback(
+      <T extends ModalProps>(
+        type: T["modalType"],
+        props?: Omit<T, "modalType">,
+        _onClose?: () => Promise<void>
+      ) => {
+        const state = {
+          type,
+          props,
+          onClose: _onClose,
+        };
 
-      setModalState(state);
-    },
-    []
-  );
-  const close = useCallback(() => {
-    setModalState(undefined);
-    onClose();
-  }, [onClose]);
-
-  useEffect(() => {
-    if (!isOpen && typeof modalState !== "undefined") {
-      onOpen();
-    } else if (isOpen && typeof modalState === "undefined") {
+        setModalState(state);
+      },
+      []
+    );
+    const close = useCallback(() => {
+      setModalState(undefined);
       onClose();
-    }
-    // Reset Local states on modal transitions
-    setError(undefined);
-  }, [modalState, isOpen, onOpen, onClose]);
+    }, [onClose]);
 
-  const renderComponent = useCallback(() => {
-    if (!modalState) return <></>;
+    useEffect(() => {
+      if (!isOpen && typeof modalState !== "undefined") {
+        onOpen();
+      } else if (isOpen && typeof modalState === "undefined") {
+        onClose();
+      }
+      // Reset Local states on modal transitions
+      setError(undefined);
+    }, [modalState, isOpen, onOpen, onClose]);
 
-    const { type, props } = modalState;
-    const Component = components[type];
-    if (!Component) return <></>;
+    const renderComponent = useCallback(() => {
+      if (!modalState) return <></>;
 
-    return <Component {...props} />;
-  }, [modalState]);
+      const { type, props } = modalState;
+      const Component = components[type];
+      if (!Component) return <></>;
 
-  return (
-    <GlobalModalContext.Provider
-      value={{ isOpen, open, close, error, setError }}
-    >
-      <Modal isCentered size="xl" isOpen={isOpen} onClose={close}>
-        <ModalOverlay />
-        <ModalContent borderRadius="12px">
-          <ModalCloseButton />
-          <ModalBody>
-            <ModalError>{renderComponent()}</ModalError>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      {children}
-    </GlobalModalContext.Provider>
-  );
-});
+      return <Component {...props} />;
+    }, [modalState]);
+
+    return (
+      <GlobalModalContext.Provider
+        value={{ isOpen, open, close, error, setError }}
+      >
+        <Modal isCentered size="xl" isOpen={isOpen} onClose={close}>
+          <ModalOverlay />
+          <ModalContent borderRadius="12px">
+            <ModalCloseButton />
+            <ModalBody>
+              <ModalError>{renderComponent()}</ModalError>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        {children}
+      </GlobalModalContext.Provider>
+    );
+  }
+);
 
 export default GlobalModalProvider;

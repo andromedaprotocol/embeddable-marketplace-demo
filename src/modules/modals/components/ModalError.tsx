@@ -8,7 +8,7 @@ import { useGlobalModalContext } from "../hooks";
 interface ModalErrorProps {
   children: ReactNode;
 }
-const ModalError: FC<ModalErrorProps> = memo((props) => {
+const ModalError: FC<ModalErrorProps> = memo(function ModalError(props) {
   const { children } = props;
   const { error, setError, close } = useGlobalModalContext();
 

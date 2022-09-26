@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { ChainConfig, configs } from "@andromedaprotocol/andromeda.js";
 import { AccountData } from "@cosmjs/proto-signing";
 import { Keplr } from "@keplr-wallet/types";
