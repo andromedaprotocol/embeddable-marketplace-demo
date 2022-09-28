@@ -18,7 +18,7 @@ const Info: FC<InfoProps> = (props) => {
   const {} = props;
 
   return (
-    <Box w='full'>
+    <Box w="full">
       <HStack justify="space-between">
         <Box>
           <Text fontSize="2xl" fontWeight="bold">
@@ -39,7 +39,7 @@ const Info: FC<InfoProps> = (props) => {
         mt="4"
         p="4"
         minW="xs"
-        w='full'
+        w="full"
       >
         <SimpleGrid columns={2} spacing="2">
           <Box>
@@ -73,8 +73,7 @@ const Info: FC<InfoProps> = (props) => {
         <Flex gap="1" align="center">
           <Flame color="orange" width={14} />
           <Text fontSize="xs" fontWeight="bold">
-            Sale ends {new Date().toLocaleDateString()} at{" "}
-            {new Date().toLocaleTimeString()}
+            Sale ends 9 Oct 2022 at 05:00 am (GMT +05:30)
           </Text>
         </Flex>
         <SimpleGrid
@@ -83,7 +82,7 @@ const Info: FC<InfoProps> = (props) => {
           mt="4"
           alignSelf="start"
           maxW="max-content"
-          ml='1'
+          ml="1"
         >
           <Box>
             <Text fontWeight="bold" fontSize="md" ml="0.5">
@@ -110,7 +109,7 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
           </Box>
         </SimpleGrid>
-        <Button mt='4' w='full' variant='solid'>
+        <Button mt="4" w="full" variant="solid">
           Place a bid
         </Button>
       </Box>
