@@ -1,5 +1,5 @@
 import type { OfflineSigner, AccountData } from "@cosmjs/proto-signing";
-import { ChainConfig, configs } from "@andromedaprotocol/andromeda.js";
+import { ChainConfig, configs, getConfigByChainID } from "@andromedaprotocol/andromeda.js";
 import React, {
   FC,
   memo,
@@ -33,7 +33,7 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
   const toast = useToast();
 
   useEffect(() => {
-    const _config = configs.find((c) => c.chainId === defaultChainId);
+    const _config = getConfigByChainID(defaultChainId ?? '')
     if (_config) {
       setConfig(_config);
     }

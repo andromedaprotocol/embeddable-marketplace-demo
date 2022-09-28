@@ -10,7 +10,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@andromedaprotocol/andromeda.js": "^0.0.27",
+    "@andromedaprotocol/andromeda.js": "^0.0.40",
     "@chakra-ui/react": "^2.3.4",
     "@cosmjs/proto-signing": "^0.28.11",
     "@emotion/react": "^11.10.4",

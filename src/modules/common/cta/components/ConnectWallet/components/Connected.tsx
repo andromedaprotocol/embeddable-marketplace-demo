@@ -93,19 +93,22 @@ const Connected: FC<ConnectedProps> = (props) => {
                   fontWeight={500}
                   color="gray.700"
                   text={account?.address ?? ""}
-                  w='full'
+                  w="full"
                 >
                   Copy address
                 </CopyButton>
                 <Button
                   as="a"
-                  href={`${config.chainUrl}/account/${account?.address}`}
+                  href={config.blockExplorerAddressPages[0]?.replaceAll(
+                    "${address}",
+                    account?.address ?? ""
+                  )}
                   target="_blank"
                   leftIcon={<ExternalLinkIcon boxSize={4} />}
                   variant="outline"
                   fontWeight={500}
                   color="gray.700"
-                  w='full'
+                  w="full"
                 >
                   Explorer
                 </Button>
@@ -129,7 +132,7 @@ const Connected: FC<ConnectedProps> = (props) => {
                 onClick={disconnect}
                 fontWeight={500}
                 color="gray.700"
-                w='full'
+                w="full"
               >
                 Disconnect
               </Button>
