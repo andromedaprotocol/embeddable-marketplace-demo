@@ -1,4 +1,4 @@
-import useQueryCW721Info from "@/lib/graphql/hooks/cw721/useQueryCw721Info";
+import { useGetCollection } from "@/lib/graphql/hooks/collection";
 import { CollectionPage } from "@/modules/collection";
 import { Layout } from "@/modules/common/layout";
 import type { NextPage } from "next";
@@ -7,9 +7,9 @@ import { useRouter } from "next/router";
 
 const Page: NextPage = () => {
   const router = useRouter();
-  const address = router.query.address as string;
-  const { data, error } = useQueryCW721Info(address);
-  console.log(data, error, address);
+  const collectionId = router.query.id as string;
+
+  const { data, error } = useGetCollection(collectionId);
 
   if (!router.isReady) {
     return null;
@@ -22,7 +22,7 @@ const Page: NextPage = () => {
 
   return (
     <Layout>
-      <CollectionPage contractAddress={address} />
+      <CollectionPage collectionId={collectionId} />
     </Layout>
   );
 };

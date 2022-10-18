@@ -1,4 +1,4 @@
-import { IQueryResult } from "@/lib/graphql/hooks/cw721/useQueryCw721Info";
+import { IQueryResult } from "@/lib/graphql/hooks/collection/useGetCollection";
 
 type _Data = NonNullable<IQueryResult['data']>
 export interface ICollection extends _Data {

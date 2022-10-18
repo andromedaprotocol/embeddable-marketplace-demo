@@ -1,13 +1,13 @@
-import { useQueryCW721Info } from "@/lib/graphql";
+import { useGetCollection } from "@/lib/graphql/hooks/collection";
 import { Box, Flex, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 
 interface HeaderProps {
-  contractAddress: string;
+  collectionId: string;
 }
 const Header: FC<HeaderProps> = (props) => {
-  const { contractAddress } = props;
-  const { data: collection } = useQueryCW721Info(contractAddress);
+  const { collectionId } = props;
+  const { data: collection } = useGetCollection(collectionId);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" gap="4" py="2">

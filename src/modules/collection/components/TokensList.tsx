@@ -1,4 +1,4 @@
-import useQueryCW721Tokens from "@/lib/graphql/hooks/cw721/useQueryCw721Tokens";
+import { useGetTokens } from "@/lib/graphql/hooks/collection";
 import { TokenCard } from "@/modules/token";
 import { SearchIcon } from "@/theme/icons";
 import {
@@ -21,11 +21,11 @@ import React, { FC, useState } from "react";
 import { ICollection } from "../types";
 
 interface TokensListProps {
-  contractAddress: string;
+  collectionId: string;
 }
 const TokensList: FC<TokensListProps> = (props) => {
-  const { contractAddress } = props;
-  const { data: allTokens } = useQueryCW721Tokens(contractAddress);
+  const { collectionId } = props;
+  const { data: allTokens } = useGetTokens(collectionId);
   const [filterOpen, setFilterOpen] = useState(false);
 
   return (
@@ -76,10 +76,7 @@ const TokensList: FC<TokensListProps> = (props) => {
           <SimpleGrid columns={filterOpen ? 3 : 4} spacing={4} w="full">
             {allTokens?.map((tokenId) => (
               <GridItem key={tokenId}>
-                <TokenCard
-                  tokenId={tokenId}
-                  contractAddress={contractAddress}
-                />
+                <TokenCard tokenId={tokenId} collectionId={collectionId} />
               </GridItem>
             ))}
           </SimpleGrid>

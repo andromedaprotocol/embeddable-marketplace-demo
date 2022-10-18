@@ -1,21 +1,22 @@
-import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+import { useGetToken } from "@/lib/graphql/hooks/collection";
 import { LINKS } from "@/utils/links";
 import { Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 interface CollectionRowTokenProps {
   tokenId: string;
-  contractAddress: string;
+  collectionId: string;
 }
 const CollectionRowToken: FC<CollectionRowTokenProps> = (props) => {
-  const { contractAddress, tokenId } = props;
-  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
+  const { collectionId, tokenId } = props;
+
+  const { data: token } = useGetToken(collectionId, tokenId);
 
   if (!token) return null;
 
   return (
-    <Link href={LINKS.token(contractAddress, tokenId)}>
+    <Link href={LINKS.token(collectionId, tokenId)}>
       <Flex
         cursor="pointer"
         direction="column"

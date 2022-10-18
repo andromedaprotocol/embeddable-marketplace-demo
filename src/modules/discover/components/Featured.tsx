@@ -1,20 +1,20 @@
-import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+import useApp from "@/lib/app/hooks/useApp";
+import { useGetToken } from "@/lib/graphql/hooks/collection";
 import { TokenInfo } from "@/modules/token";
 import { Box, GridItem, Image, SimpleGrid } from "@chakra-ui/react";
 import React, { FC } from "react";
 
-interface FeaturedProps {
-  tokenId: string;
-  contractAddress: string;
-}
+interface FeaturedProps {}
 const Featured: FC<FeaturedProps> = (props) => {
-  const { tokenId, contractAddress } = props;
-  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
+  const {} = props;
+  const { config } = useApp();
+  const { collectionId, tokenId } = config.featured;
+  const { data: token } = useGetToken(collectionId, tokenId);
 
   return (
     <SimpleGrid columns={2} spacing="4">
       <GridItem>
-        <Box>
+        <Box boxShadow='md'>
           <Image
             src={token?.extension.image}
             alt="Image"
@@ -25,7 +25,7 @@ const Featured: FC<FeaturedProps> = (props) => {
       </GridItem>
       <GridItem>
         <Box maxW="sm" ml="auto" position="sticky" top="4">
-          <TokenInfo tokenId={tokenId} contractAddress={contractAddress} />
+          <TokenInfo tokenId={tokenId} collectionId={collectionId} />
         </Box>
       </GridItem>
     </SimpleGrid>

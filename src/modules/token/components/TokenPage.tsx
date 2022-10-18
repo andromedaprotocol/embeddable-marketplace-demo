@@ -1,5 +1,4 @@
-import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
-import useQueryCW721Tokens from "@/lib/graphql/hooks/cw721/useQueryCw721Tokens";
+import { useGetToken, useGetTokens } from "@/lib/graphql/hooks/collection";
 import {
   Box,
   GridItem,
@@ -19,12 +18,12 @@ import Overview from "./Overview";
 
 interface TokenPageProps {
   tokenId: string;
-  contractAddress: string;
+  collectionId: string;
 }
 const TokenPage: FC<TokenPageProps> = (props) => {
-  const { tokenId, contractAddress } = props;
-  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
-  const { data: allTokens } = useQueryCW721Tokens(contractAddress);
+  const { tokenId, collectionId } = props;
+  const { data: token } = useGetToken(collectionId, tokenId);
+  const { data: allTokens } = useGetTokens(collectionId);
 
   return (
     <Box>
@@ -59,7 +58,7 @@ const TokenPage: FC<TokenPageProps> = (props) => {
         </GridItem>
         <GridItem>
           <Box maxW="sm" ml="auto" position="sticky" top="4">
-            <Info tokenId={tokenId} contractAddress={contractAddress} />
+            <Info tokenId={tokenId} collectionId={collectionId} />
           </Box>
         </GridItem>
       </SimpleGrid>
@@ -69,11 +68,7 @@ const TokenPage: FC<TokenPageProps> = (props) => {
         </Text>
         <SimpleGrid mt="8" columns={4} spacing="4">
           {allTokens?.slice(0, 4).map((tokenId) => (
-            <Card
-              key={tokenId}
-              tokenId={tokenId}
-              contractAddress={contractAddress}
-            />
+            <Card key={tokenId} tokenId={tokenId} collectionId={collectionId} />
           ))}
         </SimpleGrid>
       </Box>

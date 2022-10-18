@@ -1,0 +1,20 @@
+{
+    "name": "Marketplace",
+    "chainId": "uni-5",
+    "featured": {
+        "collectionId": "austin-1",
+        "tokenId": "001"
+    },
+    "collections": [
+        {
+            "id": "austin-1",
+            "contractAddress": "juno1u5rqsg0nng35z27fvs5nfgejsrxrkfl2reh3ptduz2yx8nv2zyuqv8muyn",
+            "auctionAddress": "juno1aw4dpzlnjhv9xhp9k2xdhpkayu7v57dgvezw3mm3yvknnnzmdnrs7606ud"
+        },
+        {
+            "id": "austin-2",
+            "contractAddress": "juno1vtx4cwl7usa9qyuaqwm6cpl0zpwev6tpx2c9h7de7plrlqxy3tts47fatj",
+            "auctionAddress": "juno1lxgvuvwhc0mq5lmj7nnc0s3ezlxt35v53zq5qyc6f8v0afl6504qf3f92m"
+        }
+    ]
+}

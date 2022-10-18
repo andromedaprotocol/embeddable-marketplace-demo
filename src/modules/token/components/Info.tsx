@@ -1,5 +1,5 @@
-import { useQueryCW721Info } from "@/lib/graphql";
-import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+import { useGetTokenAuctionState } from "@/lib/graphql/hooks/auction";
+import { useGetToken, useGetCollection } from "@/lib/graphql/hooks/collection";
 import {
   Box,
   Button,
@@ -11,16 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { Flame, Share } from "lucide-react";
 import React, { FC } from "react";
-import { IToken } from "../types";
 
 interface InfoProps {
   tokenId: string;
-  contractAddress: string;
+  collectionId: string;
 }
 const Info: FC<InfoProps> = (props) => {
-  const { tokenId, contractAddress } = props;
-  const { data: collection } = useQueryCW721Info(contractAddress);
-  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
+  const { tokenId, collectionId } = props;
+  const { data: collection } = useGetCollection(collectionId);
+  const { data: token } = useGetToken(collectionId, tokenId);
+  const { data: auctionState } = useGetTokenAuctionState(collectionId, tokenId);
 
   return (
     <Box w="full">
@@ -53,7 +53,7 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
             <Flex gap="2">
               <Text fontWeight="bold" fontSize="sm">
-                10 STARS
+                {auctionState?.min_bid ?? 0} {auctionState?.coin_denom?.toUpperCase()}
               </Text>
               <Text fontSize="xs" textStyle="light">
                 &asymp;$286
@@ -66,7 +66,7 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
             <Flex gap="2">
               <Text fontWeight="bold" fontSize="sm">
-                13.65 STARS
+                {auctionState?.high_bidder_amount} {auctionState?.coin_denom?.toUpperCase()}
               </Text>
               <Text fontSize="xs" textStyle="light">
                 &asymp;$286
