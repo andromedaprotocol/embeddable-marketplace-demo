@@ -1,1 +1,0 @@
-export { default as useQueryCW721Info } from './useQueryCw721Info'

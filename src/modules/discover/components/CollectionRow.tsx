@@ -1,5 +1,4 @@
-import { useQueryCW721Info } from "@/lib/graphql";
-import useQueryCW721Tokens from "@/lib/graphql/hooks/cw721/useQueryCw721Tokens";
+import { useGetCollection, useGetTokens } from "@/lib/graphql/hooks/collection";
 import { LINKS } from "@/utils/links";
 import {
   Box,
@@ -11,16 +10,17 @@ import {
 } from "@chakra-ui/react";
 import { Flame } from "lucide-react";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import CollectionRowToken from "./CollectionRowToken";
 
 interface CollectionRowProps {
-  contractAddress: string;
+  collectionId: string;
 }
 const CollectionRow: FC<CollectionRowProps> = (props) => {
-  const { contractAddress } = props;
-  const { data: collection } = useQueryCW721Info(contractAddress);
-  const { data: allTokens } = useQueryCW721Tokens(contractAddress);
+  const { collectionId } = props;
+
+  const { data: collection } = useGetCollection(collectionId);
+  const { data: allTokens } = useGetTokens(collectionId);
 
   return (
     <Box p="12" rounded="2xl" bg="gray.100">
@@ -53,7 +53,7 @@ const CollectionRow: FC<CollectionRowProps> = (props) => {
                 Ends 3 Days
               </Text>
             </Flex>
-            <Link href={LINKS.collection(contractAddress)} passHref>
+            <Link href={LINKS.collection(collectionId)} passHref>
               <Button as="a" w="full" mb="10">
                 Explore Collection
               </Button>
@@ -62,10 +62,7 @@ const CollectionRow: FC<CollectionRowProps> = (props) => {
         </GridItem>
         {allTokens?.slice(0, 3).map((tokenId) => (
           <GridItem key={tokenId}>
-            <CollectionRowToken
-              tokenId={tokenId}
-              contractAddress={contractAddress}
-            />
+            <CollectionRowToken tokenId={tokenId} collectionId={collectionId} />
           </GridItem>
         ))}
       </SimpleGrid>

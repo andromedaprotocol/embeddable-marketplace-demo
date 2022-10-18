@@ -1,4 +1,3 @@
-import { useQueryCW721Info } from "@/lib/graphql";
 import {
   Box,
   Divider,
@@ -10,21 +9,20 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { ICollection } from "../types";
 import Header from "./Header";
 import TokensList from "./TokensList";
 
 interface CollectionPageProps {
-  contractAddress: string;
+  collectionId: string;
 }
 const CollectionPage: FC<CollectionPageProps> = (props) => {
-  const { contractAddress } = props;
+  const { collectionId } = props;
 
   return (
     <Flex direction="column">
       <Box>{/* <Banner image={collection.contractInfo} /> */}</Box>
       <Box py="2">
-        <Header contractAddress={contractAddress} />
+        <Header collectionId={collectionId} />
       </Box>
       <Divider my="4" />
       <Box py="2">
@@ -35,7 +33,7 @@ const CollectionPage: FC<CollectionPageProps> = (props) => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <TokensList contractAddress={contractAddress} />
+              <TokensList collectionId={collectionId} />
             </TabPanel>
             <TabPanel>Activity</TabPanel>
           </TabPanels>

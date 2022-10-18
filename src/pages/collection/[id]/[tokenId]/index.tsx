@@ -1,5 +1,4 @@
-import { useQueryCW721Info } from "@/lib/graphql";
-import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+import { useGetToken } from "@/lib/graphql/hooks/collection";
 import { Layout } from "@/modules/common/layout";
 import { TokenPage } from "@/modules/token";
 import type { NextPage } from "next";
@@ -8,9 +7,9 @@ import { useRouter } from "next/router";
 
 const Page: NextPage = () => {
   const router = useRouter();
-  const contractAddress = router.query.address as string;
+  const collectionId = router.query.id as string;
   const tokenId = router.query.tokenId as string;
-  const { data: token, error } = useQueryCW721Token(contractAddress, tokenId);
+  const { data: token, error } = useGetToken(collectionId, tokenId);
 
   if (!router.isReady) {
     return null;
@@ -23,7 +22,7 @@ const Page: NextPage = () => {
 
   return (
     <Layout>
-      <TokenPage tokenId={tokenId} contractAddress={contractAddress} />
+      <TokenPage tokenId={tokenId} collectionId={collectionId} />
     </Layout>
   );
 };

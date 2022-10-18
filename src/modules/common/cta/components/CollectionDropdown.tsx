@@ -1,14 +1,19 @@
-import { CW721s } from "@/utils/constants";
+import { useAppUtils } from "@/lib/app/hooks";
 import { LINKS } from "@/utils/links";
 import { truncate } from "@/utils/text";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 interface CollectionDropdownProps {}
 const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
   const {} = props;
+  const { getCollections } = useAppUtils();
+
+  const collections = useMemo(() => {
+    return getCollections();
+  }, [getCollections]);
 
   return (
     <Menu>
@@ -21,14 +26,10 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         Collections
       </MenuButton>
       <MenuList>
-        {CW721s.map((address) => (
-          <Link
-            key={address}
-            href={LINKS.collection(address)}
-            passHref
-          >
-            <MenuItem as="a" key={address}>
-              {truncate(address)}
+        {collections.map((col) => (
+          <Link key={col.id} href={LINKS.collection(col.id)} passHref>
+            <MenuItem as="a" key={col.id}>
+              {col.id}
             </MenuItem>
           </Link>
         ))}

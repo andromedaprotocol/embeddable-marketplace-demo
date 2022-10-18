@@ -13,21 +13,19 @@ import {
 import Link from "next/link";
 import { MoreHorizontalIcon } from "@/theme/icons";
 import { LINKS } from "@/utils/links";
-import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
-import { useQueryCW721Info } from "@/lib/graphql";
+import { useGetCollection, useGetToken } from "@/lib/graphql/hooks/collection";
 
 interface CardProps {
   tokenId: string;
-  contractAddress: string;
+  collectionId: string;
 }
-const Card: FC<CardProps> = ({ tokenId, contractAddress }) => {
-  const { data: collection } = useQueryCW721Info(contractAddress);
-  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
+const Card: FC<CardProps> = ({ tokenId, collectionId }) => {
+  const { data: collection } = useGetCollection(collectionId);
+  const { data: token } = useGetToken(collectionId, tokenId);
 
-  
   return (
     <Box border="1px solid" borderColor="gray.300" p={5} borderRadius="lg">
-      <Link href={LINKS.token(contractAddress, tokenId)} passHref>
+      <Link href={LINKS.token(collectionId, tokenId)} passHref>
         <a>
           <Image src={token?.extension.image} alt="Image" borderRadius="lg" />
         </a>
