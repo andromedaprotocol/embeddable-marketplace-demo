@@ -1,10 +1,11 @@
+import useQueryCW721Tokens from "@/lib/graphql/hooks/cw721/useQueryCw721Tokens";
 import { TokenCard } from "@/modules/token";
 import { SearchIcon } from "@/theme/icons";
-import { NFT_TRENDING } from "@/utils/seed";
 import {
   Box,
   Button,
   Flex,
+  GridItem,
   HStack,
   Input,
   InputGroup,
@@ -20,10 +21,11 @@ import React, { FC, useState } from "react";
 import { ICollection } from "../types";
 
 interface TokensListProps {
-  collection: ICollection;
+  contractAddress: string;
 }
 const TokensList: FC<TokensListProps> = (props) => {
-  const { collection } = props;
+  const { contractAddress } = props;
+  const { data: allTokens } = useQueryCW721Tokens(contractAddress);
   const [filterOpen, setFilterOpen] = useState(false);
 
   return (
@@ -72,8 +74,13 @@ const TokensList: FC<TokensListProps> = (props) => {
             </Box>
           )}
           <SimpleGrid columns={filterOpen ? 3 : 4} spacing={4} w="full">
-            {NFT_TRENDING.map((nft) => (
-              <TokenCard token={nft} key={nft.id} />
+            {allTokens?.map((tokenId) => (
+              <GridItem key={tokenId}>
+                <TokenCard
+                  tokenId={tokenId}
+                  contractAddress={contractAddress}
+                />
+              </GridItem>
             ))}
           </SimpleGrid>
         </Flex>

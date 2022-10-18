@@ -1,8 +1,5 @@
-export interface IToken {
-    id: string;
-    image: string;
-    collection: string;
-    name: string;
-    desc: string;
-    value: string;
+import { IQueryResult } from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+
+type _Data = NonNullable<IQueryResult['data']>
+export interface IToken extends _Data {
 }

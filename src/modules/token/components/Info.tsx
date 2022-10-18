@@ -1,3 +1,5 @@
+import { useQueryCW721Info } from "@/lib/graphql";
+import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
 import {
   Box,
   Button,
@@ -12,20 +14,23 @@ import React, { FC } from "react";
 import { IToken } from "../types";
 
 interface InfoProps {
-  token: IToken;
+  tokenId: string;
+  contractAddress: string;
 }
 const Info: FC<InfoProps> = (props) => {
-  const {} = props;
+  const { tokenId, contractAddress } = props;
+  const { data: collection } = useQueryCW721Info(contractAddress);
+  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
 
   return (
-    <Box w='full'>
+    <Box w="full">
       <HStack justify="space-between">
         <Box>
           <Text fontSize="2xl" fontWeight="bold">
-            austin #6048
+            {token?.extension.name}
           </Text>
           <Text fontSize="xs" fontWeight="thin" fontStyle="light">
-            Collection: <b>austin</b>
+            Collection: <b>{collection?.contractInfo.name}</b>
           </Text>
         </Box>
         <Button leftIcon={<Share width={16} />} variant="outline">
@@ -39,7 +44,7 @@ const Info: FC<InfoProps> = (props) => {
         mt="4"
         p="4"
         minW="xs"
-        w='full'
+        w="full"
       >
         <SimpleGrid columns={2} spacing="2">
           <Box>
@@ -73,8 +78,7 @@ const Info: FC<InfoProps> = (props) => {
         <Flex gap="1" align="center">
           <Flame color="orange" width={14} />
           <Text fontSize="xs" fontWeight="bold">
-            Sale ends {new Date().toLocaleDateString()} at{" "}
-            {new Date().toLocaleTimeString()}
+            Sale ends 9 Oct 2022 at 05:00 am (GMT +05:30)
           </Text>
         </Flex>
         <SimpleGrid
@@ -83,7 +87,7 @@ const Info: FC<InfoProps> = (props) => {
           mt="4"
           alignSelf="start"
           maxW="max-content"
-          ml='1'
+          ml="1"
         >
           <Box>
             <Text fontWeight="bold" fontSize="md" ml="0.5">
@@ -110,7 +114,7 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
           </Box>
         </SimpleGrid>
-        <Button mt='4' w='full' variant='solid'>
+        <Button mt="4" w="full" variant="solid">
           Place a bid
         </Button>
       </Box>
