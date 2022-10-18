@@ -1,3 +1,4 @@
+import { useAllChainConfig } from "@/lib/graphql/hooks/chain";
 import { useWallet } from "@/lib/wallet";
 import {
   ChevronDownIcon,
@@ -8,7 +9,6 @@ import {
 } from "@/modules/common/icons";
 import { CopyButton } from "@/modules/common/ui";
 import { truncate } from "@/utils/text";
-import { configs } from "@andromedaprotocol/andromeda.js";
 import {
   Button,
   HStack,
@@ -28,7 +28,8 @@ import React, { FC } from "react";
 interface ConnectedProps {}
 const Connected: FC<ConnectedProps> = (props) => {
   const {} = props;
-  const { disconnect, config, setConfig, account } = useWallet();
+  const { data: configs } = useAllChainConfig();
+  const { disconnect, config, setChainId, account } = useWallet();
 
   return (
     <Popover placement="bottom-end">
@@ -58,17 +59,17 @@ const Connected: FC<ConnectedProps> = (props) => {
                   borderColor="gray.300"
                 /> */}
                 <Text fontWeight={600} color="gray.700">
-                  {config.chainId}
+                  {config?.chainId}
                 </Text>
                 <Menu>
                   <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                     Switch
                   </MenuButton>
                   <MenuList>
-                    {configs.map((config) => (
+                    {configs?.map((config) => (
                       <MenuItem
                         onClick={() => {
-                          setConfig(config);
+                          setChainId(config.chainId);
                         }}
                         key={config.chainId}
                       >
@@ -99,7 +100,7 @@ const Connected: FC<ConnectedProps> = (props) => {
                 </CopyButton>
                 <Button
                   as="a"
-                  href={config.blockExplorerAddressPages[0]?.replaceAll(
+                  href={config?.blockExplorerAddressPages[0]?.replaceAll(
                     "${address}",
                     account?.address ?? ""
                   )}

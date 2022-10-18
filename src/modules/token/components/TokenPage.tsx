@@ -1,7 +1,7 @@
-import { NFT_TRENDING } from "@/utils/seed";
+import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+import useQueryCW721Tokens from "@/lib/graphql/hooks/cw721/useQueryCw721Tokens";
 import {
   Box,
-  Flex,
   GridItem,
   Image,
   SimpleGrid,
@@ -13,23 +13,30 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { TokenCard } from ".";
-import { IToken } from "../types";
+import Card from "./Card";
 import Info from "./Info";
 import Overview from "./Overview";
 
 interface TokenPageProps {
-  token: IToken;
+  tokenId: string;
+  contractAddress: string;
 }
 const TokenPage: FC<TokenPageProps> = (props) => {
-  const { token } = props;
+  const { tokenId, contractAddress } = props;
+  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
+  const { data: allTokens } = useQueryCW721Tokens(contractAddress);
 
   return (
     <Box>
       <SimpleGrid columns={2}>
         <GridItem>
           <Box>
-            <Image src={token.image} alt="Image" borderRadius="lg" maxW="md" />
+            <Image
+              src={token?.extension.image}
+              alt="Image"
+              borderRadius="lg"
+              maxW="md"
+            />
           </Box>
           <Box py="2" mt="12">
             <Tabs colorScheme="purple">
@@ -41,7 +48,7 @@ const TokenPage: FC<TokenPageProps> = (props) => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <Overview token={token} />
+                  <Overview />
                 </TabPanel>
                 <TabPanel>Properties</TabPanel>
                 <TabPanel>Bids</TabPanel>
@@ -52,17 +59,17 @@ const TokenPage: FC<TokenPageProps> = (props) => {
         </GridItem>
         <GridItem>
           <Box maxW="sm" ml="auto" position="sticky" top="4">
-            <Info token={token} />
+            <Info tokenId={tokenId} contractAddress={contractAddress} />
           </Box>
         </GridItem>
       </SimpleGrid>
-      <Box mt='24'>
+      <Box mt="24">
         <Text fontWeight="bold" fontSize="xl">
           More from this collection
         </Text>
-        <SimpleGrid mt='8' columns={4} spacing='4'>
-          {NFT_TRENDING.slice(0, 4).map((token) => (
-            <TokenCard key={token.id} token={token} />
+        <SimpleGrid mt="8" columns={4} spacing="4">
+          {allTokens?.slice(0, 4).map((tokenId) => (
+            <Card tokenId={tokenId} contractAddress={contractAddress} />
           ))}
         </SimpleGrid>
       </Box>

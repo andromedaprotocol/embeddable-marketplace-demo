@@ -9,7 +9,7 @@ const junoX: Currency = {
 
 //Chain Info config requred by Keplr for Beta chains
 const config: ChainInfo = {
-  chainId: "uni-3",
+  chainId: "uni-5",
   chainName: "juno testnet",
   rpc: "https://rpc.uni.junonetwork.io",
   rest: "https://api.uni.junonetwork.io",

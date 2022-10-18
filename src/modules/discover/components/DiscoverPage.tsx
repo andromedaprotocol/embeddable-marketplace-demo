@@ -1,8 +1,7 @@
-import { COLLECTIONS, NFT_TRENDING } from "@/utils/seed";
+import { CW721s } from "@/utils/constants";
 import { Box, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import CollectionRow from "./CollectionRow";
-import Featured from "./Featured";
 
 interface DiscoverPageProps {}
 const DiscoverPage: FC<DiscoverPageProps> = (props) => {
@@ -13,15 +12,13 @@ const DiscoverPage: FC<DiscoverPageProps> = (props) => {
       <Text fontSize="xl" fontWeight="bold">
         Featured NFT
       </Text>
-      <Box mt="4">
-        <Featured token={NFT_TRENDING[0]} />
-      </Box>
+      <Box mt="4">{/* <Featured token={NFT_TRENDING[0]} /> */}</Box>
       <Text fontSize="xl" fontWeight="bold" mt="16">
         Explore Collections
       </Text>
-      {COLLECTIONS.map((collection) => (
-        <Box mt="10" key={collection.id}>
-          <CollectionRow collection={collection} />
+      {CW721s.map((address) => (
+        <Box mt="10" key={address}>
+          <CollectionRow contractAddress={address} />
         </Box>
       ))}
     </Box>

@@ -1,9 +1,14 @@
 import { Keplr } from "@keplr-wallet/types";
-import pisco1Connect from "./piscol";
+import pisco1Connect from "./pisco1";
+import uni5Connect from "./uni5";
+import galileo2Connect from "./galileo2";
+import elgafar1Connect from "./elgafar1";
 
 const connectionFunctions = {
+  "uni-5": uni5Connect,
   "pisco-1": pisco1Connect,
-
+  "galileo-2": galileo2Connect,
+  "elgafar-1": elgafar1Connect
 };
 
 /**

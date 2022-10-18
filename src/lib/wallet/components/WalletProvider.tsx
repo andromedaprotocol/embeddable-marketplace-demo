@@ -1,11 +1,13 @@
 import type { OfflineSigner, AccountData } from "@cosmjs/proto-signing";
-import { ChainConfig, configs, getConfigByChainID } from "@andromedaprotocol/andromeda.js";
+import type { ChainConfig } from "@andromedaprotocol/andromeda.js/dist/andr-js/types";
+
 import React, {
   FC,
   memo,
   ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import useGetKeplrOnStart from "../hooks/useGetKeplrOnStart";
@@ -13,6 +15,7 @@ import useChainConnect from "../hooks/useChainConnect";
 import { AUTOCONNECT_KEY } from "../utils/contants";
 import { WalletContext } from "../hooks/useWalletContext";
 import { useToast } from "@chakra-ui/react";
+import { useChainConfig } from "@/lib/graphql/hooks/chain";
 
 interface WalletProviderProps {
   children: ReactNode;
@@ -21,8 +24,10 @@ interface WalletProviderProps {
 const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
   props
 ) {
-  const { chainId: defaultChainId, children } = props;
-  const [config, setConfig] = useState(configs[0]);
+  const { chainId: defaultChainId = "uni-5", children } = props;
+  const [chainId, setChainId] = useState(defaultChainId);
+  const { data: config } = useChainConfig(chainId ?? "");
+
   const [signer, setSigner] = useState<OfflineSigner | undefined>();
   const [accounts, setAccounts] = useState<readonly AccountData[]>([]);
 
@@ -33,13 +38,11 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
   const toast = useToast();
 
   useEffect(() => {
-    const _config = getConfigByChainID(defaultChainId ?? '')
-    if (_config) {
-      setConfig(_config);
-    }
+    setChainId(defaultChainId);
   }, [defaultChainId]);
 
   const connect = useCallback(() => {
+    if (!config) return;
     return chainConnect(config.chainId)
       .then((_signer) => {
         setSigner(_signer);
@@ -55,8 +58,7 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
           status: "error",
           position: "top-right",
         });
-
-        setConfig(configs[0]);
+        setChainId(defaultChainId);
       });
   }, [chainConnect, config]);
 
@@ -81,7 +83,7 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
         keplr,
         status,
         config,
-        setConfig,
+        setChainId,
         connect,
         disconnect,
         signer,

@@ -1,3 +1,5 @@
+import { useQueryCW721Info } from "@/lib/graphql";
+import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
 import {
   Box,
   Button,
@@ -12,20 +14,23 @@ import React, { FC } from "react";
 import { IToken } from "../types";
 
 interface InfoProps {
-  token: IToken;
+  tokenId: string;
+  contractAddress: string;
 }
 const Info: FC<InfoProps> = (props) => {
-  const {} = props;
+  const { tokenId, contractAddress } = props;
+  const { data: collection } = useQueryCW721Info(contractAddress);
+  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
 
   return (
     <Box w="full">
       <HStack justify="space-between">
         <Box>
           <Text fontSize="2xl" fontWeight="bold">
-            austin #6048
+            {token?.extension.name}
           </Text>
           <Text fontSize="xs" fontWeight="thin" fontStyle="light">
-            Collection: <b>austin</b>
+            Collection: <b>{collection?.contractInfo.name}</b>
           </Text>
         </Box>
         <Button leftIcon={<Share width={16} />} variant="outline">

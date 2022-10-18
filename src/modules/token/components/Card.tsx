@@ -3,7 +3,6 @@ import {
   Box,
   Image,
   Text,
-  HStack,
   Flex,
   Menu,
   MenuButton,
@@ -13,26 +12,32 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { MoreHorizontalIcon } from "@/theme/icons";
-import { IToken } from "../types";
 import { LINKS } from "@/utils/links";
+import useQueryCW721Token from "@/lib/graphql/hooks/cw721/useQueryCw721Token";
+import { useQueryCW721Info } from "@/lib/graphql";
 
 interface CardProps {
-  token: IToken;
+  tokenId: string;
+  contractAddress: string;
 }
-const Card: FC<CardProps> = ({ token }) => {
+const Card: FC<CardProps> = ({ tokenId, contractAddress }) => {
+  const { data: collection } = useQueryCW721Info(contractAddress);
+  const { data: token } = useQueryCW721Token(contractAddress, tokenId);
+
+  
   return (
     <Box border="1px solid" borderColor="gray.300" p={5} borderRadius="lg">
-      <Link href={LINKS.token(token.id)} passHref>
+      <Link href={LINKS.token(contractAddress, tokenId)} passHref>
         <a>
-          <Image src={token.image} alt="Image" borderRadius="lg" />
+          <Image src={token?.extension.image} alt="Image" borderRadius="lg" />
         </a>
       </Link>
       <Flex direction="column" mt="3" gap="0">
         <Text fontSize="xs" fontWeight="light" textStyle="light">
-          AUSTIN
+          {collection?.contractInfo?.name}
         </Text>
         <Text fontSize="sm" fontWeight="medium">
-          AUSTIN #6048
+          {token?.extension.name}
         </Text>
       </Flex>
 
@@ -70,4 +75,5 @@ const Card: FC<CardProps> = ({ token }) => {
     </Box>
   );
 };
+
 export default Card;

@@ -1,5 +1,6 @@
+import { CW721s } from "@/utils/constants";
 import { LINKS } from "@/utils/links";
-import { COLLECTIONS } from "@/utils/seed";
+import { truncate } from "@/utils/text";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -20,14 +21,14 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         Collections
       </MenuButton>
       <MenuList>
-        {COLLECTIONS.map((collection) => (
+        {CW721s.map((address) => (
           <Link
-            key={collection.id}
-            href={LINKS.collection(collection.slug)}
+            key={address}
+            href={LINKS.collection(address)}
             passHref
           >
-            <MenuItem as="a" key={collection.id}>
-              {collection.name}
+            <MenuItem as="a" key={address}>
+              {truncate(address)}
             </MenuItem>
           </Link>
         ))}

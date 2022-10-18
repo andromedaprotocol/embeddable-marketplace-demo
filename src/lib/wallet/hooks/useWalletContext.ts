@@ -1,4 +1,4 @@
-import { ChainConfig, configs } from "@andromedaprotocol/andromeda.js";
+import type { ChainConfig } from "@andromedaprotocol/andromeda.js/dist/andr-js/types";
 import { AccountData } from "@cosmjs/proto-signing";
 import { Keplr } from "@keplr-wallet/types";
 import type { OfflineSigner } from "@cosmjs/proto-signing";
@@ -8,8 +8,8 @@ import { KeplrConnectionStatus } from "../types";
 export interface WalletContext {
   keplr?: Keplr;
   status: KeplrConnectionStatus;
-  config: ChainConfig;
-  setConfig: (config: ChainConfig) => void;
+  config?: ChainConfig;
+  setChainId: (chainId: ChainConfig['chainId']) => void;
   signer?: OfflineSigner;
   account?: AccountData
   //Requests the user's wallet info from Keplr
@@ -20,8 +20,8 @@ export interface WalletContext {
 
 const defaultWalletContext: WalletContext = {
   status: KeplrConnectionStatus.Connecting,
-  config: configs[0],
-  setConfig: () => { },
+  config: undefined,
+  setChainId: () => { },
   connect: () => { },
   disconnect: () => { },
 };
