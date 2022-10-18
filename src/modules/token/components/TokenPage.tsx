@@ -69,7 +69,11 @@ const TokenPage: FC<TokenPageProps> = (props) => {
         </Text>
         <SimpleGrid mt="8" columns={4} spacing="4">
           {allTokens?.slice(0, 4).map((tokenId) => (
-            <Card tokenId={tokenId} contractAddress={contractAddress} />
+            <Card
+              key={tokenId}
+              tokenId={tokenId}
+              contractAddress={contractAddress}
+            />
           ))}
         </SimpleGrid>
       </Box>
