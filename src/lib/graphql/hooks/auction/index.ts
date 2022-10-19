@@ -1,1 +1,1 @@
-export { default as useGetTokenAuctionState } from './useGetTokenAuctionState'
+export * from './useGetTokenAuctionState'

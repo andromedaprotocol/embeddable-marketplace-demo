@@ -1,4 +1,4 @@
-import { useGetToken } from "@/lib/graphql/hooks/collection";
+import { useGetTokenFromColId } from "@/lib/graphql/hooks/collection";
 import { LINKS } from "@/utils/links";
 import { Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
@@ -11,7 +11,7 @@ interface CollectionRowTokenProps {
 const CollectionRowToken: FC<CollectionRowTokenProps> = (props) => {
   const { collectionId, tokenId } = props;
 
-  const { data: token } = useGetToken(collectionId, tokenId);
+  const { data: token } = useGetTokenFromColId(collectionId, tokenId);
 
   if (!token) return null;
 

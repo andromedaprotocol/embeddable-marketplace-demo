@@ -12,7 +12,32 @@ export interface IQueryResult
   data: QueryResponse["auction"]["latestAuctionState"] | undefined;
 }
 
-export default function useGetToken(
+export function useGetTokenAuctionState(
+  tokenAddress: string,
+  auctionAddress: string,
+  tokenId: string
+): IQueryResult {
+  const { loading, error, data } = useQuery<QueryResponse, Query>(
+    gql`
+      ${QueryText}
+    `,
+    {
+      variables: {
+        contractAddress: auctionAddress ?? "",
+        tokenAddress: tokenAddress ?? "",
+        tokenId,
+      },
+    }
+  );
+
+  return {
+    loading,
+    error,
+    data: data?.auction?.latestAuctionState,
+  };
+}
+
+export function useGetTokenAuctionStateFromColId(
   collectionId: string,
   tokenId: string
 ): IQueryResult {
@@ -22,24 +47,10 @@ export default function useGetToken(
     return getCollection(collectionId);
   }, [getCollection, collectionId]);
 
-  const { loading, error, data } = useQuery<QueryResponse, Query>(
-    gql`
-      ${QueryText}
-    `,
-    {
-      variables: {
-        contractAddress: colConfig?.auctionAddress ?? "",
-        tokenAddress: colConfig?.contractAddress ?? "",
-        tokenId,
-      },
-    }
+  const result = useGetTokenAuctionState(
+    colConfig?.contractAddress ?? "",
+    colConfig?.auctionAddress ?? "",
+    tokenId
   );
-
-  // Converting assets to any and then to array to get proper typing at the end. It should be removed once type has been fixed in the library
-
-  return {
-    loading,
-    error,
-    data: data?.auction?.latestAuctionState,
-  };
+  return result;
 }

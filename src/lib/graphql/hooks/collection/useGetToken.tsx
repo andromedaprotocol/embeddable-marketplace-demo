@@ -12,7 +12,27 @@ export interface IQueryResult
   data: QueryResponse["cw721"]["nftInfo"] | undefined;
 }
 
-export default function useGetToken(
+export function useGetToken(
+  contractAddress: string,
+  tokenId: string
+): IQueryResult {
+  const { loading, error, data } = useQuery<QueryResponse, Query>(
+    gql`
+      ${QueryText}
+    `,
+    {
+      variables: { contractAddress, tokenId },
+    }
+  );
+
+  return {
+    loading,
+    error,
+    data: data?.cw721?.nftInfo,
+  };
+}
+
+export function useGetTokenFromColId(
   collectionId: string,
   tokenId: string
 ): IQueryResult {
@@ -22,20 +42,9 @@ export default function useGetToken(
     return getCollection(collectionId);
   }, [getCollection, collectionId]);
 
-  const { loading, error, data } = useQuery<QueryResponse, Query>(
-    gql`
-      ${QueryText}
-    `,
-    {
-      variables: { contractAddress: colConfig?.contractAddress ?? "", tokenId },
-    }
+  const result = useGetToken(
+    colConfig?.contractAddress ?? "",
+    tokenId
   );
-
-  // Converting assets to any and then to array to get proper typing at the end. It should be removed once type has been fixed in the library
-
-  return {
-    loading,
-    error,
-    data: data?.cw721?.nftInfo,
-  };
+  return result;
 }

@@ -17,6 +17,8 @@ import React, {
 import { GlobalModalContext } from "../hooks/useGlobalModalContext";
 import { ModalProps, ModalType } from "../types";
 import ModalError from "./ModalError";
+import PlaceBidModal from "./PlaceBidModal";
+import TransactionModal from "./TransactionModal";
 import WalletModal from "./WalletModal";
 
 interface ModalState {
@@ -27,6 +29,8 @@ interface ModalState {
 
 const components: Record<ModalType, React.FC<any>> = {
   [ModalType.Wallet]: WalletModal,
+  [ModalType.Transaction]: TransactionModal,
+  [ModalType.PlaceBid]: PlaceBidModal,
 };
 
 interface GlobalModalProviderProps {

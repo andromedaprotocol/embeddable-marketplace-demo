@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { MoreHorizontalIcon } from "@/theme/icons";
 import { LINKS } from "@/utils/links";
-import { useGetCollection, useGetToken } from "@/lib/graphql/hooks/collection";
+import { useGetCollection, useGetTokenFromColId } from "@/lib/graphql/hooks/collection";
 
 interface CardProps {
   tokenId: string;
@@ -21,7 +21,7 @@ interface CardProps {
 }
 const Card: FC<CardProps> = ({ tokenId, collectionId }) => {
   const { data: collection } = useGetCollection(collectionId);
-  const { data: token } = useGetToken(collectionId, tokenId);
+  const { data: token } = useGetTokenFromColId(collectionId, tokenId);
 
   return (
     <Box border="1px solid" borderColor="gray.300" p={5} borderRadius="lg">
