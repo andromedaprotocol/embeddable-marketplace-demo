@@ -1,5 +1,9 @@
-import { useGetTokenAuctionState } from "@/lib/graphql/hooks/auction";
-import { useGetToken, useGetCollection } from "@/lib/graphql/hooks/collection";
+import { useAppUtils } from "@/lib/app/hooks";
+import {
+  useGetTokenAuctionStateFromColId,
+} from "@/lib/graphql/hooks/auction";
+import { useGetTokenFromColId, useGetCollection } from "@/lib/graphql/hooks/collection";
+import { PlaceBidButton } from "@/modules/common/cta";
 import {
   Box,
   Button,
@@ -10,7 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Flame, Share } from "lucide-react";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 interface InfoProps {
   tokenId: string;
@@ -18,9 +22,18 @@ interface InfoProps {
 }
 const Info: FC<InfoProps> = (props) => {
   const { tokenId, collectionId } = props;
+  const { getCollection } = useAppUtils();
+
+  const colConfig = useMemo(() => {
+    return getCollection(collectionId);
+  }, [collectionId, getCollection]);
+
   const { data: collection } = useGetCollection(collectionId);
-  const { data: token } = useGetToken(collectionId, tokenId);
-  const { data: auctionState } = useGetTokenAuctionState(collectionId, tokenId);
+  const { data: token } = useGetTokenFromColId(collectionId, tokenId);
+  const { data: auctionState } = useGetTokenAuctionStateFromColId(
+    collectionId,
+    tokenId
+  );
 
   return (
     <Box w="full">
@@ -53,7 +66,8 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
             <Flex gap="2">
               <Text fontWeight="bold" fontSize="sm">
-                {auctionState?.min_bid ?? 0} {auctionState?.coin_denom?.toUpperCase()}
+                {auctionState?.min_bid ?? 0}{" "}
+                {auctionState?.coin_denom?.toUpperCase()}
               </Text>
               <Text fontSize="xs" textStyle="light">
                 &asymp;$286
@@ -66,7 +80,8 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
             <Flex gap="2">
               <Text fontWeight="bold" fontSize="sm">
-                {auctionState?.high_bidder_amount} {auctionState?.coin_denom?.toUpperCase()}
+                {auctionState?.high_bidder_amount}{" "}
+                {auctionState?.coin_denom?.toUpperCase()}
               </Text>
               <Text fontSize="xs" textStyle="light">
                 &asymp;$286
@@ -114,9 +129,14 @@ const Info: FC<InfoProps> = (props) => {
             </Text>
           </Box>
         </SimpleGrid>
-        <Button mt="4" w="full" variant="solid">
+        <PlaceBidButton
+          contractAddress={colConfig?.contractAddress ?? ""}
+          auctionAddress={colConfig?.auctionAddress ?? ""}
+          tokenId={tokenId}
+          mt="4"
+        >
           Place a bid
-        </Button>
+        </PlaceBidButton>
       </Box>
     </Box>
   );

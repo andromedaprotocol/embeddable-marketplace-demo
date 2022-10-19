@@ -1,4 +1,4 @@
-import { useGetToken, useGetTokens } from "@/lib/graphql/hooks/collection";
+import { useGetTokenFromColId, useGetTokens } from "@/lib/graphql/hooks/collection";
 import {
   Box,
   GridItem,
@@ -22,7 +22,7 @@ interface TokenPageProps {
 }
 const TokenPage: FC<TokenPageProps> = (props) => {
   const { tokenId, collectionId } = props;
-  const { data: token } = useGetToken(collectionId, tokenId);
+  const { data: token } = useGetTokenFromColId(collectionId, tokenId);
   const { data: allTokens } = useGetTokens(collectionId);
 
   return (

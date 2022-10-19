@@ -9,6 +9,7 @@ import { GlobalModalProvider } from "@/modules/modals";
 import { WalletProvider } from "@/lib/wallet";
 import { AppContext } from "../hooks";
 import config from "@/config.json";
+import { AndromedaProvider } from "@/lib/andrjs";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -22,7 +23,9 @@ const AppProvider: FC<AppProviderProps> = (props) => {
       <ChakraProvider theme={theme}>
         <CSSReset />
         <WalletProvider>
-          <GlobalModalProvider>{children}</GlobalModalProvider>
+          <AndromedaProvider>
+            <GlobalModalProvider>{children}</GlobalModalProvider>
+          </AndromedaProvider>
         </WalletProvider>
       </ChakraProvider>
     </AppContext.Provider>
