@@ -1,11 +1,8 @@
 import AndromedaClient from "@andromedaprotocol/andromeda.js";
-import type { ChainConfig } from "@andromedaprotocol/andromeda.js";
 import { cloneDeep } from "@apollo/client/utilities";
-import { OfflineSigner } from "@cosmjs/proto-signing";
 import { GasPrice } from "@cosmjs/stargate";
 import React, { memo, ReactNode, useEffect, useMemo, useState } from "react";
 import { AndromedaContext } from "../hooks";
-import { useChainConfig } from "@/lib/graphql/hooks/chain";
 import { useWallet } from "@/lib/wallet";
 
 /**
@@ -13,7 +10,6 @@ import { useWallet } from "@/lib/wallet";
  * @param data
  * @returns
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function encode(data: any): string {
   return Buffer.from(JSON.stringify(data)).toString("base64");
 }

@@ -17,6 +17,7 @@ export default function useGetBalance(denom: string, address?: string) {
     const fetchBalance = async () => {
       setLoading(true);
       const balance = await client.getBalance(denom, address);
+      
       if (balance) setBalance(balance);
       setLoading(false);
     };

@@ -1,9 +1,11 @@
 import { useAppUtils } from "@/lib/app/hooks";
+import { useGetTokenAuctionStateFromColId } from "@/lib/graphql/hooks/auction";
 import {
-  useGetTokenAuctionStateFromColId,
-} from "@/lib/graphql/hooks/auction";
-import { useGetTokenFromColId, useGetCollection } from "@/lib/graphql/hooks/collection";
+  useGetTokenFromColId,
+  useGetCollection,
+} from "@/lib/graphql/hooks/collection";
 import { PlaceBidButton } from "@/modules/common/cta";
+import { formatTime, getTime } from "@/utils/time";
 import {
   Box,
   Button,
@@ -13,8 +15,9 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+import dayjs from "dayjs";
 import { Flame, Share } from "lucide-react";
-import React, { FC, useMemo } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 
 interface InfoProps {
   tokenId: string;
@@ -34,6 +37,32 @@ const Info: FC<InfoProps> = (props) => {
     collectionId,
     tokenId
   );
+
+  const startTime = getTime(auctionState?.start_time ?? {});
+  const endTime = getTime(auctionState?.end_time ?? {});
+
+  const isStarted = startTime.isBefore(new Date());
+  const isEnded = endTime.isBefore(new Date());
+
+  const [duration, setDuration] = useState(dayjs.duration(0));
+
+  useEffect(() => {
+    if (!auctionState) return;
+    const tId = setInterval(() => {
+      if (isEnded) {
+        setDuration(dayjs.duration(0));
+        clearInterval(tId);
+        return;
+      }
+      const today = new Date();
+      if (isStarted) {
+        setDuration(dayjs.duration(endTime.diff(today)));
+      } else {
+        setDuration(dayjs.duration(startTime.diff(today)));
+      }
+    }, 1000);
+    return () => clearInterval(tId);
+  }, [auctionState]);
 
   return (
     <Box w="full">
@@ -93,7 +122,10 @@ const Info: FC<InfoProps> = (props) => {
         <Flex gap="1" align="center">
           <Flame color="orange" width={14} />
           <Text fontSize="xs" fontWeight="bold">
-            Sale ends 9 Oct 2022 at 05:00 am (GMT +05:30)
+            <Text>
+              Sale {isStarted ? "ends" : "starts"}{" "}
+              {formatTime(isStarted ? endTime : startTime)}
+            </Text>
           </Text>
         </Flex>
         <SimpleGrid
@@ -106,7 +138,7 @@ const Info: FC<InfoProps> = (props) => {
         >
           <Box>
             <Text fontWeight="bold" fontSize="md" ml="0.5">
-              20
+              {duration.asHours().toFixed(0)}
             </Text>
             <Text fontSize="xs" textStyle="light">
               Hours
@@ -114,7 +146,7 @@ const Info: FC<InfoProps> = (props) => {
           </Box>
           <Box>
             <Text fontWeight="bold" fontSize="md" ml="0.5">
-              41
+              {duration.minutes()}
             </Text>
             <Text fontSize="xs" textStyle="light">
               Minutes
@@ -122,7 +154,7 @@ const Info: FC<InfoProps> = (props) => {
           </Box>
           <Box>
             <Text fontWeight="bold" fontSize="md" ml="0.5">
-              55
+              {duration.seconds()}
             </Text>
             <Text fontSize="xs" textStyle="light">
               Seconds
@@ -130,6 +162,7 @@ const Info: FC<InfoProps> = (props) => {
           </Box>
         </SimpleGrid>
         <PlaceBidButton
+          disabled={!isStarted || isEnded}
           contractAddress={colConfig?.contractAddress ?? ""}
           auctionAddress={colConfig?.auctionAddress ?? ""}
           tokenId={tokenId}

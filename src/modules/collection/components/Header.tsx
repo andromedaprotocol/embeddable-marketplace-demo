@@ -1,6 +1,7 @@
 import { useGetCollection } from "@/lib/graphql/hooks/collection";
 import { Box, Flex, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
+import { ICollection } from "../types";
 
 interface HeaderProps {
   collectionId: string;
@@ -38,20 +39,32 @@ const Header: FC<HeaderProps> = (props) => {
             ml="auto"
             maxW="max-content"
           >
-            {STATS.map((s) => (
-              <Box key={s.label}>
-                <Text fontSize="xs" textStyle="light">
-                  {s.label}
-                </Text>
-                <Text fontWeight="medium" fontSize="md">
-                  {s.value}
-                </Text>
-              </Box>
+            {STATS.map((stat) => (
+              <Stat key={stat.label} label={stat.label} value={stat.value} />
             ))}
           </HStack>
         </Box>
       </GridItem>
     </Grid>
+  );
+};
+
+interface StatProps {
+  label: string;
+  value: string;
+}
+const Stat: FC<StatProps> = (props) => {
+  const { label, value } = props;
+
+  return (
+    <Box>
+      <Text fontSize="xs" textStyle="light">
+        {label}
+      </Text>
+      <Text fontWeight="medium" fontSize="md">
+        {value}
+      </Text>
+    </Box>
   );
 };
 

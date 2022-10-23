@@ -1,4 +1,5 @@
 import { usePlaceBidConstruct } from "@/lib/andrjs";
+import useApp from "@/lib/app/hooks/useApp";
 import { useGetTokenAuctionState } from "@/lib/graphql/hooks/auction";
 import { useGetToken } from "@/lib/graphql/hooks/collection";
 import { NumberInput } from "@/modules/common/ui";
@@ -25,6 +26,7 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
     auctionAddress,
     tokenId
   );
+  const { config } = useApp();
   const construct = usePlaceBidConstruct();
 
   // Execute place bid directly on auction
@@ -36,7 +38,7 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
     parseFloat(auctionState?.high_bidder_amount ?? "0")
   );
 
-  const DENOM = auctionState?.coin_denom ?? "ujunox";
+  const DENOM = auctionState?.coin_denom ?? config?.coinDenom ?? "ujunox";
 
   const [amount, setAmount] = useState(MIN_BID);
 

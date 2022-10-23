@@ -9,7 +9,6 @@ export interface WalletContext {
   keplr?: Keplr;
   status: KeplrConnectionStatus;
   config?: ChainConfig;
-  setChainId: (chainId: ChainConfig['chainId']) => void;
   signer?: OfflineSigner;
   account?: AccountData
   //Requests the user's wallet info from Keplr
@@ -21,7 +20,6 @@ export interface WalletContext {
 const defaultWalletContext: WalletContext = {
   status: KeplrConnectionStatus.Connecting,
   config: undefined,
-  setChainId: () => { },
   connect: () => { },
   disconnect: () => { },
 };

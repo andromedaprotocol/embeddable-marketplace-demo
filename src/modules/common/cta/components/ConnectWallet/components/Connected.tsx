@@ -10,8 +10,10 @@ import {
 import { CopyButton } from "@/modules/common/ui";
 import { truncate } from "@/utils/text";
 import {
+  Badge,
   Button,
   HStack,
+  Image,
   Input,
   Menu,
   MenuButton,
@@ -28,8 +30,7 @@ import React, { FC } from "react";
 interface ConnectedProps {}
 const Connected: FC<ConnectedProps> = (props) => {
   const {} = props;
-  const { data: configs } = useAllChainConfig();
-  const { disconnect, config, setChainId, account } = useWallet();
+  const { disconnect, config, account } = useWallet();
 
   return (
     <Popover placement="bottom-end">
@@ -42,42 +43,39 @@ const Connected: FC<ConnectedProps> = (props) => {
               borderColor={isOpen ? "primary.600" : "gray.300"}
             >
               <HStack mr={8}>
-                <ProfileIcon boxSize={8} />
+                <Image src={config?.iconUrls?.sm ?? ""} w="6" />
                 <Text>{truncate(account?.address ?? "")}</Text>
+                <Badge
+                  colorScheme={
+                    config?.chainType === "mainnet" ? "green" : "purple"
+                  }
+                  fontSize={8}
+                  pt="1"
+                  rounded="full"
+                >
+                  {config?.chainType}
+                </Badge>
               </HStack>
               <ChevronDownIcon boxSize={4} />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverBody>
-              <HStack mb={3} justifyContent="space-between">
-                {/* <Icon
-                  boxSize={9}
-                  p={1}
-                  borderRadius="full"
-                  border="1px solid"
-                  borderColor="gray.300"
-                /> */}
+              <HStack mb={3} justifyContent="start">
+                <Image src={config?.iconUrls?.sm ?? ""} w="5" />
                 <Text fontWeight={600} color="gray.700">
-                  {config?.chainId}
+                  {config?.chainName ?? config?.chainId}
                 </Text>
-                <Menu>
-                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                    Switch
-                  </MenuButton>
-                  <MenuList>
-                    {configs?.map((config) => (
-                      <MenuItem
-                        onClick={() => {
-                          setChainId(config.chainId);
-                        }}
-                        key={config.chainId}
-                      >
-                        {config.chainId}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </Menu>
+                <Badge
+                  colorScheme={
+                    config?.chainType === "mainnet" ? "green" : "purple"
+                  }
+                  fontSize={8}
+                  pt="1"
+                  rounded="full"
+                >
+                  {config?.chainType}
+                </Badge>
               </HStack>
               <Input
                 value={account?.address ?? ""}

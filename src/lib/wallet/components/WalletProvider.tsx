@@ -16,16 +16,18 @@ import { AUTOCONNECT_KEY } from "../utils/contants";
 import { WalletContext } from "../hooks/useWalletContext";
 import { useToast } from "@chakra-ui/react";
 import { useChainConfig } from "@/lib/graphql/hooks/chain";
+import useApp from "@/lib/app/hooks/useApp";
 
 interface WalletProviderProps {
   children: ReactNode;
-  chainId?: ChainConfig["chainId"];
 }
 const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
   props
 ) {
-  const { chainId: defaultChainId = "uni-5", children } = props;
-  const [chainId, setChainId] = useState(defaultChainId);
+  const { children } = props;
+  const {
+    config: { chainId },
+  } = useApp();
   const { data: config } = useChainConfig(chainId ?? "");
 
   const [signer, setSigner] = useState<OfflineSigner | undefined>();
@@ -36,10 +38,6 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
   const chainConnect = useChainConnect();
 
   const toast = useToast();
-
-  useEffect(() => {
-    setChainId(defaultChainId);
-  }, [defaultChainId]);
 
   const connect = useCallback(() => {
     if (!config) return;
@@ -58,7 +56,6 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
           status: "error",
           position: "top-right",
         });
-        setChainId(defaultChainId);
       });
   }, [chainConnect, config]);
 
@@ -83,7 +80,6 @@ const WalletProvider: FC<WalletProviderProps> = memo(function WalletProvider(
         keplr,
         status,
         config,
-        setChainId,
         connect,
         disconnect,
         signer,

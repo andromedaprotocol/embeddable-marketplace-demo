@@ -7,7 +7,6 @@ import {
 import { gql, QueryResult, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 
-
 export interface IQueryResult
   extends Pick<QueryResult<QueryResponse>, "loading" | "error"> {
   data: QueryResponse["cw721"] | undefined;
@@ -22,7 +21,15 @@ export default function useGetCollection(collectionId: string): IQueryResult {
 
   const { data, loading, error } = useQuery<QueryResponse, Query>(
     gql`
-      ${QueryText}
+      query QUERY_CW721_CONTRACT_INFO($contractAddress: String!) {
+        cw721(address: $contractAddress) {
+          contractInfo {
+            name
+            symbol
+          }
+          numTokens
+        }
+      }
     `,
     { variables: { contractAddress: colConfig?.contractAddress ?? "" } }
   );
