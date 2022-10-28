@@ -1,5 +1,6 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Divider } from "@chakra-ui/react";
 import React, { FC, ReactNode } from "react";
+import Navbar from "./Navbar";
 
 interface LayoutProps {
   children?: ReactNode;
@@ -8,9 +9,12 @@ const Layout: FC<LayoutProps> = (props) => {
   const { children } = props;
 
   return (
-    <Box>
-      <Box borderBottom="1px" borderColor="gray.300" py="8"></Box>
-      <Box px="24" py="6">
+    <Box minH="100vh">
+      <Box>
+        <Navbar />
+      </Box>
+      <Divider />
+      <Box px="24" py="16">
         {children}
       </Box>
     </Box>

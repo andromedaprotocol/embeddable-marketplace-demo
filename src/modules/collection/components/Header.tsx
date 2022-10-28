@@ -1,30 +1,22 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  HStack,
-  Stat,
-  StatGroup,
-  StatLabel,
-  StatNumber,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { useGetCollection } from "@/lib/graphql/hooks/collection";
+import { Box, Flex, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { ICollection } from "../types";
 
 interface HeaderProps {
-  collection: ICollection;
+  collectionId: string;
 }
 const Header: FC<HeaderProps> = (props) => {
-  const { collection } = props;
+  const { collectionId } = props;
+  const { data: collection } = useGetCollection(collectionId);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" gap="4" py="2">
       <GridItem colSpan={1}>
         <Flex direction="column" gap="2" align="start" maxW="md">
-          <Text fontSize="2xl" fontWeight='bold'>{collection.name}</Text>
+          <Text fontSize="2xl" fontWeight="bold">
+            {collection?.contractInfo.name}
+          </Text>
           <Text textStyle="light" fontSize="sm">
             Created by <b>0x64fe0...fec9</b>
           </Text>
@@ -44,23 +36,35 @@ const Header: FC<HeaderProps> = (props) => {
             rounded="2xl"
             p="4"
             gap="2"
-            ml='auto'
-            maxW='max-content'
+            ml="auto"
+            maxW="max-content"
           >
-            {STATS.map((s) => (
-              <Box key={s.label}>
-                <Text fontSize="xs" textStyle="light">
-                  {s.label}
-                </Text>
-                <Text fontWeight="medium" fontSize="md">
-                  {s.value}
-                </Text>
-              </Box>
+            {STATS.map((stat) => (
+              <Stat key={stat.label} label={stat.label} value={stat.value} />
             ))}
           </HStack>
         </Box>
       </GridItem>
     </Grid>
+  );
+};
+
+interface StatProps {
+  label: string;
+  value: string;
+}
+const Stat: FC<StatProps> = (props) => {
+  const { label, value } = props;
+
+  return (
+    <Box>
+      <Text fontSize="xs" textStyle="light">
+        {label}
+      </Text>
+      <Text fontWeight="medium" fontSize="md">
+        {value}
+      </Text>
+    </Box>
   );
 };
 

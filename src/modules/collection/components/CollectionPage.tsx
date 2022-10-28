@@ -9,24 +9,20 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { ICollection } from "../types";
-import Banner from "./Banner";
 import Header from "./Header";
 import TokensList from "./TokensList";
 
 interface CollectionPageProps {
-  collection: ICollection;
+  collectionId: string;
 }
 const CollectionPage: FC<CollectionPageProps> = (props) => {
-  const { collection } = props;
+  const { collectionId } = props;
 
   return (
     <Flex direction="column">
-      <Box>
-        <Banner image={collection.image} />
-      </Box>
+      <Box>{/* <Banner image={collection.contractInfo} /> */}</Box>
       <Box py="2">
-        <Header collection={collection} />
+        <Header collectionId={collectionId} />
       </Box>
       <Divider my="4" />
       <Box py="2">
@@ -37,7 +33,7 @@ const CollectionPage: FC<CollectionPageProps> = (props) => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <TokensList collection={collection} />
+              <TokensList collectionId={collectionId} />
             </TabPanel>
             <TabPanel>Activity</TabPanel>
           </TabPanels>

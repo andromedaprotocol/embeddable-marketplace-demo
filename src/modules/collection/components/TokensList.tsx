@@ -1,10 +1,11 @@
-import { TokenCard } from "@/modules/token-card";
+import { useGetTokens } from "@/lib/graphql/hooks/collection";
+import { TokenCard } from "@/modules/token";
 import { SearchIcon } from "@/theme/icons";
-import { NFT_TRENDING } from "@/utils/seed";
 import {
   Box,
   Button,
   Flex,
+  GridItem,
   HStack,
   Input,
   InputGroup,
@@ -20,10 +21,11 @@ import React, { FC, useState } from "react";
 import { ICollection } from "../types";
 
 interface TokensListProps {
-  collection: ICollection;
+  collectionId: string;
 }
 const TokensList: FC<TokensListProps> = (props) => {
-  const { collection } = props;
+  const { collectionId } = props;
+  const { data: allTokens } = useGetTokens(collectionId);
   const [filterOpen, setFilterOpen] = useState(false);
 
   return (
@@ -72,8 +74,10 @@ const TokensList: FC<TokensListProps> = (props) => {
             </Box>
           )}
           <SimpleGrid columns={filterOpen ? 3 : 4} spacing={4} w="full">
-            {NFT_TRENDING.map((nft) => (
-              <TokenCard token={nft} key={nft.id} />
+            {allTokens?.map((tokenId) => (
+              <GridItem key={tokenId}>
+                <TokenCard tokenId={tokenId} collectionId={collectionId} />
+              </GridItem>
             ))}
           </SimpleGrid>
         </Flex>
