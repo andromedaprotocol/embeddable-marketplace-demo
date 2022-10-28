@@ -45,7 +45,7 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
   const onSubmit = () => {
     const msg = construct({ tokenAddress: contractAddress, tokenId: tokenId });
     const funds = coins(amount, DENOM);
-    openExecute(msg, false, funds);
+    openExecute(msg, true, funds);
   };
 
   return (

@@ -3,29 +3,24 @@
     "chainId": "elgafar-1",
     "coinDenom": "ustars",
     "featured": {
-        "collectionId": "austin-1",
+        "collectionId": "collection-1",
         "tokenId": "1"
     },
     "collections": [
         {
-            "id": "austin-1",
-            "contractAddress": "stars1stnd2ysz9eynxd8egp7mq8yyzj83y4j6qpar0e5phurscw44e74s7hne6s",
-            "auctionAddress": "stars1jjr0ypg7u82tggejxdd9n0dytny5sgjutjss3mlr2krk2mh2k02qj03u43"
+            "id": "collection-1",
+            "contractAddress": "stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
         },
         {
-            "id": "austin-2",
-            "contractAddress": "stars12xnvnsw2p0xmq9yf8mz3w9486ltnpnshnkr86l2j4nh8m7jamwwsmpplkd",
-            "auctionAddress": "stars172u6hkurmx3kauda8m0nmt7utu7df0qxgqkyym6r9923llhhyk0qqch7e2"
+            "id": "collection-2",
+            "contractAddress": "stars1t7nhc6pem4qj23ekxg5urlh5gddvyr6tc7gja7ryyu85fq5x3ycqtrpf8e",
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
         },
         {
-            "id": "austin-3",
-            "contractAddress": "stars18rqmgx3ws9tctfa8ac29gfs3r5setd6r3he5f9nu3pfdqvjrx4tq44f0u8",
-            "auctionAddress": "stars1c77v7d495mpz6zpat2h4qyu5g8vc7ga8ujtnvw9676e6ckjjy0qqlqdfsd"
-        },
-        {
-            "id": "austin-4",
-            "contractAddress": "stars123vxac62rrjp0gcufr29jvj0af4uzrtq6j4kxa7jyasmsuwlv0as4nec4n",
-            "auctionAddress": "stars1urh44r08lapz0u2ru4km070226m6qlh00p0rj3dyf95ym7k20d5q3r02av"
+            "id": "collection-3",
+            "contractAddress": "stars14t0jglntqg27hxrz0nulhlvnjhwu4cvfnas2zu967c3uwzd5dscsatjpfv",
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
         }
     ]
 }
