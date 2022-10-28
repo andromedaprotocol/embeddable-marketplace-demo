@@ -16,7 +16,7 @@ const Navbar: FC<NavbarProps> = (props) => {
         gap="4"
       >
         <Text fontSize="lg" fontWeight="bold">
-          Banded Armadillo Rock Club
+          Andromeda in the Wild
         </Text>
         <Flex direction="row" ml="auto" gap="2">
           <CollectionDropdown />
