@@ -1,4 +1,4 @@
-import { extendTheme, theme } from "@chakra-ui/react";
+import { createLocalStorageManager, extendTheme, theme, ThemeConfig } from "@chakra-ui/react";
 
 import Accordion from "./accordion";
 import Button from "./button";
@@ -13,7 +13,15 @@ import Tooltip from "./tooltip";
 
 import shadows from "./shadows";
 
+const config: ThemeConfig = {
+  initialColorMode: 'light',
+  useSystemColorMode: false,
+}
+
+export const ThemeStorageManager = createLocalStorageManager("andromeda-marketplace-theme");
+
 export default extendTheme({
+  config,
   styles: {
     global: {
       "*": {

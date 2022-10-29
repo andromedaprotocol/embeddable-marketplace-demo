@@ -1,7 +1,6 @@
 import { useGetCollection } from "@/lib/graphql/hooks/collection";
 import { Box, Flex, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { ICollection } from "../types";
 
 interface HeaderProps {
   collectionId: string;

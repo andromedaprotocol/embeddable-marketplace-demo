@@ -1,5 +1,5 @@
 export const LINKS = {
-    home: () => ``,
+    home: () => `/`,
     collection: (slug: string) => `/collection/${slug}`,
     token: (collectionSlug: string, tokenId: string) => `/collection/${collectionSlug}/${tokenId}`
 } as const;
