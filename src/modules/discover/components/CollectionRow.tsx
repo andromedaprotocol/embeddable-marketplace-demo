@@ -39,18 +39,20 @@ const CollectionRow: FC<CollectionRowProps> = (props) => {
             <Text fontSize="xl" fontWeight="bold">
               {collection?.contractInfo.name}
             </Text>
+            {/* Replacing text with &nbsp; (space) to maintain height structures for displays */}
             <Box>
               <Text fontSize="xs" textStyle="light">
-                Highest Bid
+                &nbsp;
               </Text>
               <Text fontWeight="bold" fontSize="sm">
-                13.65 STARS
+                &nbsp;
               </Text>
             </Box>
             <Flex gap="1" align="center">
-              <Flame color="orange" width={14} />
+              {/* <Flame color="orange" width={14} /> */}
+              <Text>&nbsp;</Text>
               <Text fontSize="xs" fontWeight="bold">
-                Ends 3 Days
+                &nbsp;
               </Text>
             </Flex>
             <Link href={LINKS.collection(collectionId)} passHref>
