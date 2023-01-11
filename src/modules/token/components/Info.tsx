@@ -64,6 +64,7 @@ const Info: FC<InfoProps> = (props) => {
     return () => clearInterval(tId);
   }, [auctionState]);
 
+
   return (
     <Box w="full">
       <HStack justify="space-between">
@@ -168,7 +169,7 @@ const Info: FC<InfoProps> = (props) => {
           tokenId={tokenId}
           mt="4"
         >
-          Place a bid
+          {isEnded ? "Sale ended" : !isStarted ? "Sale starting soon" : "Place a bid"}
         </PlaceBidButton>
       </Box>
     </Box>

@@ -9,13 +9,13 @@ interface IButtonProps extends ButtonProps {
 }
 
 const PlaceBidButton: FC<IButtonProps> = (props) => {
-  const { auctionAddress, contractAddress, tokenId, ...buttonProps } = props;
+  const { auctionAddress, contractAddress, tokenId, children, ...buttonProps } = props;
 
   const open = usePlaceBidModal({ contractAddress, auctionAddress, tokenId });
 
   return (
     <Button onClick={open} w="full" variant="solid" {...buttonProps}>
-      Place Bid
+      {children}
     </Button>
   );
 };

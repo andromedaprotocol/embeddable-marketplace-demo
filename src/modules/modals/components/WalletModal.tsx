@@ -1,3 +1,4 @@
+import { APP_ENV } from "@/appEnv";
 import { useWallet } from "@/lib/wallet";
 import { KeplrConnectionStatus } from "@/lib/wallet/types";
 import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
@@ -32,7 +33,7 @@ const WalletModal: FC = () => {
             "Install Keplr to Connect"
           ) : (
             <>
-              <Image src="/keplr.png" h="8" />
+              <Image src={`${APP_ENV.BASE_PATH}/keplr.png`} h="8" />
               <Text fontSize="md">Keplr</Text>
             </>
           )}
