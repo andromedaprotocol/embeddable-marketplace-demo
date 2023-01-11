@@ -1,15 +1,5 @@
 import { Keplr } from "@keplr-wallet/types";
-import pisco1Connect from "./pisco1";
-import uni5Connect from "./uni5";
-import galileo2Connect from "./galileo2";
-import elgafar1Connect from "./elgafar1";
-
-const connectionFunctions = {
-  "uni-5": uni5Connect,
-  "pisco-1": pisco1Connect,
-  "galileo-2": galileo2Connect,
-  "elgafar-1": elgafar1Connect
-};
+import { queryKeplrConfig } from "@andromedaprotocol/andromeda.js"
 
 /**
  * Adds chain info or enables a chain in Keplr by a given chain ID and Keplr instance
@@ -17,15 +7,16 @@ const connectionFunctions = {
  * @param keplr
  */
 export async function connectByChainId(chainId: string, keplr: Keplr) {
-  const connect = Object(connectionFunctions)[chainId];
-
-  if (!connect) {
+  try {
+    await keplr.enable(chainId);
+  } catch (err) {
+    console.log(err)
     try {
-      await keplr.enable(chainId);
-    } catch (error) {
-      console.error(`Chain ${chainId} is not supported`);
+      const keplrConfig = await queryKeplrConfig(chainId)
+      await keplr.experimentalSuggestChain(keplrConfig);
+    } catch (err) {
+      console.log(err)
+      throw new Error(`Chain ${chainId} is not supported`);
     }
-  } else {
-    await connect(keplr);
   }
 }
