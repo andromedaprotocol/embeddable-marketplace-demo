@@ -1,7 +1,18 @@
 import { useAppUtils } from "@/lib/app/hooks";
+import {
+  useGetCollection,
+  useGetTokenFromColId,
+} from "@/lib/graphql/hooks/collection";
 import { LINKS } from "@/utils/links";
 import { truncate } from "@/utils/text";
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { FC, useMemo } from "react";
@@ -29,7 +40,7 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         {collections.map((col) => (
           <Link key={col.id} href={LINKS.collection(col.id)} passHref>
             <MenuItem as="a" key={col.id}>
-              {col.id}
+              <CollectionLinkItem colId={col.id} />
             </MenuItem>
           </Link>
         ))}
@@ -37,4 +48,15 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
     </Menu>
   );
 };
+
+interface CollectionLinkItemProps {
+  colId: string;
+}
+const CollectionLinkItem: FC<CollectionLinkItemProps> = (props) => {
+  const { colId } = props;
+  const { data: collection } = useGetCollection(colId);
+
+  return <Text>{collection?.contractInfo?.name ?? colId}</Text>;
+};
+
 export default CollectionDropdown;

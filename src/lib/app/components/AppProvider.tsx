@@ -4,7 +4,7 @@ import {
   CSSReset,
 } from "@chakra-ui/react";
 import React, { FC, ReactNode } from "react";
-import defaultTheme from "@/theme";
+import defaultTheme, { ThemeStorageManager } from "@/theme";
 import { GlobalModalProvider } from "@/modules/modals";
 import { WalletProvider } from "@/lib/wallet";
 import { AppContext } from "../hooks";
@@ -20,7 +20,7 @@ const AppProvider: FC<AppProviderProps> = (props) => {
 
   return (
     <AppContext.Provider value={{ config }}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={theme} colorModeManager={ThemeStorageManager}>
         <CSSReset />
         <WalletProvider>
           <AndromedaProvider>
