@@ -123,10 +123,8 @@ const Info: FC<InfoProps> = (props) => {
         <Flex gap="1" align="center">
           <Flame color="orange" width={14} />
           <Text fontSize="xs" fontWeight="bold">
-            <Text>
-              Sale {isStarted ? "ends" : "starts"}{" "}
-              {formatTime(isStarted ? endTime : startTime)}
-            </Text>
+            Sale {isStarted ? "ends" : "starts"}{" "}
+            {formatTime(isStarted ? endTime : startTime)}
           </Text>
         </Flex>
         <SimpleGrid
