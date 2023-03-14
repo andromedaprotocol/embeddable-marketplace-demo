@@ -4,11 +4,17 @@ import { Coin } from "@cosmjs/proto-signing";
 export enum ModalType {
   Wallet = "wallet",
   Transaction = "transaction",
-  PlaceBid = "placebid"
+  PlaceBid = "placebid",
+  Config = "config"
 }
 
 export interface WalletModalProps {
   modalType: ModalType.Wallet;
+}
+
+export interface ConfigModalProps {
+  modalType: ModalType.Config;
+  
 }
 
 export interface PlaceBidModalProps {
@@ -28,4 +34,4 @@ export interface TransactionModalProps {
   memo?: string
 }
 
-export type ModalProps = WalletModalProps | TransactionModalProps | PlaceBidModalProps
+export type ModalProps = WalletModalProps | TransactionModalProps | PlaceBidModalProps | ConfigModalProps

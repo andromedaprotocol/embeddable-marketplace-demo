@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import useApp from "@/lib/app/hooks/useApp";
 import Link from "next/link";
 import { LINKS } from "@/utils/links";
+import { ConfigButton } from "@/modules/common/cta";
 
 
 interface FooterProps {}
@@ -50,10 +51,13 @@ const Footer: FC<FooterProps> = (props) => {
             <ListItem>Privacy Policy</ListItem>
             <ListItem>Terms of Service</ListItem>
         </List>
+        <ConfigButton/>
         </Flex>
+        
         <Text as="a" fontSize="sm" mx="auto" pb={7}>
-            &copy;2022 XYZ
+            &copy;2022 XYZ &nbsp;&nbsp;&nbsp;
         </Text>
+
       </Flex>
   
   );
