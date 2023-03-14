@@ -31,7 +31,9 @@ const Footer: FC<FooterProps> = (props) => {
           <Text as="a" fontSize="lg" fontWeight="bold" px={100}>
             {config.name}
           </Text>
+          
         </Link>
+       
         <List spacing={3} fontSize="sm">
             <ListItem fontWeight="bold">App</ListItem>
             <ListItem>Collections</ListItem>
@@ -51,12 +53,15 @@ const Footer: FC<FooterProps> = (props) => {
             <ListItem>Privacy Policy</ListItem>
             <ListItem>Terms of Service</ListItem>
         </List>
-        <ConfigButton/>
-        </Flex>
-        
         <Text as="a" fontSize="sm" mx="auto" pb={7}>
             &copy;2022 XYZ &nbsp;&nbsp;&nbsp;
         </Text>
+        
+        </Flex>
+        <Box mx="auto">
+        <ConfigButton/>
+        </Box>
+        
 
       </Flex>
   
