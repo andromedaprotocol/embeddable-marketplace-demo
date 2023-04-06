@@ -25,6 +25,7 @@ import {
                 }
                 __typename
             }
+            
         }
       `, 
       { variables: { contractAddress: auctionAddress ?? "", tokenAddress: tokenAddress ?? "", tokenId: tokenId ?? ""  } }

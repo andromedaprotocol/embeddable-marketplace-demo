@@ -1,0 +1,227 @@
+{
+    "name": "Andromeda in the Wild",
+    "chainId": "elgafar-1",
+    "coinDenom": "ustars",
+    "appAddress": "test",
+    "featured": {
+        "collectionId": "collection-1",
+        "tokenId": "1"
+    },
+    "collections": [
+        {
+            "id": "collection-1",
+            "contractAddress": "stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+        },
+        {
+            "id": "collection-2",
+            "contractAddress": "stars1t7nhc6pem4qj23ekxg5urlh5gddvyr6tc7gja7ryyu85fq5x3ycqtrpf8e",
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+        },
+        {
+            "id": "collection-3",
+            "contractAddress": "stars14t0jglntqg27hxrz0nulhlvnjhwu4cvfnas2zu967c3uwzd5dscsatjpfv",
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+        }
+    ]
+}
+
+// const client = ...
+
+client
+  .query({
+    query: gql`
+      query GetLocations {
+        locations {
+          id
+          name
+          description
+          photo
+        }
+      }
+    `,
+  })
+  .then((result) => console.log(result));
+
+
+
+  // GQL Queries:
+
+query Q2{
+    ADO{
+      ado(address:"stars14xrs9ewfkfemrd8765tkyfxtkfdcr9staeg2euxx7g946kss3s7svrcypn"){
+        address,
+        andr{
+          address,
+          owner
+        },
+        type
+      }
+    }
+  }
+  
+  query Q3{
+    ADO{
+      ado(address:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md"){
+        address,
+        andr{
+          address,
+          owner
+        },
+        type
+      }
+    }
+  }
+  
+  
+  query QUERY_ADDRESS_TYPE{
+    ADO{
+      ado(address:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md"){
+        type,
+        andr{
+          queries_expected,
+          label,
+          owner,
+          creator,
+          type,
+          address
+        },
+        
+      }
+    }
+  }
+  
+  query QUERY_CHAIN{
+    chainConfigs{
+      allConfigs{
+        addressPrefix,
+        chainId
+      }
+    }
+  }
+  
+  query QUERY_KEPLER{
+    keplrConfigs{
+      allConfigs{
+        chainId,
+        chainName,
+        coinType,
+          
+      }
+    }
+  }
+  query QUERY_ADDRESS_TYPE2{
+    ADO{
+      app(address:"andr1r5wrx7vzya9xnlpmsul3l03f7jvcgq6jlkcqcpe6ntayuxrlry6qwkhck3"){
+          addresses{ address, name},
+        config{name},
+        components{ name, address, ado_type}
+      }
+    }
+  }
+  
+  query QUERY_ADDRESS_TYPE3{
+    ADO{
+      app(address:"stars14xrs9ewfkfemrd8765tkyfxtkfdcr9staeg2euxx7g946kss3s7svrcypn"){
+          config{name},
+        components{ name, address, ado_type}
+      }
+    }
+  }
+  
+  query QUERY_CW721_ADDRESS{
+    ADO{
+      app(address:"stars14xrs9ewfkfemrd8765tkyfxtkfdcr9staeg2euxx7g946kss3s7svrcypn"){
+          getAddress(name:"Collection-1")
+      }
+    }
+  }
+  
+  query QUERY_CW721_ALLTOKENS{
+    ADO{
+      cw721(address:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md"){
+        allTokens
+      }
+    }
+  }
+  
+  query QUERY_CW721_GETAUCTIONS{
+    ADO{
+      cw721(address:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md"){
+        ownerOf(includeExpired:true, tokenId: "3"){
+          auctionAddress: owner
+        }
+      }
+    }
+  }
+  
+  
+  query QUERY_CHECK_AUCTION{
+    ADO{
+      ado(address:"stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"){
+        andr{
+          type
+        }
+      }
+    }
+  }
+  
+  
+  
+  query QUERY_ASSETS{
+  
+    accounts{
+      assets(walletAddress:"andr1hgc6pa2vmjfmygwrq0vzld5u2rlqun0jyapu2f"){
+        address,
+        adoType,
+        instantiateHeight,
+        appContract,
+         components{
+           ado_type,
+           name,
+          address,
+         },
+        owner,
+      },
+    }
+  
+  }
+  
+  query QUERY_ASSETS2{
+  
+    accounts{
+      assets(walletAddress:"stars13xvlg53w6n7f9juvwvpdrrefslnfxmf6u7ejxx"){
+        address,
+        adoType,
+        instantiateHeight,
+        appContract,
+         components{
+           ado_type,
+           name,
+          address,
+         },
+        owner,
+      },
+    }
+  
+  }
+  
+  query ADO {
+    ADO {
+      auction(
+        address: "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+      ) {
+              auctionIDs(tokenAddress:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",tokenId:"1"){
+          auction_ids
+        },
+        latestAuctionState(tokenAddress:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",tokenId:"5"){
+          auction_id,
+          coin_denom
+        }
+      },
+      cw721(address:"stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md"){
+        allTokens,
+      }
+    }
+  }
+  

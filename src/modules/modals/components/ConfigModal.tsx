@@ -20,15 +20,16 @@ import {FC,  useEffect,  useState, useRef } from "react";
 import { useGlobalModalContext } from "../hooks";
 import { ConfigModalProps } from "../types";
 
-import config from "@/config.json";
 import { parseValue } from "graphql";
 import { coin } from "@cosmjs/proto-signing";
+import useGetAuction from "@/lib/graphql/hooks/collection/useGetAuction";
+import useGetApp from "@/lib/graphql/hooks/app/useGetApp";
 
 
 
 
 const ConfigModal: FC<ConfigModalProps> = (props) => {
-    
+    const { config, updateConfigState } = useApp();
 
     const initialInputList = config.collections.map((collection) => {
         return {
@@ -43,10 +44,11 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
       });
 
     //will need to map existing config file to this object array
+    const [tempObj, setTempObj] = useState();
     const [inputList, setInputList] = useState(initialInputList);
+    const [appAddress, setAppAddress] = useState(config.appAddress);
     const [currentIndex, setCurrentIndex] = useState(0);
     const isFirstRun = useRef(true);
-    const isSecondRun = useRef(true);
     const [siteTitle, setSiteTitle] = useState(config.name);
     const [chainId, setChainId] =useState(config.chainId);
     const [coinDenom, setCoinDenom ] = useState(config.coinDenom);
@@ -54,6 +56,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const {data, loading, error} = useGetCollectionByAddress(inputList[currentIndex].contractAddress);
     const {data: auctionData, loading: auctionLoading, error: auctionError} = useGetTokenAuctionStateFromColId(inputList[currentIndex].auctionAddress, inputList[currentIndex].contractAddress, featuredToken );
+    const {data: appData, loading: appLoading, error: appError} = useGetApp(appAddress);
     const [isUserAction, setIsUserAction] = useState(false);
     
     
@@ -74,17 +77,19 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
     
    }
 
+   const handleAppAddressInfo = (obj)=>{
+    setIsUserAction(true);
+    setTempObj(obj);
+
+   }
+
     
     useEffect(()=>{
         if (isFirstRun.current) {
             isFirstRun.current = false;
             return;
           }
-        else if (isSecondRun.current) {
-            isSecondRun.current = false;
-            return;
-          }
-        
+      
        
         if (data && !isUserAction) {
             handleUpdateContractInfo(currentIndex, data);
@@ -93,8 +98,24 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
             //setColAuc1Visible(false);
         }
         console.log('recur 1');
+
+        // if (appData && !isUserAction){
+        //     handleAppAddressInfo(appData);
+        //     console.log("app Data!");
+        //     console.log(appData);
+        // }
         
     }, [inputList, isUserAction])
+
+    const checkAppAddress = (event) =>{
+
+        const appAddress = event.currentTarget.value;
+        setAppAddress(appAddress);
+        console.log("AppAddress:", appAddress);
+        
+
+
+    }
 
     const checkAddress = (event, index) =>{
         
@@ -196,20 +217,24 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
         //getCollection(colAdd1);
         const currentConfig = getCurrentConfig();
 
-        console.log(currentConfig);
-
+        //console.log(currentConfig);
+        updateConfigState(currentConfig);
       
     };
 
+    console.log(appData);
 
     return(
         <Box w='100%'>
             <Heading size="md" mb="6" fontWeight="bold">
-                App Configuration
             </Heading>
             <Box textAlign="center">
                 <form onSubmit={handleSubmit}>
                 <Box borderWidth="1px" borderRadius="md" p="4">
+                    <FormLabel>App Address: 
+                        <Input type="text" size="sm" name="appAddress" value={appAddress} onChange={(e)=>checkAppAddress(e)}/>
+                    </FormLabel>
+                  
                     <FormLabel>Site Title
                         <Input type="text" size="sm" name="siteName" value={siteTitle} onChange={(e)=>handleSetTitle(e)}/>
                     </FormLabel>
@@ -224,6 +249,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                         <div key={index}  style={{ marginTop: '16px' }}>
                             <Box borderWidth="1px" borderRadius="md" p="4">
                                 <FormLabel>Collection Address : {input.valid ? input.id : 'checking contract address...' } 
+                                <IconButton  size="xs" ml="10" onClick={() => handleRemoveClick(index)} icon={<Trash2 />} aria-label={""} />
                                     <Input type="text" value={input.contractAddress} size="sm" onChange={(e)=>checkAddress(e, index)}/>
                                 </FormLabel>
                                 {input.valid ? (
@@ -231,18 +257,22 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                                         <FormLabel>(Optional) Collection Auction/Market
                                             <Input type="text" value={input.auctionAddress} size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
                                         </FormLabel>
-
-                                        <Checkbox size="sm" mr="200" colorScheme="green" checked={input.featured} onChange={(e)=>handleCheckbox(e, index)}>
-                                            featured? 
-                                        </Checkbox>
-                                        <IconButton style={{ marginLeft: "auto" }} size="xs" ml="100" onClick={() => handleRemoveClick(index)} icon={<Trash2 />} aria-label={""} />
-                                        {input.featured ? (
+                                        {input.AMvalid ? (
                                             <div>
-                                                <FormLabel>Token ID:  
-                                                    <Input type="text" value={featuredToken} size="xs" htmlSize={3} width='auto' onChange={handleSetFeaturedToken}/>
-                                                </FormLabel>
-                                            </div> ): null }
-                                    </div> ): null }
+                                                <Checkbox size="sm" mr="200" colorScheme="green" checked={input.featured} onChange={(e)=>handleCheckbox(e, index)}>
+                                                    featured? 
+                                                </Checkbox>
+                                                {input.featured ? (
+                                                    <div>
+                                                        <FormLabel>Token ID:  
+                                                            <Input type="text" value={featuredToken} size="xs" htmlSize={3} width='auto' onChange={handleSetFeaturedToken}/>
+                                                        </FormLabel>
+                                                    </div> 
+                                                ): null }
+                                            </div>
+                                        ) : null}
+                                    </div> 
+                                ): null }
                                
                                 
                                 
