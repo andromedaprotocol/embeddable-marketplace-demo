@@ -67,6 +67,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
     const [isUserAction, setIsUserAction] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showConfigModal, setShowConfigModal] = useState(true);
+    const [message, setMessage] = useState("");
 
    const handleUpdateContractInfo = (index, obj) => {
 
@@ -208,6 +209,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
         setCoinDenom(event.currentTarget.value);
     }
     const handleCheckbox = (event, index) => {
+        
         setInputList(prevInputList => {
           const newInputList = prevInputList.map((input, i) => {
             if (i === index) {
@@ -219,6 +221,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
           });
           console.log('New Input List:',newInputList[index].featured );
           console.log('Checkbox Index:', index);
+          setMessage(newInputList.some(input => input.featured) ? "" : "Please select at least one featured contract");
           return newInputList;
         });
       }
@@ -263,6 +266,19 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (message != "") {
+            setMessage("Please select at least one featured contract");
+            return;
+          }
+        //Check if at least one inputList is featured
+        const atLeastOneFeatured = inputList.some((input) => input.featured);
+        
+        if (!atLeastOneFeatured) {
+            // Display an error message or prevent submission
+            console.log('Please select at least one featured collection');
+            return;
+        }
+
         setIsLoading(true);
         const currentConfig = getCurrentConfig();
         updateConfig(currentConfig);
@@ -347,6 +363,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                         </div>
                     ))}
                     <br/>
+                    {message && <Box mt="2" color="red">{message}</Box>}
                     <Box textAlign="right" mt="4">
                         <Button type="button" onClick={handleAddClick}>
                             Add Another Contract
@@ -396,13 +413,13 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                         
                         resize="none"
                         onFocus={(e) => {
-                        e.target.rows = "20";
+                            e.target.rows = "20";
                         }}
                         onBlur={(e) => {
-                        e.target.rows = "1";
+                            e.target.rows = "8";
                         }}
                         _focus={{
-                        boxShadow: "none",
+                            boxShadow: "none",
                         }}
                     />
                     <HStack
@@ -429,7 +446,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                 </Box>
             )}
         </Box>
-        )}
+        ) }
     </>
     );
 
