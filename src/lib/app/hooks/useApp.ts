@@ -1,35 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { IConfig } from "../types";
-import config from '@/config.json'
+import config from '@/config.json';
 
 export interface AppContext {
   config: IConfig;
+  updateConfig: (newConfig:IConfig)=>void;
 }
 
 const defaulValue: AppContext = {
-  config: config
+  config: config,
+  updateConfig: ()=>{ throw new Error("Userd Outside")}
 };
 
 export const AppContext = createContext(defaulValue);
 
 
 
-export default function useApp() {
-  const [configState, setConfigState] = useState(config);
+const useApp = ()=>useContext(AppContext);
+export default useApp;
 
-  useEffect(() => {
-   // console.log(configState);
-  }, [configState]);
-
-  const updateConfigState = (newConfig: IConfig) => {
-    setConfigState(newConfig);
-   console.log('here!');
-    //console.log(configState);
-  };
-
-  
-  return {
-    config: configState,
-    updateConfigState: updateConfigState,
-  };
-}

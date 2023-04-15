@@ -13,9 +13,12 @@ import {
     HStack,
     Input,
     Text,
-    IconButton
+    IconButton,
+    Radio,
+    RadioGroup,
+    Textarea
   } from "@chakra-ui/react";
-import { Trash, Trash2 } from "lucide-react";
+import { Trash, Trash2, Clipboard } from "lucide-react";
 import {FC,  useEffect,  useState, useRef } from "react";
 import { useGlobalModalContext } from "../hooks";
 import { ConfigModalProps } from "../types";
@@ -24,12 +27,14 @@ import { parseValue } from "graphql";
 import { coin } from "@cosmjs/proto-signing";
 import useGetAuction from "@/lib/graphql/hooks/collection/useGetAuction";
 import useGetApp from "@/lib/graphql/hooks/app/useGetApp";
+import useGetCW721 from "@/lib/graphql/hooks/app/useGetCW721";
+import useGetContract from "@/lib/graphql/hooks/app/useGetApp";
 
 
 
 
 const ConfigModal: FC<ConfigModalProps> = (props) => {
-    const { config, updateConfigState } = useApp();
+    const { config, updateConfig } = useApp();
 
     const initialInputList = config.collections.map((collection) => {
         return {
@@ -38,8 +43,8 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
           auctionAddress: collection.auctionAddress,
           stubLink: collection.stubLink,
           valid: true,
-          AMvalid: true,
-          featured: false
+          AMValid: true,
+          featured: collection.featured
         };
       });
 
@@ -52,16 +57,21 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
     const [siteTitle, setSiteTitle] = useState(config.name);
     const [chainId, setChainId] =useState(config.chainId);
     const [coinDenom, setCoinDenom ] = useState(config.coinDenom);
-    const [featuredToken, setFeaturedToken] = useState(config.featured.tokenId);
+    const [featuredCollection, setFeaturedCollection] = useState(config.featured ? config.featured.collectionId : '');
+    const [featuredToken, setFeaturedToken] = useState(config.featured ? config.featured.tokenId : '');
     const [isLoading, setIsLoading] = useState(false);
-    const {data, loading, error} = useGetCollectionByAddress(inputList[currentIndex].contractAddress);
+    const [currentContract, setCurrentContract] = useState();
+    const {data, loading, error} = useGetCW721(currentContract);
     const {data: auctionData, loading: auctionLoading, error: auctionError} = useGetTokenAuctionStateFromColId(inputList[currentIndex].auctionAddress, inputList[currentIndex].contractAddress, featuredToken );
     const {data: appData, loading: appLoading, error: appError} = useGetApp(appAddress);
     const [isUserAction, setIsUserAction] = useState(false);
-    
-    
+    const [showModal, setShowModal] = useState(false);
+    const [showConfigModal, setShowConfigModal] = useState(true);
+
    const handleUpdateContractInfo = (index, obj) => {
-    setIsUserAction(true);
+
+    console.log('handle update contract info:', obj);
+   // setIsUserAction(true);
     setInputList(prevInputList =>{
         const updatedInputList = [...prevInputList];
         const updatedObject = {...updatedInputList[index], 
@@ -78,7 +88,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
    }
 
    const handleAppAddressInfo = (obj)=>{
-    setIsUserAction(true);
+    //setIsUserAction(true);
     setTempObj(obj);
 
    }
@@ -90,14 +100,45 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
             return;
           }
       
-       
-        if (data && !isUserAction) {
+          if (data) {
+        //if (data && !isUserAction) {
             handleUpdateContractInfo(currentIndex, data);
-           console.log('preventing recursive!');
+           console.log('here!');
         } else {
             //setColAuc1Visible(false);
         }
-        console.log('recur 1');
+        
+        if (appData && !isUserAction){
+            setIsUserAction(true);
+            console.log('lets update!');
+            setSiteTitle(appData.name);
+            setChainId(appData.chainId);
+            setCoinDenom(appData.coinDenom);
+            setFeaturedCollection(appData.featured.collectionId);
+            console.log('featured collection set:', appData.featured.collectionId.toLowerCase());
+            console.log('featured collection:', featuredCollection.toLowerCase());
+            setFeaturedToken(appData.featured.tokenId);
+            setInputList( prevInputList => {
+                const appDataList = [...appData.collections];
+                const newInputList: { contractAddress: string, featured: boolean, id: string, valid: boolean, auctionAddress: string, AMValid: boolean }[] = [];
+                for (let i = 0; i < appDataList.length; i++) {
+                    const newObj = {
+                        featured: appDataList[i].featured,
+                        id: appDataList[i].id,
+                        contractAddress: appDataList[i].contractAddress,
+                        auctionAddress: appDataList[i].auctionAddress,
+                        AMValid: true,
+                        valid: true,
+                      };
+
+                      newInputList.push(newObj);
+
+                 }
+                
+                return newInputList;
+            });
+            //setInputList([]);
+        }
 
         // if (appData && !isUserAction){
         //     handleAppAddressInfo(appData);
@@ -105,13 +146,14 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
         //     console.log(appData);
         // }
         
-    }, [inputList, isUserAction])
+    }, [inputList, isUserAction, appData, data, currentContract])
 
     const checkAppAddress = (event) =>{
 
         const appAddress = event.currentTarget.value;
         setAppAddress(appAddress);
         console.log("AppAddress:", appAddress);
+        //setIsUserAction(false);
         
 
 
@@ -121,18 +163,17 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
         
        
        const list = [...inputList];
-       console.log(index);
        list[index].valid = false;
        list[index].contractAddress = event.currentTarget.value;
        setCurrentIndex(index);
+       setCurrentContract(event.currentTarget.value)
        setInputList(list);
-       setIsUserAction(false);
+       //setIsUserAction(false);
        
     }
 
     const checkAuctionAddress = (event, index) =>{
         const list = [...inputList];
-        console.log(index);
         list[index].valid = false;
         list[index].auctionAddress = event.currentTarget.value;
         setCurrentIndex(index);
@@ -144,7 +185,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
 
 
     const handleAddClick = () => {
-        setInputList([...inputList, { id: "", contractAddress: "", auctionAddress: "", valid: false, AMvalid: false, stubLink: "" }]);
+        setInputList([...inputList, { id: "", contractAddress: "", auctionAddress: "", valid: false, AMValid: false, stubLink: "" }]);
       };
     
     const handleRemoveClick = (index) => {
@@ -166,34 +207,36 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
     const handleCoinDenom = (event) =>{
         setCoinDenom(event.currentTarget.value);
     }
-
-    const handleCheckbox = (event, index) =>{
-       // setIsUserAction(true);
-       
-        setInputList( prevInputList => {
-             const newInputList = [...prevInputList];
-             for (let i = 0; i < newInputList.length; i++) {
-                newInputList[i].featured = false; 
-              }
-             newInputList[index].featured = event.target.checked;
-             return newInputList;
-         })
-         
-    }
+    const handleCheckbox = (event, index) => {
+        setInputList(prevInputList => {
+          const newInputList = prevInputList.map((input, i) => {
+            if (i === index) {
+              input.featured = event.target.checked;
+            } else {
+              input.featured = false;
+            }
+            return input;
+          });
+          console.log('New Input List:',newInputList[index].featured );
+          console.log('Checkbox Index:', index);
+          return newInputList;
+        });
+      }
+    
+    
+   
 
     const getCurrentConfig = () => {
+        console.log('Input List:', inputList);
+        const featuredIndex = inputList.findIndex(obj => obj.featured);
+        console.log('featuredIndex:', featuredIndex);
+        console.log('featuredobj:', inputList[featuredIndex]);
+        const featId = inputList[featuredIndex].id ? inputList[featuredIndex].id : '';
         const obj = {
+            "appAddress": appAddress,
             "name":siteTitle,
             "chainId" : chainId,
             "coinDenom" : coinDenom,
-            "featured" : {
-                            "collectionId" :"",
-                            "tokenId": featuredToken
-                    }
-                    
-               
-               
-            ,
             "collections":
                 inputList.map((input)=>{
                     return{
@@ -203,28 +246,48 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                         "stubLink" : input.stubLink
                     }
 
-                })
+                }),
+            "featured" : {
+                "collectionId" : featId,
+                "tokenId": featuredToken
+            }
             
             
             
         }
+        console.log('Input List:', inputList[featuredIndex]);
+        console.log('featuredIndex:', featuredIndex);
         return obj;
+        
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true);
-        //getCollection(colAdd1);
         const currentConfig = getCurrentConfig();
-
-        //console.log(currentConfig);
-        updateConfigState(currentConfig);
+        updateConfig(currentConfig);
+        console.log('Submitted Object:');
+        console.log(currentConfig);
+        console.log('config state:');
+        console.log(config);
+        setShowModal(true);
       
     };
+
+    const handleClose = () => {
+        setShowModal(false);
+        setShowConfigModal(false);
+      };
+
+      const handleCopy = () => {
+        navigator.clipboard.writeText(JSON.stringify(getCurrentConfig(), null, 2));
+      };
 
     console.log(appData);
 
     return(
+    <>
+        {showConfigModal && (
         <Box w='100%'>
             <Heading size="md" mb="6" fontWeight="bold">
             </Heading>
@@ -252,16 +315,19 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                                 <IconButton  size="xs" ml="10" onClick={() => handleRemoveClick(index)} icon={<Trash2 />} aria-label={""} />
                                     <Input type="text" value={input.contractAddress} size="sm" onChange={(e)=>checkAddress(e, index)}/>
                                 </FormLabel>
+                                
                                 {input.valid ? (
+                                    
                                     <div>
                                         <FormLabel>(Optional) Collection Auction/Market
                                             <Input type="text" value={input.auctionAddress} size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
                                         </FormLabel>
-                                        {input.AMvalid ? (
+                                        {input.AMValid ? (
                                             <div>
-                                                <Checkbox size="sm" mr="200" colorScheme="green" checked={input.featured} onChange={(e)=>handleCheckbox(e, index)}>
+                                                <Checkbox size="sm" mr="200" colorScheme="green"  isChecked={input.featured} onChange={(e)=>handleCheckbox(e, index)}>
                                                     featured? 
                                                 </Checkbox>
+                                                
                                                 {input.featured ? (
                                                     <div>
                                                         <FormLabel>Token ID:  
@@ -299,8 +365,73 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                 </Box>
                 </form>
             </Box>
+            {showModal && (
+                <Box
+                pos="fixed"
+                top="0"
+                left="0"
+                right="0"
+                bottom="0"
+                bg="rgba(0,0,0,0.8)"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                >
+                <Box
+                    p="4"
+                    bg="white"
+                    maxW="800px"
+                    w="100%"
+                    borderRadius="md"
+                    boxShadow="lg"
+                >
+                    <Heading as="h3" size="md" mb="4">
+                    Current Config - Save to config.json file to make permanent.
+                    </Heading>
+                    <Box position="relative">
+                    <Textarea
+                        rows="10"
+                        value={JSON.stringify(getCurrentConfig(), null, 2)}
+                        readOnly
+                        
+                        resize="none"
+                        onFocus={(e) => {
+                        e.target.rows = "20";
+                        }}
+                        onBlur={(e) => {
+                        e.target.rows = "1";
+                        }}
+                        _focus={{
+                        boxShadow: "none",
+                        }}
+                    />
+                    <HStack
+                        position="absolute"
+                        top="2"
+                        right="2"
+                        h="100%"
+                        color="gray.400"
+                    >
+                        <Button
+                        size="xs"
+                        variant="link"
+                        onClick={handleCopy}
+                        leftIcon={<Clipboard />}
+                        >
+                        Copy to clipboard
+                        </Button>
+                    </HStack>
+                    </Box>
+                    <Button onClick={handleClose} mt="4">
+                    Close
+                    </Button>
+                </Box>
+                </Box>
+            )}
         </Box>
-    )
+        )}
+    </>
+    );
 
 };
 
