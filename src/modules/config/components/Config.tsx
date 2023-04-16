@@ -293,16 +293,16 @@ const Config: FC<ConfigProps> = (props) => {
     <>
     <Box w="100%">
     <Box w='70%' mx={"auto"} >
-            <Heading size="md" mb="6" fontWeight="bold" textAlign={"center"}>
-                Configuration Settings:
-            </Heading>
-            <Box textAlign="center">
-                <form onSubmit={handleSubmit}>
+        <Heading size="md" mb="6" fontWeight="bold" textAlign={"center"}>
+            Configuration Settings:
+        </Heading>
+        <Box textAlign="center">
+            <form onSubmit={handleSubmit}>
                 <Box borderWidth="1px" borderRadius="md" p="4">
                     <FormLabel>App Address: {appLoading ? "looking up app contract" :""}
                         <Input type="text" size="sm" name="appAddress" value={appAddress} onChange={(e)=>checkAppAddress(e)}/>
                     </FormLabel>
-                  
+                    
                     <FormLabel>Site Title
                         <Input type="text" size="sm" name="siteName" value={siteTitle} onChange={(e)=>handleSetTitle(e)}/>
                     </FormLabel>
@@ -345,7 +345,7 @@ const Config: FC<ConfigProps> = (props) => {
                                         ) : null}
                                     </div> 
                                 ): null }
-                               
+                                
                                 
                                 
                                 
@@ -354,48 +354,47 @@ const Config: FC<ConfigProps> = (props) => {
                     ))}
                 {formErrorMessage && <Box mt="2" color="red">{formErrorMessage}</Box>}
                 <Box textAlign="right" mt="4">
-                         <Button type="button" onClick={handleAddClick}>
-                            Add Another Contract
-                        </Button> 
-                   
-                        <Button
-                            // isLoading={loading}
-                            loadingText='Submitting'
-                            colorScheme='teal'
-                            variant='outline' 
-                            type="submit"                          
-                        >
-                            Submit
-                        </Button>
-                    </Box>
-                </form>
-            </Box>
+                    <Button type="button" onClick={handleAddClick}>
+                        Add Another Contract
+                    </Button> 
+                    <Button
+                        // isLoading={loading}
+                        loadingText='Submitting'
+                        colorScheme='teal'
+                        variant='outline' 
+                        type="submit"                          
+                    >
+                        Submit
+                    </Button>
+                </Box>
+            </form>
+        </Box>
     </Box>
 
     {showConfigModal && (
-                <Box
-                    pos="fixed"
-                    top="0"
-                    left="0"
-                    right="0"
-                    bottom="0"
-                    bg="rgba(0,0,0,0.8)"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                <Box
-                    p="4"
-                    bg="white"
-                    maxW="800px"
-                    w="100%"
-                    borderRadius="md"
-                    boxShadow="lg"
-                >
-                    <Heading as="h3" size="md" mb="4">
-                    Current Config - Save to config.json file to make permanent.
-                    </Heading>
-                    <Box position="relative">
+        <Box
+            pos="fixed"
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+            bg="rgba(0,0,0,0.8)"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+        >
+            <Box
+                p="4"
+                bg="white"
+                maxW="800px"
+                w="100%"
+                borderRadius="md"
+                boxShadow="lg"
+            >
+                <Heading as="h3" size="md" mb="4">
+                Current Config - Save to config.json file to make permanent.
+                </Heading>
+                <Box position="relative">
                     <Textarea
                         rows="10"
                         value={JSON.stringify(getCurrentConfig(), null, 2)}
@@ -420,21 +419,21 @@ const Config: FC<ConfigProps> = (props) => {
                         color="gray.400"
                     >
                         <Button
-                        size="xs"
-                        variant="link"
-                        onClick={handleCopy}
-                        leftIcon={<Clipboard />}
-                        >
-                        Copy to clipboard
+                            size="xs"
+                            variant="link"
+                            onClick={handleCopy}
+                            leftIcon={<Clipboard />}
+                            >
+                            Copy to clipboard
                         </Button>
                     </HStack>
-                    </Box>
-                    <Button onClick={handleClose} mt="4">
-                    Close
-                    </Button>
                 </Box>
-                </Box>
-            )}
+                <Button onClick={handleClose} mt="4">
+                Close
+                </Button>
+            </Box>
+        </Box>
+    )}
     </Box>
     </>
     );

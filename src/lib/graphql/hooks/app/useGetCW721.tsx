@@ -11,7 +11,7 @@ import {
   const client = new ApolloClient({ uri: endpoint, cache: new InMemoryCache() });
   
   
-
+// custom hook to get the cw721 information based on the cw721 address
 const useGetCW721 =  (cw721Address: string) => {
   
     const [error, setError] = useState<string>();
