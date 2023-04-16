@@ -13,8 +13,7 @@ import {
   
 
 const useGetCW721 =  (cw721Address: string) => {
-   // console.log('ererererere')
-   // console.log(currentIndex)
+  
     const [error, setError] = useState<string>();
     const [loading, setLoading] = useState(false);
     
@@ -24,8 +23,6 @@ const useGetCW721 =  (cw721Address: string) => {
         setLoading(true);
         getCW721(cw721Address).then( (result)=>{
             setcw721Data(result);
-            console.log('contract set');
-            console.log(cw721Address);
         }
 
         )
@@ -56,17 +53,13 @@ const useGetCW721 =  (cw721Address: string) => {
 
 const getCW721 = async (cw721Address: string)=>{
 
-  console.log('internal function')
+  
    const cw721Data = await client.query<QueryCW721AddressResponse>({
     query: QueryCW721AddressText,
     variables:{cw721Address}
    });
 
    
-   console.log('internal function results:');
-   console.log(cw721Data);
-
-
 
  return cw721Data?.data.cw721;
 

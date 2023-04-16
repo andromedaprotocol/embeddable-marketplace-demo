@@ -1,9 +1,9 @@
-import { Box, Flex, Text, List, ListItem } from "@chakra-ui/react";
+import { Box, Flex, Text, List, ListItem,  } from "@chakra-ui/react";
 import React, { FC } from "react";
 import useApp from "@/lib/app/hooks/useApp";
 import Link from "next/link";
 import { LINKS } from "@/utils/links";
-import { ConfigButton } from "@/modules/common/cta";
+import { Settings } from "lucide-react";
 
 
 interface FooterProps {}
@@ -59,7 +59,9 @@ const Footer: FC<FooterProps> = (props) => {
         
         </Flex>
         <Box mx="auto">
-        <ConfigButton/>
+        <Link href="/config" aria-label="site config">
+          <Settings />
+        </Link>
         </Box>
         
 

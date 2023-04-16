@@ -1,6 +1,12 @@
 import { gql } from "@apollo/client";
 
 
+// custom queries written for the configuration component.  
+// a couple of these may already exist in andr.js library, but these were necessary for the configuration functionality.
+
+
+
+
 export type QueryCW721Address = {
     cw721Address: string;
    
@@ -27,6 +33,8 @@ export type QueryCW721AddressResponse = {
     }
 
 };
+
+
 
 
 export type QueryCW721Tokens = {
