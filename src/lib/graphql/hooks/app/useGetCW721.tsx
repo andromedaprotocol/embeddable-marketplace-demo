@@ -60,7 +60,6 @@ const getCW721 = async (cw721Address: string)=>{
    });
 
    
-
  return cw721Data?.data.cw721;
 
 }
