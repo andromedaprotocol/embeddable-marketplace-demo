@@ -145,7 +145,8 @@ const Config: FC<ConfigProps> = (props) => {
         setInputList(prevInputList =>{
             const updatedInputList = [...prevInputList];
             const updatedObject = {...updatedInputList[index], 
-                                    id: obj.contractInfo.name,  
+                                    id: obj.contractInfo.name.replace(/\s+/g, '-').toLowerCase(),
+                                    name: obj.contractInfo.name,
                                     contractAddress: inputList[currentIndex].contractAddress,
                                     stubLink: obj.contractInfo.name.replace(/\s+/g, '-').toLowerCase(),
                                     valid: true,
