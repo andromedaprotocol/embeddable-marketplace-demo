@@ -168,11 +168,13 @@ const getConfig = async (appAddress: string)=>{
                     return {
                     ...cw721,
                     auctionAddress: auctionObj.auctionAddress,
+                    AMType: auctionObj.adoType
                     };
-                } else if (auctionObj.adoType === 'market'){
+                } else if (auctionObj.adoType === 'marketplace'){
                     return {
                     ...cw721,
-                    marketAddress: auctionObj.auctionAddress,
+                    marketplaceAddress: auctionObj.auctionAddress,
+                    AMType: auctionObj.adoType
                     };
                 }
             } else {

@@ -57,11 +57,12 @@ const useGetAuctionMarket =  (auctionAddress: string, cw721Address: string) => {
 
   type AuctionObject = {
    auctionAddress: string,
+   marketplaceAddress: string,
    adoType: string,
    // other properties
    };
 
-  async function checkAuctionMarket (auctionAddress: string, cw721Address:string): Promise<AuctionObject> {
+  async function checkAuctionMarket (auctionAddress: string, cw721Address:string): Promise<Partial<AuctionObject>> {
 
   
       // First Check to see if contract is a valid auction type  
@@ -72,7 +73,7 @@ const useGetAuctionMarket =  (auctionAddress: string, cw721Address: string) => {
 
        if (adoType.data.ADO.ado.andr.type === "auction") {
          // Then Check to see if Auction belongs to the listed cw721
-         console.log('checking the 2nd level');
+         console.log('checking the 2nd level - auction');
          const auctionAddressCheck = await client.query<QueryCW721AuctionResponse>({
             query: QueryCW721AuctionText,
             variables: { cw721Address, tokenId: "1" }
@@ -86,6 +87,23 @@ const useGetAuctionMarket =  (auctionAddress: string, cw721Address: string) => {
            else {
             throw new Error("auction/market contract does not match CW721");
            }
+       } else if (adoType.data.ADO.ado.andr.type === "marketplace") {
+            // Then Check to see if Auction belongs to the listed cw721
+            console.log('checking the 2nd level - marketplace');
+            const marketAddressCheck = await client.query<QueryCW721AuctionResponse>({
+                query: QueryCW721AuctionText,
+                variables: { cw721Address, tokenId: "1" }
+                });
+            console.log('market check:', marketAddressCheck)
+                // if the auction address for the cw721 matches the one the user is inputting, then this passes as a valid auction contract
+            if (auctionAddress === marketAddressCheck.data.ADO.cw721.ownerOf.auctionAddress)
+            {
+                console.log("Market contract found", JSON.stringify({ marketplaceAddress: auctionAddress, adoType: adoType.data.ADO.ado.andr.type }));
+                return { marketplaceAddress: auctionAddress, adoType: adoType.data.ADO.ado.andr.type };
+            } 
+            else {
+                throw new Error("auction/market contract does not match CW721");
+            }
        } else {
            throw new Error("adoType not found");
        }

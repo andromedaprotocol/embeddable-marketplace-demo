@@ -43,6 +43,7 @@ const Config: FC<ConfigProps> = (props) => {
           id: collection.id,
           contractAddress: collection.contractAddress,
           auctionAddress: collection.auctionAddress,
+          marketplaceAddress: collection.marketplaceAddress,
           stubLink: collection.stubLink,
           valid: true,
           AMValid: true,
@@ -75,6 +76,7 @@ const Config: FC<ConfigProps> = (props) => {
         }
 
         if (appData){
+            setInputList([]);
             updateFormData(appData);
         }
 
@@ -100,6 +102,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     // Update the form with the new appData information
     const updateFormData = (appData) =>{
+        setInputList([]);
         setSiteTitle(appData.name);
         setChainId(appData.chainId);    
         setCoinDenom(appData.coinDenom);
@@ -115,6 +118,7 @@ const Config: FC<ConfigProps> = (props) => {
                     name: appDataList[i].name,
                     contractAddress: appDataList[i].contractAddress,
                     auctionAddress: appDataList[i].auctionAddress,
+                    marketplaceAddress: appDataList[i].marketplaceAddress,
                     stubLink: appDataList[i].stubLink,
                     AMValid: true,
                     valid: true,
@@ -173,11 +177,12 @@ const Config: FC<ConfigProps> = (props) => {
     
     //function to update the auction/market object in the object list
     const handleUpdateAuctionMarketInfo = (index, obj) => {
-              
+              console.log('auction object', obj);
         setInputList(prevInputList =>{
             const updatedInputList = [...prevInputList];
             const updatedObject = {...updatedInputList[index], 
-                                    AMValid: true  }
+                                    AMValid: true,
+                                    AMType: obj.adoType  }
             updatedInputList[index] = updatedObject;
             return updatedInputList;
         });
@@ -224,7 +229,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     //add another cw721 object row to our form
     const handleAddClick = () => {
-        setInputList([...inputList, { id: "", contractAddress: "", auctionAddress: "", valid: false, AMValid: false, stubLink: "" }]);
+        setInputList([...inputList, { id: "", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", valid: false, AMValid: false, stubLink: "" }]);
     };
 
     //Remove cw721 object row from form
@@ -251,6 +256,7 @@ const Config: FC<ConfigProps> = (props) => {
                         "id": input.id,
                         "contractAddress" : input.contractAddress,
                         "auctionAddress" : input.auctionAddress,
+                        "marketplaceAddress": input.marketplaceAddress,
                         "stubLink" : input.stubLink,
                         "name": input.name
                     }
@@ -325,7 +331,7 @@ const Config: FC<ConfigProps> = (props) => {
                                     
                                     <div>
                                         <FormLabel>(Optional) Collection Auction/Market : {auctionLoading && (currentIndex===index) ? 'checking contract...' : ''}
-                                            <Input type="text" value={input.auctionAddress} size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
+                                            <Input type="text" value={input.auctionAddress ? input.auctionAddress : input.marketplaceAddress ? input.marketplaceAddress : "" } size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
                                         </FormLabel>
                                         
                                         {input.AMValid ? (
