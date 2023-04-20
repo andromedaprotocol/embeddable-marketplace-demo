@@ -3,8 +3,8 @@ import {
     QueryADOAppAddressResponse as QueryAppAddressResponse,
     QueryCW721AddressByNameText,
     QueryCW721AddressByNameResponse,
-    QueryCW721TokensResponse as QueryCW721TokensResponse,
-    QueryCW721TokensText as QueryCW721TokensText,
+    QueryCW721TokensResponse,
+    QueryCW721TokensText,
     QueryCW721AuctionResponse,
     QueryCW721AuctionText,
     QueryCheckAdoTypeResponse,
@@ -27,7 +27,45 @@ import {
     address: string | null;
     ado_type: string;
   }
+
+  interface IChainResponse {
+    addressPrefix: string;
+    chainId:string;
+  };
+
+  interface IAllCW721Info {
+        id?: string;
+        name?: string;
+        contractAddress?: string;
+        auctionAddress?: string;
+        marketplaceAddress?:string;
+        stubLink?: string;
+        tokens?: string[];
+        featured?: boolean;
+        AMType?: string;
+  }
   
+  interface IAppData{
+    name: string;
+    chainId?: string;
+    coinDenom?: string;
+    appAddress?: string;
+    featured?:{
+        collectionId: string;
+        tokenId: string;
+    };
+    collections?:{
+        id: string;
+        name: string;
+        contractAddress: string;
+        auctionAddress: string;
+        marketplaceAddress:string;
+        stubLink: string;
+        tokens: string[];
+        AMType?: string;
+    }[];
+  }
+
   
 // custom hook to validate the ADO application address and build the ADO application object
 const useGetApp =  (appAddress: string) => {
@@ -72,12 +110,16 @@ const useGetApp =  (appAddress: string) => {
 const getConfig = async (appAddress: string)=>{
 
    // First query to see if the application address is valid.
-   const appData = await client.query<QueryAppAddressResponse>({
+   const appDataResponse = await client.query<QueryAppAddressResponse>({
     query: QueryAppAddressText,
     variables:{appAddress}
    });
 
-   
+   const appData: IAppData = {
+       name: appDataResponse.data.ADO.app.config.name
+       
+   }
+
    //let's get the chain data 
    const allChainData = await client.query<QueryChainDataResponse>({
     query: QueryChainDataText
@@ -85,7 +127,7 @@ const getConfig = async (appAddress: string)=>{
  
    // get the correct chain ID based on the address prefix
    const chainResponse = await allChainData.data.chainConfigs.allConfigs.find(chain => appAddress.startsWith(chain.addressPrefix));
-   const chain = chainResponse.chainId;
+   const chain = chainResponse?.chainId;
    appData.chainId = chain;
 
    //now let's get the chain token demonination
@@ -97,7 +139,7 @@ const getConfig = async (appAddress: string)=>{
    appData.coinDenom = denomination;
    
    // filter the objects by only cw721 and go get their addresses
-   const addressPromises =   appData.data.ADO.app.components.filter((component) => component.ado_type === "cw721").map(async (component)=>{
+   const addressPromises =   appDataResponse.data.ADO.app.components.filter((component) => component.ado_type === "cw721").map(async (component)=>{
        const  componentAddress  = await client.query<QueryCW721AddressByNameResponse>({
             query: QueryCW721AddressByNameText,
             variables: { appAddress, collectionName: component.name },
@@ -123,7 +165,14 @@ const getConfig = async (appAddress: string)=>{
         return{
             id:cw721.name,
             contractAddress: cw721.address,
-            tokens: [...allTokens.data.ADO.cw721.allTokens]
+            tokens: [...allTokens.data.ADO.cw721.allTokens],
+            featured: false,
+            name:"",
+            auctionAddress:"",
+            marketplaceAddress:"",
+            stubLink:"",
+            AMType:""
+
         }
     });
 
@@ -149,15 +198,15 @@ const getConfig = async (appAddress: string)=>{
         })
     );
 
- 
+   
     // get the auction or market objects.
-    allTokens = await Promise.all(
+    const allCW721InfoRaw = await Promise.all(
         allTokens.map(async cw721 => {
             let auctionObj: AuctionObject | null = null;
             let index = 0;
 
             do {
-            auctionObj = await checkAuctionMarketInfo(cw721.contractAddress, cw721.tokens[index]);
+            auctionObj = await checkAuctionMarketInfo(cw721.contractAddress, cw721.tokens[index].toString());
             index++;
             } while (!auctionObj && index < cw721.tokens.length);
 
@@ -182,23 +231,38 @@ const getConfig = async (appAddress: string)=>{
             }
         })
     );
+
+    const allCW721Info: IAllCW721Info[] = allCW721InfoRaw.map((item) => {
+        // map each item to the IAllCW721Info interface
+        return {
+          id: item?.id,
+          name: item?.name,
+          contractAddress: item?.contractAddress,
+          auctionAddress: item?.auctionAddress,
+          marketplaceAddress: item?.marketplaceAddress,
+          stubLink: item?.stubLink,
+          tokens: item?.tokens,
+          featured: item?.featured,
+          AMType: item?.AMType,
+        };
+      });
     
     // set the first cw721 collection to featured
-    allTokens[0].featured = true;
+    allCW721Info[0].featured = true;
  
    
 
  
 
     const config = {
-        name: appData.data.ADO.app.config.name,
+        name: appData.name,
         chainId: chain,
         coinDenom: denomination,
         appAddress: appAddress,
-        collections:[ ...allTokens],
+        collections:[ ...allCW721Info],
         featured:{
-            collectionId: allTokens[0].id,
-            tokenId: allTokens[0].tokens[0]
+            collectionId: allCW721Info[0].id, 
+            tokenId: allCW721Info[0]?.tokens?.[0] || ""
         }
 
 
@@ -206,7 +270,7 @@ const getConfig = async (appAddress: string)=>{
 
 
 
-    console.log(config);
+    
     return config;
 
 }

@@ -41,6 +41,7 @@ const Config: FC<ConfigProps> = (props) => {
         
         return {
           id: collection.id,
+          name: collection.name,
           contractAddress: collection.contractAddress,
           auctionAddress: collection.auctionAddress,
           marketplaceAddress: collection.marketplaceAddress,
@@ -92,7 +93,7 @@ const Config: FC<ConfigProps> = (props) => {
     }, [appData, cw721Data, auctionData]);
 
     // Check the Application Address entered function.
-    const checkAppAddress = (event) =>{
+    const checkAppAddress = (event: React.ChangeEvent<HTMLInputElement>) =>{
 
         const appAddress = event.currentTarget.value;
         setAppAddress(appAddress);
@@ -101,7 +102,7 @@ const Config: FC<ConfigProps> = (props) => {
     }
 
     // Update the form with the new appData information
-    const updateFormData = (appData) =>{
+    const updateFormData = (appData: { name: string; chainId: string; coinDenom: string; featured: { collectionId: string; tokenId: string; }; collections: { id: string, featured: boolean, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string, stubLink: string, valid: boolean, AMValid: boolean}[]; }) =>{
         setInputList([]);
         setSiteTitle(appData.name);
         setChainId(appData.chainId);    
@@ -110,10 +111,9 @@ const Config: FC<ConfigProps> = (props) => {
         setFeaturedToken(appData.featured.tokenId);
         setInputList( prevInputList => {
             const appDataList = [...appData.collections];
-            const newInputList: { contractAddress: string, featured: boolean, id: string, valid: boolean, auctionAddress: string, AMValid: boolean }[] = [];
+            const newInputList: { id: string, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string,  valid: boolean, AMValid: boolean, stubLink: string,  featured: boolean }[] = [];
             for (let i = 0; i < appDataList.length; i++) {
                 const newObj = {
-                    featured: appDataList[i].featured,
                     id: appDataList[i].id,
                     name: appDataList[i].name,
                     contractAddress: appDataList[i].contractAddress,
@@ -122,6 +122,7 @@ const Config: FC<ConfigProps> = (props) => {
                     stubLink: appDataList[i].stubLink,
                     AMValid: true,
                     valid: true,
+                    featured: appDataList[i].featured,
                   };
 
                   newInputList.push(newObj);
@@ -134,7 +135,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     // CW721 Address Validation
     // check the entered contract address
-    const checkCW721Address = (event, index) =>{
+    const checkCW721Address = (event: React.ChangeEvent<HTMLInputElement>, index: number) =>{
        const list = [...inputList];
        list[index].valid = false;
        list[index].contractAddress = event.currentTarget.value;
@@ -145,7 +146,7 @@ const Config: FC<ConfigProps> = (props) => {
     }
 
     //function to update the cw721 object in the object list
-    const handleUpdateCW721Info = (index, obj) =>{
+    const handleUpdateCW721Info = (index: number, obj: { contractInfo: { name: string; }; }) =>{
         setInputList(prevInputList =>{
             const updatedInputList = [...prevInputList];
             const updatedObject = {...updatedInputList[index], 
@@ -165,7 +166,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     // Auction ADO Address Validation
     // check the entered auction address
-    const checkAuctionAddress = (event, index) =>{
+    const checkAuctionAddress = (event: React.ChangeEvent<HTMLInputElement>, index: number) =>{
         const list = [...inputList];
         list[index].AMValid = false;
         list[index].auctionAddress = event.currentTarget.value;
@@ -176,7 +177,7 @@ const Config: FC<ConfigProps> = (props) => {
     }
     
     //function to update the auction/market object in the object list
-    const handleUpdateAuctionMarketInfo = (index, obj) => {
+    const handleUpdateAuctionMarketInfo = (index: number, obj: { adoType: any; }) => {
               console.log('auction object', obj);
         setInputList(prevInputList =>{
             const updatedInputList = [...prevInputList];
@@ -190,28 +191,28 @@ const Config: FC<ConfigProps> = (props) => {
     }
 
     // set Site Title function
-    const handleSetTitle = (event) =>{
+    const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) =>{
         setSiteTitle(event.currentTarget.value);
     }
 
     //set Chain ID function
-    const handleChainId = (event) =>{
+    const handleChainId = (event: React.ChangeEvent<HTMLInputElement>) =>{
         setChainId(event.currentTarget.value);
     }
 
     //set Coin Denomination function
-    const handleCoinDenom = (event) =>{
+    const handleCoinDenom = (event: React.ChangeEvent<HTMLInputElement>) =>{
         setCoinDenom(event.currentTarget.value);
     }
 
     //set featured token function
-    const handleSetFeaturedToken = (event) =>{
+    const handleSetFeaturedToken = (event: { currentTarget: { value: string; }; }) =>{
         setFeaturedToken(event.currentTarget.value);
     }
 
 
     // handle the featured checkbox functionality
-    const handleCheckbox = (event, index) => {
+    const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         setInputList(prevInputList => {
             const newInputList = prevInputList.map((input, i) => {
               if (i === index) {
@@ -229,11 +230,11 @@ const Config: FC<ConfigProps> = (props) => {
 
     //add another cw721 object row to our form
     const handleAddClick = () => {
-        setInputList([...inputList, { id: "", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", valid: false, AMValid: false, stubLink: "" }]);
+        setInputList([...inputList, { id: "", name:"", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", valid: false, AMValid: false, stubLink: "" }]);
     };
 
     //Remove cw721 object row from form
-    const handleRemoveClick = (index) => {
+    const handleRemoveClick = (index: number) => {
         const list = [...inputList];
         list.splice(index, 1);
         setInputList(list);
@@ -273,7 +274,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     
     //Handle Submit of Form
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (formErrorMessage != "") {
             return;
@@ -402,16 +403,16 @@ const Config: FC<ConfigProps> = (props) => {
                 </Heading>
                 <Box position="relative">
                     <Textarea
-                        rows="10"
+                        rows={10}
                         value={JSON.stringify(getCurrentConfig(), null, 2)}
                         readOnly
                         
                         resize="none"
                         onFocus={(e) => {
-                            e.target.rows = "20";
+                            e.target.rows = 20;
                         }}
                         onBlur={(e) => {
-                            e.target.rows = "8";
+                            e.target.rows = 8;
                         }}
                         _focus={{
                             boxShadow: "none",

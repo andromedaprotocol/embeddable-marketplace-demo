@@ -53,7 +53,9 @@ export const QueryCW721TokensText = gql`
 
 export type QueryCW721TokensResponse = {
     ADO: {
-       
+       cw721:{
+        allTokens:string[]
+       }
     }
 };
 

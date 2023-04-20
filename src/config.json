@@ -12,7 +12,9 @@
             "id": "collection-1",
             "name": "Falluja",
             "contractAddress": "stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",
-            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t",
+            "marketplaceAddress":"",
+            "stubLink":""
         }
     ]
 }
