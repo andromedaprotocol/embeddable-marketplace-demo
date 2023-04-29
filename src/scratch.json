@@ -1,0 +1,187 @@
+{
+    "title": "Pants NFT Metadata",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Identifies the asset to which this NFT represents"
+        },
+        "description": {
+            "type": "string",
+            "description": "Describes the asset to which this NFT represents"
+        },
+        "image": {
+            "type": "string",
+            "description": "A URI pointing to a resource with mime type image/* representing the asset to which this NFT represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive."
+        }
+    }
+}
+
+
+
+1
+https://api.npoint.io/2bcd2237db0af7620944
+{
+    "name": "Gossling's Bosslings",
+    "image":"https://images.lululemon.com/is/image/lululemon/LM5AEYS_035956_1",
+    "description": "Notebook meets Appointment book.  Serious pants for the serious boss.",
+    "attributes":[
+        {"trait_type":"Rarity","value":"3"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "4"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=FkpCP9R1Jjc"
+}
+
+
+2
+https://api.npoint.io/1a974e9b8bf4e98143e5
+{
+    "name": "The Target Manager",
+    "image":"https://www.dickies.com/dw/image/v2/AAYI_PRD/on/demandware.static/-/Sites-master-catalog-dickies/default/dwbc789c58/images/main/FP888_BK_FR.jpg",
+    "description": "A customer would like to speak to you... about that awesome fit, and satchel pockets",
+    "attributes":[
+        {"trait_type":"Rarity","value":"2"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "6"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=-GyES-BNlUY"
+}
+
+3
+https://api.npoint.io/3c30c399916160998f39
+{
+    "name": "Neighbor Lawrence",
+    "image":"https://www.helikon-tex.com/media/catalog/product/cache/6/image/9df78eab33525d08d6e5fb8d27136e95/s/p/sp-pgm-dc-11.jpg",
+    "description": "Shit no man, I believe no one could kick your ass in these.",
+    "attributes":[
+        {"trait_type":"Rarity","value":"6"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "8"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=T-A0eZDJsKU"
+}
+
+4
+https://api.npoint.io/f27a5d7b72240a049685
+{
+    "name": "Rex Kwon Do",
+    "image":"https://i5.walmartimages.com/asr/de5e47d1-8a85-4ddb-b149-5d233bbec611_1.56d4fb64f5bd85b1f4dcc3fb08346eb5.jpeg",
+    "description": "You think anyone wants a round house kick to the face while I'm wearing these bad boys?!?  Fugetaboutit!",
+    "attributes":[
+        {"trait_type":"Rarity","value":"7"},
+        {"trait_type":"Pleats", "value": "true"},
+        {"trait_type":"Pockets", "value": "2"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=q_W4Gi5h9P8"
+}
+
+
+5
+https://www.npoint.io/docs/354722275ab1e0c56c5d
+{
+    "name": "Return to sender.",
+    "image":"https://d1flfk77wl2xk4.cloudfront.net/Assets/85/750/XXL_p0160975085.jpg",
+    "description": "Ladies... It's finally our turn with the pockets.  ALL. THE. POCKETS.",
+    "attributes":[
+        {"trait_type":"Rarity","value":"4"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "13"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=eA9hyjecfbE"
+}
+
+
+6
+https://api.npoint.io/b2b02888925f9ced455a
+{
+    "name": "Weekend Warrior",
+    "image":"https://www.motoport.com/wp-content/uploads/2015/10/Rain-pant-1.jpg",
+    "description": "Waterproof. Knifeproof. Bulletproof.  Metal toed. Contains a tent and kitchenette in aft and stern rear seat pockets. ",
+    "attributes":[
+        {"trait_type":"Rarity","value":"3"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "4"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=GqRfrbBO1IQ"
+}
+
+
+7
+https://api.npoint.io/160afa2f1fd49d1c3c22
+{
+    "name": "The Diane",
+    "image":"https://www.jcrew.com/brand_creative/2023/202302-Feb/w_pants/2023feb_0207_w_pants_2_img4.jpg",
+    "description": "Boss pants.  Ready for work and after work drinks with subordinates, as they've finally done well.  Next week though, back to the grind for them. ",
+    "attributes":[
+        {"trait_type":"Rarity","value":"3"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "8"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=bX6gPd8ohzc"
+}
+
+
+8
+https://api.npoint.io/1e69773be0e0d0ec78bd
+{
+    "name": "Don't ask, DO TELL!",
+    "image":"https://cdn.shopify.com/s/files/1/0317/6849/files/Buzz-Lightbeers-side-cropped_534x534.jpg",
+    "description": "Oh you're in the military then?  Sweet civys Seargent. ",
+    "attributes":[
+        {"trait_type":"Rarity","value":"6"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "1"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=YeewFeWaZzA"
+}
+
+
+9
+https://api.npoint.io/4f6ff0c81d03562071c4
+{
+    "name": "Brah. ",
+    "image":"https://cdn.shopify.com/s/files/1/0558/4169/products/DarkShadowCrop_M__1024_683-3.jpg",
+    "description": "Don't worry, I'll get someone else to spot me.",
+    "attributes":[
+        {"trait_type":"Rarity","value":"9"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "0"}
+    ],
+    "youtube_url":"https://www.youtube.com/shorts/ulVUdTjSLKU"
+}
+
+
+10
+https://api.npoint.io/07a0c5952f7cfc015de1
+{
+    "name": "Zooted",
+    "image":"https://litb-cgis.rightinthebox.com/images/640x640/202208/bps/product/inc/wtdyhg1661157956307.jpg",
+    "description": "That's what you were when you bought these... higher than the top of the rainbow, so you thought it a good idea as pants.  Here we are.",
+    "attributes":[
+        {"trait_type":"Rarity","value":"10"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "3"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=0xpr7In5c9M"
+}
+
+11
+https://api.npoint.io/2f6239862f279baca81b
+
+{
+    "name": "The socks ",
+    "image":"https://m.media-amazon.com/images/I/71ENq+FJFPL._AC_UL1500_.jpg",
+    "description": "How did these get in here? Mistake.",
+    "attributes":[
+        {"trait_type":"Rarity","value":"11"},
+        {"trait_type":"Pleats", "value": "false"},
+        {"trait_type":"Pockets", "value": "0"}
+    ],
+    "youtube_url":"https://www.youtube.com/watch?v=5L1tr0PIx20"
+
+    
+}
+
+
+
