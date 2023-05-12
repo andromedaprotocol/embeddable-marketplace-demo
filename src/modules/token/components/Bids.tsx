@@ -16,7 +16,7 @@ interface BidsProps {
     name?: string;
     symbol?: string;
     address?: string;
-    id: string;
+    id?: string;
    };
    tokenId: string;
    tokenUriObject: ITokenUriObject;
@@ -41,7 +41,7 @@ const Bids: FC<BidsProps> = (props) => {
   const { data: chainConfig } = useChainConfig(config.chainId ?? "");
 
   const { data: auctionState } = useGetTokenAuctionStateFromColId(
-    cw721.id , 
+    cw721.id || "" , 
     tokenId
   );
   

@@ -29,7 +29,7 @@ const Overview: FC<OverviewProps> = (props) => {
   const adoType = props.adoType;
   const encodedName = encodeURIComponent(token.extension.name);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [metadata, setMetadata] = useState(null);
+  const [metadata, setMetadata] = useState({});
   let encodedImage = "";
   if (token.extension.image){
     encodedImage = token.extension.image;
@@ -50,6 +50,7 @@ const Overview: FC<OverviewProps> = (props) => {
 
   const handleViewMetadataClick = () => {
     // Set the metadata object to be displayed in the modal
+   
     setMetadata(tokenUriObject? tokenUriObject:{});
     setIsModalOpen(true);
   };
@@ -66,6 +67,14 @@ const Overview: FC<OverviewProps> = (props) => {
     return embedYTLink;
 
   }
+
+  let explorerUrl = "";
+  if  (chainConfig?.blockExplorerAddressPages[0]) {
+    explorerUrl+= chainConfig?.blockExplorerAddressPages[0].replace('${address}', '');
+    if (cw721.address){
+      explorerUrl+=cw721.address;
+    }
+  } 
 
   return (
 <>
@@ -89,7 +98,7 @@ const Overview: FC<OverviewProps> = (props) => {
               </Link>
           </Box>
            <Box display="inline-block" border="1px" borderColor="gray.300" borderRadius="md" px="9px" py="8px" ml="5px">
-              <Share w={5} h={5}/>
+              <Share />
           </Box>
         </Flex>
         </Box>
@@ -102,7 +111,7 @@ const Overview: FC<OverviewProps> = (props) => {
                 <Text>{chainConfig?.chainName}</Text>{chainConfig?.chainType === "testnet" ? <Text ml="5px" fontSize={"small"}>(testnet)</Text> : null}
               </Box>
             </Link>
-            <Link href={chainConfig?.blockExplorerAddressPages[0].replace('${address}', '') + cw721.address} target="_blank">
+            <Link href={explorerUrl} target="_blank">
               <Box px="9px" mt="10px" display="inline-flex" alignItems="center">
                 <ExternalLinkIcon mr="10px"  />
                 <Text>View on Explorer</Text>
