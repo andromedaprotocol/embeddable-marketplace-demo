@@ -1,22 +1,20 @@
-
-
-  {
-    "appAddress": "andr1hj6zeac7j2jlt7wmgzh342qajz0anwavsawrqhsq57tf3mcsy2kqh4lee7",
-    "name": "James' SuperDuper ADO",
-    "chainId": "galileo-3",
-    "coinDenom": "ANDR",
-    "collections": [
-      {
-        "id": "cw721-1",
-        "contractAddress": "andr1r3rdgvu95qag2avd3ydayk6yyrh3e84efrcf2rr4lrltxuxkzr8qsvrew4",
-        "auctionAddress": "",
-        "marketplaceAddress": "andr1jp7qmqku3kzps8anzxuem0txaw9xqpyk25fc952pynuf6q2eqhaq9mtk84",
-        "stubLink": "pants-and-socks",
-        "name": "Pants and Socks"
-      }
-    ],
-    "featured": {
-      "collectionId": "cw721-1",
-      "tokenId": "1"
+{
+  "appAddress": "andr1hj6zeac7j2jlt7wmgzh342qajz0anwavsawrqhsq57tf3mcsy2kqh4lee7",
+  "name": "James' SuperDuper ADO",
+  "chainId": "galileo-3",
+  "coinDenom": "ANDR",
+  "collections": [
+    {
+      "id": "cw721-1",
+      "contractAddress": "andr1r3rdgvu95qag2avd3ydayk6yyrh3e84efrcf2rr4lrltxuxkzr8qsvrew4",
+      "auctionAddress": "",
+      "marketplaceAddress": "andr1jp7qmqku3kzps8anzxuem0txaw9xqpyk25fc952pynuf6q2eqhaq9mtk84",
+      "stubLink": "pants-and-socks",
+      "name": "Pants and Socks"
     }
+  ],
+  "featured": {
+    "collectionId": "cw721-1",
+    "tokenId": "1"
   }
+}

@@ -1,4 +1,4 @@
-import { useGetTokenFromColId, useGetTokens, useGetTokenUriObject } from "@/lib/graphql/hooks/collection";
+import { useGetTokenFromColId, useGetTokens, useGetTokenUriObject, useGetCollection } from "@/lib/graphql/hooks/collection";
 import {
   Box,
   GridItem,
@@ -13,10 +13,14 @@ import {
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import Card from "./Card";
-import Info from "./Info";
+import AuctionInfo from "./AuctionInfo";
 import Overview from "./Overview";
+import Bids from "./Bids";
 import { ITokenUriObject } from "@/lib/graphql/hooks/collection/useGetTokenUriObject";
 import { NFTInfo } from "@andromedaprotocol/andromeda.js";
+import Properties from "./Properties";
+import useApp from "@/lib/app/hooks/useApp";
+import MarketplaceInfo from "./MarketplaceInfo";
 interface TokenPageProps {
   tokenId: string;
   collectionId: string;
@@ -24,10 +28,56 @@ interface TokenPageProps {
 const TokenPage: FC<TokenPageProps> = (props) => {
   const { tokenId, collectionId } = props;
   const { data } = useGetTokenFromColId(collectionId, tokenId);
+  const {data: cw721Data, error: cw721Error} = useGetCollection(collectionId);
   const token: NFTInfo = data as NFTInfo;
   const { data: allTokens } = useGetTokens(collectionId);
   const [tokenUri, setTokenUri] = useState(token?.token_uri || "");
-  //const [tokenUri, setTokenUri] = useState("https://api.npoint.io/2bcd2237db0af7620944");
+  
+  // from app address and collectionId ( from url ) go and get the cw721 address and name of the collection.
+  let cw721Obj = {};
+  if (cw721Data){
+    cw721Obj = {
+      name: cw721Data.contractInfo.name,
+      symbol: cw721Data.contractInfo.symbol,
+      address: cw721Data.address,
+      id: collectionId
+    }
+  }
+
+  //determine if token is any of the following state:
+  // 1. Auction
+  // 2. Market
+  // 3. Crowdfund
+  interface Collection {
+    auctionAddress?: string;
+    marketplaceAddress?: string;
+    crowdfundAddress?: string;
+  }
+  const {
+    config,
+  } = useApp();
+
+  const currentCollection: Collection | {} =  config.collections.find(collection => collection.id === collectionId) || {};
+  
+  // type of ADO for token page commerce functionality. 
+  // depending on which type: auction, marketplace, crowdfund, etc...
+  // will determine functionality.
+  let adoType = "";
+  let adoAddress = "";
+
+
+  if ('auctionAddress' in currentCollection && currentCollection.auctionAddress && currentCollection.auctionAddress.length > 0) {
+    adoType = "auction";
+    adoAddress = currentCollection.auctionAddress;
+  } else if ('marketplaceAddress' in currentCollection && currentCollection.marketplaceAddress && currentCollection.marketplaceAddress.length > 0) {
+    adoType = "marketplace";
+    adoAddress = currentCollection.marketplaceAddress;
+  } else if ('crowdfundAddress' in currentCollection && currentCollection.crowdfundAddress && currentCollection.crowdfundAddress.length > 0) {
+    adoType = "crowdfund";
+    adoAddress = currentCollection.crowdfundAddress;
+  }
+
+  console.log("cw721data:", cw721Data);
 
   const { data: tokenUriObject } = useGetTokenUriObject(tokenUri);
 
@@ -142,23 +192,37 @@ const TokenPage: FC<TokenPageProps> = (props) => {
               <TabList>
                 <Tab>Overview</Tab>
                 <Tab>Properties</Tab>
-                <Tab>Bids</Tab>
-                <Tab>History</Tab>
+                {adoType==="auction" &&
+                  <Tab>Bids</Tab>
+                }
+                {adoType==="marketplace" &&
+                  <Tab>History</Tab>
+                }
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <Overview token={displayToken || {}}/>
+                  <Overview adoType={adoType} token={displayToken || {}} cw721={cw721Obj || {}} tokenId={tokenId} tokenUriObject={tokenUriObject|| {}}/>
                 </TabPanel>
-                <TabPanel>Properties</TabPanel>
-                <TabPanel>Bids</TabPanel>
-                <TabPanel>History</TabPanel>
+                <TabPanel>
+                  <Properties token={displayToken || {}}/>
+                </TabPanel>
+                {adoType==="auction" && 
+                  <TabPanel>
+                    <Bids adoType={adoType} adoAddress={adoAddress} token={displayToken || {}} cw721={cw721Obj || {}} tokenId={tokenId} tokenUriObject={tokenUriObject|| {}}/>
+                  </TabPanel>}
+                {adoType==="marketplace" && <TabPanel>History</TabPanel>}
               </TabPanels>
             </Tabs>
           </Box>
         </GridItem>
         <GridItem>
           <Box maxW="sm" ml="auto" position="sticky" top="4">
-            <Info tokenId={tokenId} collectionId={collectionId} />
+            {adoType === "auction" &&
+            <AuctionInfo tokenId={tokenId} collectionId={collectionId}  />
+            }
+            {adoType==="marketplace" &&
+            <MarketplaceInfo tokenId={tokenId} collectionId={collectionId} adoAddress={adoAddress} cw721Address={cw721Data?.address||""} />
+            }
           </Box>
         </GridItem>
       </SimpleGrid>

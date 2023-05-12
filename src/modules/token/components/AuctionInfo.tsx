@@ -19,11 +19,12 @@ import dayjs from "dayjs";
 import { Flame, Share } from "lucide-react";
 import React, { FC, useEffect, useMemo, useState } from "react";
 
-interface InfoProps {
+interface AuctionInfoProps {
   tokenId: string;
   collectionId: string;
+  
 }
-const Info: FC<InfoProps> = (props) => {
+const AuctionInfo: FC<AuctionInfoProps> = (props) => {
   const { tokenId, collectionId } = props;
   const { getCollection } = useAppUtils();
 
@@ -33,19 +34,31 @@ const Info: FC<InfoProps> = (props) => {
 
   const { data: collection } = useGetCollection(collectionId);
   const { data: token } = useGetTokenFromColId(collectionId, tokenId);
+
+
+  //Auction variables:
+
   const { data: auctionState } = useGetTokenAuctionStateFromColId(
     collectionId,
     tokenId
   );
-
+  
   const startTime = getTime(auctionState?.start_time ?? {});
   const endTime = getTime(auctionState?.end_time ?? {});
 
   const isStarted = startTime.isBefore(new Date());
+
+  // might be a is cancelled 
+  // need to have a is claimed
+  // claim prompt for 'needs to be claimed' status
+  
   const isEnded = endTime.isBefore(new Date());
 
   const [duration, setDuration] = useState(dayjs.duration(0));
 
+
+
+  
   useEffect(() => {
     if (!auctionState) return;
     const tId = setInterval(() => {
@@ -99,9 +112,7 @@ const Info: FC<InfoProps> = (props) => {
                 {auctionState?.min_bid ?? 0}{" "}
                 {auctionState?.coin_denom?.toUpperCase()}
               </Text>
-              <Text fontSize="xs" textStyle="light">
-                &asymp;$286
-              </Text>
+              
             </Flex>
           </Box>
           <Box>
@@ -113,9 +124,7 @@ const Info: FC<InfoProps> = (props) => {
                 {auctionState?.high_bidder_amount}{" "}
                 {auctionState?.coin_denom?.toUpperCase()}
               </Text>
-              <Text fontSize="xs" textStyle="light">
-                &asymp;$286
-              </Text>
+             
             </Flex>
           </Box>
         </SimpleGrid>
@@ -173,4 +182,4 @@ const Info: FC<InfoProps> = (props) => {
     </Box>
   );
 };
-export default Info;
+export default AuctionInfo;

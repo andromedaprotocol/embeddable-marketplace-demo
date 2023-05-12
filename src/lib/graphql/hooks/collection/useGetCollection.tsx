@@ -27,6 +27,7 @@ export default function useGetCollection(collectionId: string): IQueryResult {
             name
             symbol
           }
+          address
           numTokens
         }
       }
