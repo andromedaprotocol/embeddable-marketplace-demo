@@ -40,19 +40,19 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
         Place Bid
       </Heading>
       <Text textStyle="light" mb="4">
-        You are about to buy <b>{token?.extension?.name}</b>. Auction
+        You are about to buy <b>{token?.extension?.name}</b>.
        
       </Text>
       <Box>
         <FormControl>
-          <FormLabel>Your Bid</FormLabel>
+          {/* <FormLabel>Price</FormLabel>
           <HStack>
             <Box w="full">
               
               
             </Box>
            
-          </HStack>
+          </HStack> */}
           <Button onClick={onSubmit} w="full" mt="6" variant="solid">
             Buy Now
           </Button>

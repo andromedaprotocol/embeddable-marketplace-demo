@@ -48,7 +48,7 @@ const Bids: FC<BidsProps> = (props) => {
   const {data:bids} = useGetBids(
     adoAddress, Number(auctionState?.auction_id)
   )
-  console.log("bids:", bids);
+  
   
   function truncateAddress(inputString: string) {
     

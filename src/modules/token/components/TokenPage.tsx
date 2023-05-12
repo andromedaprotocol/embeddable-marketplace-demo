@@ -77,14 +77,11 @@ const TokenPage: FC<TokenPageProps> = (props) => {
     adoAddress = currentCollection.crowdfundAddress;
   }
 
-  console.log("cw721data:", cw721Data);
+  
 
   const { data: tokenUriObject } = useGetTokenUriObject(tokenUri);
 
-  console.log(token);
-  console.log("UriObj:");
-  console.log(tokenUriObject);
-
+  
   //Once token and tokenUriObject are present, then modify token object to incorporate all info 
   // parent canonical data supercedes the equivalent data in Uri Object for this display purpose.
   

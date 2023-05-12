@@ -53,47 +53,8 @@ const MarketplaceInfo: FC<MarketplaceInfoProps> = (props) => {
 
    )
 
-   console.log("MarketplaceState:", marketplaceState);
   
-   // const { data: auctionState } = useGetTokenAuctionStateFromColId(
-  //   collectionId,
-  //   tokenId
-  // );
   
-  // const startTime = getTime(auctionState?.start_time ?? {});
-  // const endTime = getTime(auctionState?.end_time ?? {});
-
-  // const isStarted = startTime.isBefore(new Date());
-
-  // // might be a is cancelled 
-  // // need to have a is claimed
-  // // claim prompt for 'needs to be claimed' status
-  
-  // const isEnded = endTime.isBefore(new Date());
-
-  // const [duration, setDuration] = useState(dayjs.duration(0));
-
-
-
-  
-  // useEffect(() => {
-  //   if (!auctionState) return;
-  //   const tId = setInterval(() => {
-  //     if (isEnded) {
-  //       setDuration(dayjs.duration(0));
-  //       clearInterval(tId);
-  //       return;
-  //     }
-  //     const today = new Date();
-  //     if (isStarted) {
-  //       setDuration(dayjs.duration(endTime.diff(today)));
-  //     } else {
-  //       setDuration(dayjs.duration(startTime.diff(today)));
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(tId);
-  // }, [auctionState]);
-
 
   return (
     <Box w="full">

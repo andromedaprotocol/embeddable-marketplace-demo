@@ -15,8 +15,7 @@ import {
   
 
 const useGetAuctionMarket =  (auctionAddress: string, cw721Address: string) => {
-   // console.log('ererererere')
-   // console.log(currentIndex)
+   
     const [error, setError] = useState<string>();
     const [loading, setLoading] = useState(false);
     

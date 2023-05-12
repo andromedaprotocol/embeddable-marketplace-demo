@@ -17,8 +17,7 @@ const Page: NextPage = () => {
   useEffect(() => {
     if (appData) {
       updateConfig(appData);
-      console.log(config);
-      console.log(appData);
+      
 
       // set a timeout to redirect after 3 seconds
       const redirectTimeout = setTimeout(() => {

@@ -41,12 +41,7 @@ const Overview: FC<OverviewProps> = (props) => {
     config,
   } = useApp();
   const { data: chainConfig } = useChainConfig(config.chainId ?? "");
-
-  console.log("Overview Token:", token);
-  console.log("cw721", cw721.address);
-  console.log("domain", domain);
-  console.log("tokenId", tokenId);
-  console.log("config?", config);
+  
 
   const handleViewMetadataClick = () => {
     // Set the metadata object to be displayed in the modal
