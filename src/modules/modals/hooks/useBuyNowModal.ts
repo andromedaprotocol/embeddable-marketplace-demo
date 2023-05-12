@@ -19,3 +19,5 @@ export default function useBuyNowModal(data: Omit<BuyNowModalProps, 'modalType'>
   return () =>
     open(ModalType.BuyNow, data);
 }
+
+
