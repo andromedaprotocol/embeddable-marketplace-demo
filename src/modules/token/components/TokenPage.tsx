@@ -21,6 +21,8 @@ import { NFTInfo } from "@andromedaprotocol/andromeda.js";
 import Properties from "./Properties";
 import useApp from "@/lib/app/hooks/useApp";
 import MarketplaceInfo from "./MarketplaceInfo";
+import AuctionCard from "./AuctionCard";
+import MarketplaceCard from "./MarketplaceCard";
 interface TokenPageProps {
   tokenId: string;
   collectionId: string;
@@ -90,83 +92,59 @@ const TokenPage: FC<TokenPageProps> = (props) => {
   if (token && tokenUriObject){
      updatedToken = { ...token };
     // check for description
-    const tokenDescription = token?.extension?.description;
+   
     const uriObjectDescription = tokenUriObject?.description;
 
-    if (!tokenDescription && uriObjectDescription?.length) {
+    if ( uriObjectDescription?.length) {
       updatedToken.extension = { ...updatedToken.extension, description: uriObjectDescription }; 
     }
 
     // check for name
-    const tokenName = token?.extension?.name;
     const uriObjectName = tokenUriObject?.name;
 
-    if (!tokenName && uriObjectName) {
+    if (uriObjectName) {
       updatedToken.extension = { ...updatedToken.extension, name: uriObjectName }; 
     }
 
     // check for image
-    const tokenImage = token?.extension?.image;
     const uriObjectImage = tokenUriObject?.image;
 
-    if (!tokenImage && uriObjectImage) {
+    if (uriObjectImage) {
       updatedToken.extension = { ...updatedToken.extension, image: uriObjectImage }; 
     }
 
     // check for image_data
-    const tokenImageData = token?.extension?.image_data;
     const uriObjectImageData = tokenUriObject?.image_data;
 
-    if (!tokenImageData && uriObjectImageData) {
+    if (uriObjectImageData) {
       updatedToken.extension = { ...updatedToken.extension, image_data: uriObjectImageData }; 
     }
 
     // check for external_url/ 'token source url'
-    const tokenExternalUrl = token?.extension?.external_url;
     const uriObjectExternalUrl = tokenUriObject?.external_url;
 
-    if (!tokenExternalUrl && uriObjectExternalUrl) {
+    if (uriObjectExternalUrl) {
       updatedToken.extension = { ...updatedToken.extension, external_url: uriObjectExternalUrl }; 
     }
 
     // check for animation_url/ 'token media url'
-    const tokenAnimationUrl = token?.extension?.animation_url;
-    const uriObjectAnimationUrl = tokenUriObject?.animation_url;
+   const uriObjectAnimationUrl = tokenUriObject?.animation_url;
 
-    if (!tokenAnimationUrl && uriObjectAnimationUrl) {
+    if (uriObjectAnimationUrl) {
       updatedToken.extension = { ...updatedToken.extension, animation_url: uriObjectAnimationUrl }; 
     }
 
     // check for youtube_url
-    const tokenYoutubeUrl = token?.extension?.youtube_url;
     const uriObjectYoutubeUrl = tokenUriObject?.youtube_url;
 
-    if (!tokenYoutubeUrl && uriObjectYoutubeUrl) {
+    if (uriObjectYoutubeUrl) {
       updatedToken.extension = { ...updatedToken.extension, youtube_url: uriObjectYoutubeUrl }; 
     }
 
-    const combinedAttributes = [...token.extension.attributes]; 
-    
-    // if UriObject contains attributes, lets make sure 
-    if (tokenUriObject.attributes){
-
-      // Loop through the attributes of tokenUriObject
-      tokenUriObject.attributes.forEach((attribute) => {
-        
-        // Check if there's a collision with an existing trait_type in combinedAttributes
-        const existingIndex = combinedAttributes.findIndex((existingAttribute) => existingAttribute.trait_type === attribute.trait_type);
-        if (existingIndex !== -1) {
-          // If there's a collision, replace the existing attribute with the new one
-          combinedAttributes[existingIndex] = attribute;
-        } else {
-          // If there's no collision, add the new attribute to the end of the array
-          combinedAttributes.push(attribute);
-        }
-      });
+    const combinedAttributes = tokenUriObject?.attributes; 
+    if (combinedAttributes){
+      updatedToken.extension = {...updatedToken.extension, attributes: combinedAttributes};
     }
-
-    updatedToken.extension = {...updatedToken.extension, attributes: combinedAttributes};
-    
   }
   const displayToken = updatedToken || token;
   
@@ -229,7 +207,15 @@ const TokenPage: FC<TokenPageProps> = (props) => {
         </Text>
         <SimpleGrid mt="8" columns={4} spacing="4">
           {allTokens?.slice(0, 4).map((tokenId) => (
-            <Card key={tokenId} tokenId={tokenId} collectionId={collectionId} />
+            <>
+              {adoType === "auction" && (
+                <AuctionCard key={tokenId} tokenId={tokenId} collectionId={collectionId} />
+              )}
+
+              {adoType === "marketplace" && (
+                <MarketplaceCard key={tokenId} tokenId={tokenId} collectionId={collectionId} />
+              )}
+            </>
           ))}
         </SimpleGrid>
       </Box>

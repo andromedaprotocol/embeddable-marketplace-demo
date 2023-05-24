@@ -17,21 +17,31 @@ import { coins } from "@cosmjs/proto-signing";
 import { FC, useState } from "react";
 import { useExecuteModal } from "../hooks";
 import { BuyNowModalProps } from "../types";
+import { Msg } from "@andromedaprotocol/andromeda.js";
+import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
 
 const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const { contractAddress, tokenId, marketplaceAddress } = props;
   const { data: token } = useGetToken(contractAddress, tokenId);
-//   const { data: auctionState } = useGetTokenAuctionState(
-//     contractAddress,
-//     auctionAddress,
-//     tokenId
-//   );
+   const { data: marketplaceState } = useGetTokenMarketplaceInfo(
+     marketplaceAddress,
+     contractAddress,
+     tokenId
+   );
+
+
   const { config } = useApp();
   const construct = usePlaceBidConstruct();
 
- 
+  const DENOM = marketplaceState?.latestSaleState.coin_denom ?? config?.coinDenom ?? "ujunox";
+
+  // Execute place bid directly on auction
+  const openExecute = useExecuteModal(marketplaceAddress);
+
   const onSubmit = () => {
- //   openExecute(msg, true, funds);
+    const msg = construct({ tokenAddress: contractAddress, tokenId: tokenId });
+    const funds = coins(marketplaceState?.latestSaleState.price ?? 0 , DENOM);
+    openExecute(msg, true, funds);
   };
 
   return (
@@ -63,3 +73,5 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
 };
 
 export default BuyNowModal;
+
+

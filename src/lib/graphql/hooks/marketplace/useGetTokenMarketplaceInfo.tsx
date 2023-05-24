@@ -62,7 +62,7 @@ export function useGetTokenMarketplaceInfo(
   tokenAddress: string,
   tokenId: string
 ): IQueryResult {
-  console.log('here getting market info');
+  
   const { loading, error, data } = useQuery<newQueryResponse, newQuery>(
     newQueryText,
     {
