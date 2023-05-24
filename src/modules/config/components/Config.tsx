@@ -45,6 +45,7 @@ const Config: FC<ConfigProps> = (props) => {
           contractAddress: collection.contractAddress,
           auctionAddress: collection.auctionAddress,
           marketplaceAddress: collection.marketplaceAddress,
+          crowdfundAddress: collection.crowdfundAddress,
           stubLink: collection.stubLink,
           valid: true,
           AMValid: true,
@@ -102,7 +103,7 @@ const Config: FC<ConfigProps> = (props) => {
     }
 
     // Update the form with the new appData information
-    const updateFormData = (appData: { name: string; chainId: string; coinDenom: string; featured: { collectionId: string; tokenId: string; }; collections: { id: string, featured: boolean, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string, stubLink: string, valid: boolean, AMValid: boolean}[]; }) =>{
+    const updateFormData = (appData: { name: string; chainId: string; coinDenom: string; featured: { collectionId: string; tokenId: string; }; collections: { id: string, featured: boolean, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string, crowdfundAddress: string, stubLink: string, valid: boolean, AMValid: boolean}[]; }) =>{
         setInputList([]);
         setSiteTitle(appData.name);
         setChainId(appData.chainId);    
@@ -111,7 +112,7 @@ const Config: FC<ConfigProps> = (props) => {
         setFeaturedToken(appData.featured.tokenId);
         setInputList( prevInputList => {
             const appDataList = [...appData.collections];
-            const newInputList: { id: string, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string,  valid: boolean, AMValid: boolean, stubLink: string,  featured: boolean }[] = [];
+            const newInputList: { id: string, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string, crowdfundAddress: string,  valid: boolean, AMValid: boolean, stubLink: string,  featured: boolean }[] = [];
             for (let i = 0; i < appDataList.length; i++) {
                 const newObj = {
                     id: appDataList[i].id,
@@ -119,6 +120,7 @@ const Config: FC<ConfigProps> = (props) => {
                     contractAddress: appDataList[i].contractAddress,
                     auctionAddress: appDataList[i].auctionAddress,
                     marketplaceAddress: appDataList[i].marketplaceAddress,
+                    crowdfundAddress: appDataList[i].crowdfundAddress,
                     stubLink: appDataList[i].stubLink,
                     AMValid: true,
                     valid: true,
@@ -230,7 +232,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     //add another cw721 object row to our form
     const handleAddClick = () => {
-        setInputList([...inputList, { id: "", name:"", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", valid: false, AMValid: false, stubLink: "" }]);
+        setInputList([...inputList, { id: "", name:"", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", crowdfundAddress:"", valid: false, AMValid: false, stubLink: "" }]);
     };
 
     //Remove cw721 object row from form
