@@ -1,4 +1,4 @@
-import { usePlaceBidConstruct } from "@/lib/andrjs";
+import { useBuyNowConstruct } from "@/lib/andrjs";
 import useApp from "@/lib/app/hooks/useApp";
 import { useGetTokenAuctionState } from "@/lib/graphql/hooks/auction";
 import { useGetToken } from "@/lib/graphql/hooks/collection";
@@ -31,7 +31,7 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
 
 
   const { config } = useApp();
-  const construct = usePlaceBidConstruct();
+  const construct = useBuyNowConstruct();
 
   const DENOM = marketplaceState?.latestSaleState.coin_denom ?? config?.coinDenom ?? "ujunox";
 
@@ -40,6 +40,9 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
 
   const onSubmit = () => {
     const msg = construct({ tokenAddress: contractAddress, tokenId: tokenId });
+    console.log("price:", marketplaceState?.latestSaleState.price);
+    console.log (JSON.stringify(msg));
+    console.log("DENOM:", DENOM);
     const funds = coins(marketplaceState?.latestSaleState.price ?? 0 , DENOM);
     openExecute(msg, true, funds);
   };
@@ -47,7 +50,7 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   return (
     <Box>
       <Heading size="md" mb="6" fontWeight="bold">
-        Place Bid
+        Purchase
       </Heading>
       <Text textStyle="light" mb="4">
         You are about to buy <b>{token?.extension?.name}</b>.
@@ -55,14 +58,7 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
       </Text>
       <Box>
         <FormControl>
-          {/* <FormLabel>Price</FormLabel>
-          <HStack>
-            <Box w="full">
-              
-              
-            </Box>
-           
-          </HStack> */}
+          
           <Button onClick={onSubmit} w="full" mt="6" variant="solid">
             Buy Now
           </Button>

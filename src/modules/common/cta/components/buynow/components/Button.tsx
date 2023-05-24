@@ -12,7 +12,7 @@ interface IButtonProps extends ButtonProps {
 const BuyNowButton: FC<IButtonProps> = (props) => {
   const { marketplaceAddress, contractAddress, tokenId, children, ...buttonProps } = props;
 
-  const open = useBuyNowModal({ contractAddress, marketplaceAddress, tokenId });
+  const open = useBuyNowModal({ marketplaceAddress, contractAddress, tokenId });
 
   return (
     <Button onClick={open} w="full" variant="solid" {...buttonProps}>

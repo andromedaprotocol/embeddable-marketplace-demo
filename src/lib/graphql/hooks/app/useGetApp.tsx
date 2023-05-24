@@ -39,6 +39,7 @@ import {
         contractAddress?: string;
         auctionAddress?: string;
         marketplaceAddress?:string;
+        crowdfundAddress?:string;
         stubLink?: string;
         tokens?: string[];
         featured?: boolean;
@@ -60,6 +61,7 @@ import {
         contractAddress: string;
         auctionAddress: string;
         marketplaceAddress:string;
+        crowdfundAddress: string;
         stubLink: string;
         tokens: string[];
         AMType?: string;
@@ -170,6 +172,7 @@ const getConfig = async (appAddress: string)=>{
             name:"",
             auctionAddress:"",
             marketplaceAddress:"",
+            crowdfundAddress:"",
             stubLink:"",
             AMType:""
 
@@ -199,7 +202,7 @@ const getConfig = async (appAddress: string)=>{
     );
 
    
-    // get the auction or market objects.
+    // get the auction, market or crowdfund objects.
     const allCW721InfoRaw = await Promise.all(
         allTokens.map(async cw721 => {
             let auctionObj: AuctionObject | null = null;
@@ -225,6 +228,12 @@ const getConfig = async (appAddress: string)=>{
                     marketplaceAddress: auctionObj.auctionAddress,
                     AMType: auctionObj.adoType
                     };
+                } else if (auctionObj.adoType === 'crowdfund'){
+                    return {
+                    ...cw721,
+                    crowdfundAddress: auctionObj.auctionAddress,
+                    AMType: auctionObj.adoType
+                    };
                 }
             } else {
                 return cw721;
@@ -240,6 +249,7 @@ const getConfig = async (appAddress: string)=>{
           contractAddress: item?.contractAddress,
           auctionAddress: item?.auctionAddress,
           marketplaceAddress: item?.marketplaceAddress,
+          crowdfundAddress: item?.crowdfundAddress,
           stubLink: item?.stubLink,
           tokens: item?.tokens,
           featured: item?.featured,
@@ -301,6 +311,7 @@ async function checkAuctionMarketInfo (cw721Address: string, tokenId: string): P
         });
 
         if (adoType.data.ADO.ado.andr.type) {
+            console.log("auctionAddress:", auctionAddress.data.ADO.cw721.ownerOf.auctionAddress, "adoType:", adoType.data.ADO.ado.andr.type);
             return { auctionAddress: auctionAddress.data.ADO.cw721.ownerOf.auctionAddress, adoType: adoType.data.ADO.ado.andr.type };
         } else {
             throw new Error("adoType not found");

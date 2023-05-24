@@ -258,6 +258,7 @@ const Config: FC<ConfigProps> = (props) => {
                         "contractAddress" : input.contractAddress,
                         "auctionAddress" : input.auctionAddress,
                         "marketplaceAddress": input.marketplaceAddress,
+                        "crowdfundAddress": input.crowdfundAddress,
                         "stubLink" : input.stubLink,
                         "name": input.name
                     }
