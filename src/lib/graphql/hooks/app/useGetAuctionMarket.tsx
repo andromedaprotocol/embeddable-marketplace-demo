@@ -57,6 +57,7 @@ const useGetAuctionMarket =  (auctionAddress: string, cw721Address: string) => {
   type AuctionObject = {
    auctionAddress: string,
    marketplaceAddress: string,
+   crowdfundAddress: string,
    adoType: string,
    // other properties
    };

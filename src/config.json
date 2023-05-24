@@ -1,21 +1,21 @@
 {
-  "appAddress": "andr1hj6zeac7j2jlt7wmgzh342qajz0anwavsawrqhsq57tf3mcsy2kqh4lee7",
-  "name": "James' SuperDuper ADO",
+  "appAddress": "andr1rusnumjwreusfvk96kl5rpcgh5w27tngqdfmy5wrkgu6dd53tf3qhd865w",
+  "name": "Staging with Crowdfund",
   "chainId": "galileo-3",
   "coinDenom": "ANDR",
   "collections": [
     {
-      "id": "cw721-1",
-      "contractAddress": "andr1r3rdgvu95qag2avd3ydayk6yyrh3e84efrcf2rr4lrltxuxkzr8qsvrew4",
+      "id": "Tokens",
+      "contractAddress": "andr14gm0jy74h0zsw2zjqh9hhevnk7svshn82nsw3tmw0ehqajtz8eaqwvhtt8",
       "auctionAddress": "",
-      "marketplaceAddress": "andr1jp7qmqku3kzps8anzxuem0txaw9xqpyk25fc952pynuf6q2eqhaq9mtk84",
-      "crowdfundAddress": "",
-      "stubLink": "pants-and-socks",
-      "name": "Pants and Socks"
+      "marketplaceAddress": "",
+      "crowdfundAddress": "andr1xfragj89jnhjjhcre36z8yau4qyy2um6pgm7etyhwn23gufevywq4k6xcv",
+      "stubLink": "crowdfund-nfts",
+      "name": "Crowdfund NFTs"
     }
   ],
   "featured": {
-    "collectionId": "cw721-1",
-    "tokenId": "1"
+    "collectionId": "Tokens",
+    "tokenId": "CNFT-1"
   }
 }

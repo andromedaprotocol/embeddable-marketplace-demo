@@ -23,6 +23,7 @@ import useApp from "@/lib/app/hooks/useApp";
 import MarketplaceInfo from "./MarketplaceInfo";
 import AuctionCard from "./AuctionCard";
 import MarketplaceCard from "./MarketplaceCard";
+import CrowdfundInfo from "./CrowdfundInfo";
 interface TokenPageProps {
   tokenId: string;
   collectionId: string;
@@ -198,6 +199,10 @@ const TokenPage: FC<TokenPageProps> = (props) => {
             {adoType==="marketplace" &&
             <MarketplaceInfo tokenId={tokenId} collectionId={collectionId} adoAddress={adoAddress} cw721Address={cw721Data?.address||""} />
             }
+            {adoType==="crowdfund" &&
+              <CrowdfundInfo tokenId={tokenId} collectionId={collectionId} adoAddress={adoAddress} cw721Address={cw721Data?.address||""} />
+            }
+
           </Box>
         </GridItem>
       </SimpleGrid>

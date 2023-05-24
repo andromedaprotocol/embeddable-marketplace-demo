@@ -232,7 +232,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     //add another cw721 object row to our form
     const handleAddClick = () => {
-        setInputList([...inputList, { id: "", name:"", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", crowdfundAddress:"", valid: false, AMValid: false, stubLink: "" }]);
+        setInputList([...inputList, { id: "", name:"", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", crowdfundAddress: "", valid: false, AMValid: false, stubLink: "" }]);
     };
 
     //Remove cw721 object row from form
@@ -334,8 +334,8 @@ const Config: FC<ConfigProps> = (props) => {
                                 {input.valid ? (
                                     
                                     <div>
-                                        <FormLabel>(Optional) Collection Auction/Market : {auctionLoading && (currentIndex===index) ? 'checking contract...' : ''}
-                                            <Input type="text" value={input.auctionAddress ? input.auctionAddress : input.marketplaceAddress ? input.marketplaceAddress : "" } size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
+                                        <FormLabel>(Optional) Collection Auction/Market/Crowfund : {auctionLoading && (currentIndex===index) ? 'checking contract...' : ''}
+                                            <Input type="text" value={input.auctionAddress ? input.auctionAddress : input.marketplaceAddress ? input.marketplaceAddress : input.crowdfundAddress ? input.crowdfundAddress : "" } size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
                                         </FormLabel>
                                         
                                         {input.AMValid ? (
