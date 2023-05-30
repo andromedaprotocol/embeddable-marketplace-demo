@@ -17,7 +17,7 @@ import AuctionInfo from "./AuctionInfo";
 import Overview from "./Overview";
 import Bids from "./Bids";
 import { ITokenUriObject } from "@/lib/graphql/hooks/collection/useGetTokenUriObject";
-import { NFTInfo } from "@andromedaprotocol/andromeda.js";
+import { NFTExtension, NFTInfo } from "@andromedaprotocol/andromeda.js";
 import Properties from "./Properties";
 import useApp from "@/lib/app/hooks/useApp";
 import MarketplaceInfo from "./MarketplaceInfo";
@@ -28,11 +28,18 @@ interface TokenPageProps {
   tokenId: string;
   collectionId: string;
 }
+
+interface MyNFTInfo extends NFTInfo{
+  extension: NFTExtension;
+  tokenUri: string;
+  token_uri: string;
+}
 const TokenPage: FC<TokenPageProps> = (props) => {
   const { tokenId, collectionId } = props;
   const { data } = useGetTokenFromColId(collectionId, tokenId);
   const {data: cw721Data, error: cw721Error} = useGetCollection(collectionId);
-  const token: NFTInfo = data as NFTInfo;
+  const token: MyNFTInfo = data as MyNFTInfo;
+  token.token_uri = token.tokenUri;
   const { data: allTokens } = useGetTokens(collectionId);
   const [tokenUri, setTokenUri] = useState(token?.token_uri || "");
   
