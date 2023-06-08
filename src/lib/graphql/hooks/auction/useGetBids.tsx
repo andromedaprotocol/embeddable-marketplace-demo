@@ -3,7 +3,7 @@ import {
   QueryAuctionBids as Query,
   QUERY_AUCTION_BIDS as QueryText,
   QueryAuctionBidsResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/andr-js/graphql/queries/auction";
+} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
 import { gql, QueryResult, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 

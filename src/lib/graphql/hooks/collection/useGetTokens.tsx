@@ -3,7 +3,7 @@ import {
   QueryCW721AllTokens as Query,
   QUERY_CW721_ALL_TOKENS as QueryText,
   QueryCW721AllTokensResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/andr-js/graphql/queries/cw721";
+} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/cw721";
 import { gql, QueryResult, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 

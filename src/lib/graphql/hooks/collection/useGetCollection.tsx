@@ -2,10 +2,16 @@ import { useAppUtils } from "@/lib/app/hooks";
 import {
   QueryCW721ContractInfo as Query,
   QUERY_CW721_CONTRACT_INFO as QueryText,
-  QueryCW721ContractInfoResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/andr-js/graphql/queries/cw721";
+  QueryCW721ContractInfoResponse,
+} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/cw721";
 import { gql, QueryResult, useQuery } from "@apollo/client";
 import { useMemo } from "react";
+
+export interface QueryResponse extends QueryCW721ContractInfoResponse {
+  cw721: QueryCW721ContractInfoResponse['cw721'] & {
+    address: string
+  }
+}
 
 export interface IQueryResult
   extends Pick<QueryResult<QueryResponse>, "loading" | "error"> {

@@ -1,4 +1,4 @@
-import type { ChainConfig } from "@andromedaprotocol/andromeda.js/dist/andr-js/types";
+import type { ChainConfig } from "@andromedaprotocol/andromeda.js";
 import { AccountData } from "@cosmjs/proto-signing";
 import { Keplr } from "@keplr-wallet/types";
 import type { OfflineSigner } from "@cosmjs/proto-signing";

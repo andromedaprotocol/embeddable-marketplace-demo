@@ -31,7 +31,6 @@ interface TokenPageProps {
 
 interface MyNFTInfo extends NFTInfo{
   extension: NFTExtension;
-  tokenUri: string;
   token_uri: string;
 }
 const TokenPage: FC<TokenPageProps> = (props) => {
@@ -39,9 +38,7 @@ const TokenPage: FC<TokenPageProps> = (props) => {
   const { data } = useGetTokenFromColId(collectionId, tokenId);
   const {data: cw721Data, error: cw721Error} = useGetCollection(collectionId);
   const token: MyNFTInfo = data as MyNFTInfo;
-  token.token_uri = token.tokenUri;
   const { data: allTokens } = useGetTokens(collectionId);
-  const [tokenUri, setTokenUri] = useState(token?.token_uri || "");
   
   // from app address and collectionId ( from url ) go and get the cw721 address and name of the collection.
   let cw721Obj = {};
@@ -89,7 +86,7 @@ const TokenPage: FC<TokenPageProps> = (props) => {
 
   
 
-  const { data: tokenUriObject } = useGetTokenUriObject(tokenUri);
+  const { data: tokenUriObject } = useGetTokenUriObject(token?.token_uri);
 
   
   //Once token and tokenUriObject are present, then modify token object to incorporate all info 
