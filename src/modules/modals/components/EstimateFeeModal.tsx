@@ -1,25 +1,44 @@
 import { FC, memo, useEffect, useMemo, useState } from "react";
-import { FundUtils, useAndromedaContext, useGetBalance } from "@/lib/andrjs";
+import { useAndromedaContext } from "@/lib/andrjs";
 import { Coin, StdFee } from "@cosmjs/stargate";
 
 import { useGlobalModalContext } from "../hooks";
 import { TransactionModalProps } from "../types";
 
-import { Box, Button, Center, Text } from "@/theme/ui-elements";
+import { Box, Button, Center, Divider, Text } from "@/theme/ui-elements";
 import ModalLoading from "./ModalLoading";
-import { Fee } from "@andromedaprotocol/andromeda.js";
+import { sumCoins } from "@/lib/andrjs/utils/funds";
 import { GasIcon } from "@/modules/common/icons";
+// import { useCurrentChainConfig } from "@/lib/andrjs/hooks/useKeplrChainConfig";
+// import { CoinPretty } from "@keplr-wallet/unit";
 
 interface OptionalProps {
   onNextStage?: () => void;
   onPrevStage?: () => void;
-  updateFee: (fee: Fee) => void;
+  updateFee: (fee: StdFee) => void;
 }
 
 const FeeAmount: FC<{ coin: Coin; text: string }> = memo(function FeeAmount({
-  coin: { amount, denom },
+  coin,
   text,
 }) {
+  // const chainConfig = useCurrentChainConfig()
+  const formattedCoin = useMemo(() => {
+    /** Commenting out denom conversion as some conversions, like injective, are not working properly.
+     * Will have to look more into keplrs internal hooks to see how they handle denoms.
+     * @see: https://github.com/chainapsis/keplr-wallet/blob/master/packages/hooks/src/tx/fee.ts
+     */
+    return coin
+    // const currency = chainConfig?.currencies.find(c => c.coinMinimalDenom === coin.denom);
+    // if (!currency) return { ...coin };
+    // const keplrCoin = new CoinPretty({
+    //   ...currency
+    // }, coin.amount)
+    // return {
+    //   amount: keplrCoin.hideDenom(true).toString(),
+    //   denom: keplrCoin.denom
+    // }
+  }, [coin])
   return (
     <>
       <Box
@@ -33,8 +52,8 @@ const FeeAmount: FC<{ coin: Coin; text: string }> = memo(function FeeAmount({
       >
         <Box>{text}</Box>
         <Box>
-          {parseInt(amount) / 1000000}{" "}
-          <b>{denom.replace("u", "").toUpperCase()} </b>
+          {formattedCoin?.amount}{" "}
+          <b>{formattedCoin?.denom} </b>
         </Box>
       </Box>
     </>
@@ -50,27 +69,25 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
   const [fee, setFee] = useState<StdFee>({ amount: [], gas: "0" });
 
   const totalFunds = useMemo(() => {
-    const sum = FundUtils.sumCoins([...fee.amount, ...props.funds]);
+    const sum = sumCoins([...fee.amount, ...props.funds]);
     return sum;
   }, [fee, props]);
 
   useEffect(() => {
     const simulateFee = async () => {
       setLoading(true);
-      const msg = (() => {
-        console.log(props.funds);
-        return client.encodeExecuteMsg(
+      const getFee = () => {
+        return client.estimateExecuteFee(
           props.contractAddress,
           props.msg,
-          props.funds
+          props.funds,
         );
-      })();
+      }
 
       try {
-        console.log(msg);
-        const fee = await client.estimateFee([msg], props?.memo ?? "");
-        console.log(fee);
-        setFee(fee);
+        const estimatedFee = await getFee();
+        console.log(estimatedFee);
+        setFee(estimatedFee);
         setLoading(false);
       } catch (error) {
         setError(error as Error);
@@ -115,31 +132,19 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
           >
             <Center sx={{ alignItems: "flex-start" }}>
               <GasIcon
-                sx={{
-                  height: "48px",
-                  width: "48px",
-                  color: "#6941C6",
-                  bgColor: "#F4EBFF",
-                  padding: "14px",
-                  borderRadius: "50%",
-                }}
-                fontSize="20px"
+                height="48px"
+                width="48px"
+                color="primary.400"
+                bgColor="dark.300"
+                padding="12px"
+                rounded="full"
               />
             </Center>
             <Box>
-              <Text
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  lineHeight: "24px",
-                }}
-              >
+              <Text fontWeight="bold" fontSize="lg">
                 Estimated Fees
               </Text>
-              <Text
-                mt="10px"
-                sx={{ fontWeight: "400", fontSize: "14px", lineHeight: "20px" }}
-              >
+              <Text mt="2" fontSize="sm" color="dark.500">
                 This is an estimated breakdown of the costs of running your
                 transaction.
               </Text>
@@ -147,11 +152,10 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
           </Box>
           <Box
             mt="20px"
-            sx={{
-              border: "1px solid #D0D5DD",
-              borderRadius: "12px",
-              padding: "16px",
-            }}
+            borderRadius='lg'
+            borderColor='dark.300'
+            borderWidth='1px'
+            p='4'
           >
             <Box
               sx={{
@@ -164,7 +168,7 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
               <Box>Gas Used</Box>
               <Box>{fee.gas}</Box>
             </Box>
-            <hr style={{ borderColor: "#D0D5DD", margin: "10px 0px" }} />
+            <Divider color='dark.300' />
             {fee.amount.map((coin, index) => (
               <FeeAmount
                 key={`feeamount-${index}`}
@@ -173,7 +177,11 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
               />
             ))}
             {props.funds.map((coin, index) => (
-              <FeeAmount key={`feeamount-${index}`} coin={coin} text="Funds" />
+              <FeeAmount
+                key={`feeamount-${index}`}
+                coin={coin}
+                text="Funds"
+              />
             ))}
             {totalFunds && <FeeAmount coin={totalFunds} text="Total Funds" />}
           </Box>
@@ -193,8 +201,7 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
             >
               Cancel
             </Button>
-            {/* Only when the estimate fee modal is a part of the broadbasting process should we show a broadcast /publish button */}
-            {props.simulate && props.onNextStage && (
+            {props.onNextStage && (
               <Button
                 variant="solid"
                 bg="#7F56D9"

@@ -13,7 +13,7 @@ export default function useSimulateExecute(address: string) {
 
   const simulate = useCallback(
     async (msg: Msg, funds: Coin[], memo?: string) => {
-      return client.estimateExecuteFee(address, msg, funds, memo);
+      return client.estimateExecuteFee(address, msg, funds, undefined,memo);
     },
     [address, client],
   );
