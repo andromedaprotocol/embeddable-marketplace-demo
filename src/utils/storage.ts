@@ -1,8 +1,10 @@
 export const setSessionStorage = (key:string, value:any)=>{
+    if(typeof window === 'undefined') return;
     window.sessionStorage.setItem(key, value);
 }
 
 export const getSessionStorage = <T=any>(key:string)=>{
+    if(typeof window === 'undefined') return;
     return window.sessionStorage.getItem(key) as T;
 }
 
