@@ -48,8 +48,8 @@ export function useGetTokenAuctionStateFromColId(
   }, [getCollection, collectionId]);
 
   const result = useGetTokenAuctionState(
-    colConfig?.contractAddress ?? "",
-    colConfig?.auctionAddress ?? "",
+    colConfig?.cw721 ?? "",
+    colConfig?.auction ?? "",
     tokenId
   );
   return result;

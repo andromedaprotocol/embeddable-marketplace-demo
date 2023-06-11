@@ -45,6 +45,6 @@ export function useGetBidsFromColId(
     return getCollection(collectionId);
   }, [getCollection, collectionId]);
 
-  const result = useGetBids(colConfig?.auctionAddress ?? "", auctionId);
+  const result = useGetBids(colConfig?.auction ?? "", auctionId);
   return result;
 }

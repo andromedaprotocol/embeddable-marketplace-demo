@@ -38,7 +38,7 @@ export default function useGetCollection(collectionId: string): IQueryResult {
         }
       }
     `,
-    { variables: { contractAddress: colConfig?.contractAddress ?? "" } }
+    { variables: { contractAddress: colConfig?.cw721 ?? "" } }
   );
 
   // Converting assets to any and then to array to get proper typing at the end. It should be removed once type has been fixed in the library

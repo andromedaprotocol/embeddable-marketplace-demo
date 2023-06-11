@@ -171,8 +171,8 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
         </SimpleGrid>
         <PlaceBidButton
           disabled={!isStarted || isEnded}
-          contractAddress={colConfig?.contractAddress ?? ""}
-          auctionAddress={colConfig?.auctionAddress ?? ""}
+          contractAddress={colConfig?.cw721 ?? ""}
+          auctionAddress={colConfig?.auction ?? ""}
           tokenId={tokenId}
           mt="4"
         >

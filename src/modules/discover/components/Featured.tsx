@@ -10,9 +10,10 @@ interface FeaturedProps {}
 const Featured: FC<FeaturedProps> = (props) => {
   const {} = props;
   const { config } = useApp();
-  const { collectionId, tokenId } = config.featured;
+  const { collectionId, tokenId } = config.featured ?? {};
   const { data: token } = useGetTokenFromColId(collectionId, tokenId);
   const [primary] = useToken("colors", ["primary.300"]);
+  if(!config.featured) return null;
 
   return (
     <SimpleGrid columns={2} spacing="4">

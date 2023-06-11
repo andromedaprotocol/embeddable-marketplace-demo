@@ -42,8 +42,8 @@ const Config: FC<ConfigProps> = (props) => {
         return {
           id: collection.id,
           name: collection.name,
-          contractAddress: collection.contractAddress,
-          auctionAddress: collection.auctionAddress,
+          cw721: collection.cw721,
+          auction: collection.auction,
           marketplaceAddress: collection.marketplaceAddress,
           crowdfundAddress: collection.crowdfundAddress,
           stubLink: collection.stubLink,
@@ -64,7 +64,7 @@ const Config: FC<ConfigProps> = (props) => {
     // data, loading and error objects from our custom hooks to get app, cw721 and auction/market contract address validation.
     const {data: appData, loading: appLoading, error: appError} = useGetApp(appAddress);
     const {data: cw721Data, loading: cw721Loading, error: cw721Error} = useGetCW721(currentContract);
-    const {data: auctionData, loading: auctionLoading, error: auctionError} = useGetAuctionMarket(currentAuctionMarketContract, inputList[currentIndex].contractAddress);
+    const {data: auctionData, loading: auctionLoading, error: auctionError} = useGetAuctionMarket(currentAuctionMarketContract, inputList[currentIndex].cw721);
     
     // modal for json text
     const [showConfigModal, setShowConfigModal] = useState(false);
@@ -103,7 +103,7 @@ const Config: FC<ConfigProps> = (props) => {
     }
 
     // Update the form with the new appData information
-    const updateFormData = (appData: { name: string; chainId: string; coinDenom: string; featured: { collectionId: string; tokenId: string; }; collections: { id: string, featured: boolean, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string, crowdfundAddress: string, stubLink: string, valid: boolean, AMValid: boolean}[]; }) =>{
+    const updateFormData = (appData: { name: string; chainId: string; coinDenom: string; featured: { collectionId: string; tokenId: string; }; collections: { id: string, featured: boolean, name: string, cw721: string, auction: string, marketplaceAddress: string, crowdfundAddress: string, stubLink: string, valid: boolean, AMValid: boolean}[]; }) =>{
         setInputList([]);
         setSiteTitle(appData.name);
         setChainId(appData.chainId);    
@@ -112,13 +112,13 @@ const Config: FC<ConfigProps> = (props) => {
         setFeaturedToken(appData.featured.tokenId);
         setInputList( prevInputList => {
             const appDataList = [...appData.collections];
-            const newInputList: { id: string, name: string, contractAddress: string, auctionAddress: string, marketplaceAddress: string, crowdfundAddress: string,  valid: boolean, AMValid: boolean, stubLink: string,  featured: boolean }[] = [];
+            const newInputList: { id: string, name: string, cw721: string, auction: string, marketplaceAddress: string, crowdfundAddress: string,  valid: boolean, AMValid: boolean, stubLink: string,  featured: boolean }[] = [];
             for (let i = 0; i < appDataList.length; i++) {
                 const newObj = {
                     id: appDataList[i].id,
                     name: appDataList[i].name,
-                    contractAddress: appDataList[i].contractAddress,
-                    auctionAddress: appDataList[i].auctionAddress,
+                    cw721: appDataList[i].cw721,
+                    auction: appDataList[i].auction,
                     marketplaceAddress: appDataList[i].marketplaceAddress,
                     crowdfundAddress: appDataList[i].crowdfundAddress,
                     stubLink: appDataList[i].stubLink,
@@ -140,7 +140,7 @@ const Config: FC<ConfigProps> = (props) => {
     const checkCW721Address = (event: React.ChangeEvent<HTMLInputElement>, index: number) =>{
        const list = [...inputList];
        list[index].valid = false;
-       list[index].contractAddress = event.currentTarget.value;
+       list[index].cw721 = event.currentTarget.value;
        setCurrentIndex(index);
        setCurrentContract(event.currentTarget.value);
        setInputList(list);
@@ -154,7 +154,7 @@ const Config: FC<ConfigProps> = (props) => {
             const updatedObject = {...updatedInputList[index], 
                                     id: obj.contractInfo.name.replace(/\s+/g, '-').toLowerCase(),
                                     name: obj.contractInfo.name,
-                                    contractAddress: inputList[currentIndex].contractAddress,
+                                    contractAddress: inputList[currentIndex].cw721,
                                     stubLink: obj.contractInfo.name.replace(/\s+/g, '-').toLowerCase(),
                                     valid: true,
     
@@ -171,7 +171,7 @@ const Config: FC<ConfigProps> = (props) => {
     const checkAuctionAddress = (event: React.ChangeEvent<HTMLInputElement>, index: number) =>{
         const list = [...inputList];
         list[index].AMValid = false;
-        list[index].auctionAddress = event.currentTarget.value;
+        list[index].auction = event.currentTarget.value;
         setCurrentIndex(index);
         setInputList(list);
         setCurrentAuctionMarketContract(event.currentTarget.value);
@@ -232,7 +232,7 @@ const Config: FC<ConfigProps> = (props) => {
 
     //add another cw721 object row to our form
     const handleAddClick = () => {
-        setInputList([...inputList, { id: "", name:"", contractAddress: "", auctionAddress: "", featured: false, marketplaceAddress: "", crowdfundAddress: "", valid: false, AMValid: false, stubLink: "" }]);
+        setInputList([...inputList, { id: "", name:"", cw721: "", auction: "", featured: false, marketplaceAddress: "", crowdfundAddress: "", valid: false, AMValid: false, stubLink: "" }]);
     };
 
     //Remove cw721 object row from form
@@ -257,8 +257,8 @@ const Config: FC<ConfigProps> = (props) => {
                 .map((input)=>{
                     return{
                         "id": input.id,
-                        "contractAddress" : input.contractAddress,
-                        "auctionAddress" : input.auctionAddress,
+                        "cw721" : input.cw721,
+                        "auction" : input.auction,
                         "marketplaceAddress": input.marketplaceAddress,
                         "crowdfundAddress": input.crowdfundAddress,
                         "stubLink" : input.stubLink,
@@ -328,14 +328,14 @@ const Config: FC<ConfigProps> = (props) => {
                             <Box borderWidth="1px" borderRadius="md" p="4">
                                 <FormLabel>Collection Address : {cw721Loading && (currentIndex===index) ? 'checking contract...' : ''} {input.valid ? ( input.name ? input.name : input.id) : '' }
                                 <IconButton  size="xs" ml="10" onClick={() => handleRemoveClick(index)} icon={<Trash2 />} aria-label={""} />
-                                    <Input type="text" value={input.contractAddress} size="sm" onChange={(e)=>checkCW721Address(e, index)}/>
+                                    <Input type="text" value={input.cw721} size="sm" onChange={(e)=>checkCW721Address(e, index)}/>
                                 </FormLabel>
                                 
                                 {input.valid ? (
                                     
                                     <div>
                                         <FormLabel>(Optional) Collection Auction/Market/Crowfund : {auctionLoading && (currentIndex===index) ? 'checking contract...' : ''}
-                                            <Input type="text" value={input.auctionAddress ? input.auctionAddress : input.marketplaceAddress ? input.marketplaceAddress : input.crowdfundAddress ? input.crowdfundAddress : "" } size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
+                                            <Input type="text" value={input.auction ? input.auction : input.marketplaceAddress ? input.marketplaceAddress : input.crowdfundAddress ? input.crowdfundAddress : "" } size="sm" onChange={(e)=>checkAuctionAddress(e, index)}/>
                                         </FormLabel>
                                         
                                         {input.AMValid ? (

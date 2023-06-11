@@ -93,7 +93,7 @@ export function useGetTokenMarketplaceInfoFromColId(
 
   const result = useGetTokenMarketplaceInfo(
     colConfig?.marketplaceAddress ?? "",
-    colConfig?.contractAddress ?? "",
+    colConfig?.cw721 ?? "",
     tokenId
   );
   return result;

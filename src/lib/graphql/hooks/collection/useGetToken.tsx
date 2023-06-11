@@ -71,7 +71,7 @@ export function useGetTokenFromColId(
   }, [getCollection, collectionId]);
 
   const result = useGetToken(
-    colConfig?.contractAddress ?? "",
+    colConfig?.cw721 ?? "",
     tokenId
   );
   return result;

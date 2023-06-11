@@ -6,8 +6,8 @@
   "collections": [
     {
       "id": "Tokens",
-      "contractAddress": "andr14gm0jy74h0zsw2zjqh9hhevnk7svshn82nsw3tmw0ehqajtz8eaqwvhtt8",
-      "auctionAddress": "",
+      "cw721": "andr14gm0jy74h0zsw2zjqh9hhevnk7svshn82nsw3tmw0ehqajtz8eaqwvhtt8",
+      "auction": "",
       "marketplaceAddress": "",
       "crowdfundAddress": "andr1xfragj89jnhjjhcre36z8yau4qyy2um6pgm7etyhwn23gufevywq4k6xcv",
       "stubLink": "crowdfund-nfts",
