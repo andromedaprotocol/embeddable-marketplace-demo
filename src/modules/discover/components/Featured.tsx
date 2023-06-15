@@ -1,25 +1,25 @@
 import useApp from "@/lib/app/hooks/useApp";
-import { useGetTokenFromColId } from "@/lib/graphql/hooks/collection";
-import { TokenInfo } from "@/modules/token";
+import { ICollection } from "@/lib/app/types";
+import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
+import Cw721TokenAction from "@/modules/cw721/token/TokenAction";
 import { LINKS } from "@/utils/links";
-import { Box, GridItem, Image, SimpleGrid, useToken } from "@chakra-ui/react";
+import { Box, GridItem, Image, SimpleGrid, Text, useToken } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC } from "react";
 
-interface FeaturedProps {}
-const Featured: FC<FeaturedProps> = (props) => {
-  const {} = props;
-  const { config } = useApp();
-  const { collectionId, tokenId } = config.featured ?? {};
-  const { data: token } = useGetTokenFromColId(collectionId, tokenId);
+interface FeaturedItemProps {
+  collection: ICollection;
+}
+const FeaturedItem: FC<FeaturedItemProps> = (props) => {
+  const { collection } = props;
+  const { data: token } = useGetCw721Token(collection.cw721, collection.featured);
   const [primary] = useToken("colors", ["primary.300"]);
-  if(!config.featured) return null;
-
+  if (!token) return null;
   return (
     <SimpleGrid columns={2} spacing="4">
       <GridItem>
         <Box>
-          <Link href={LINKS.token(collectionId, tokenId)}>
+          <Link href={LINKS.cw721Token(collection.id, collection.featured)}>
             <Image
               src={token?.extension.image}
               alt="Image"
@@ -36,10 +36,30 @@ const Featured: FC<FeaturedProps> = (props) => {
       </GridItem>
       <GridItem>
         <Box maxW="sm" ml="auto" position="sticky" top="4">
-          <TokenInfo tokenId={tokenId} collectionId={collectionId} />
+          <Cw721TokenAction
+            collection={collection}
+            tokenId={collection.featured}
+          />
         </Box>
       </GridItem>
     </SimpleGrid>
   );
 };
-export default Featured;
+
+
+interface Props {
+}
+
+const Featured: FC<Props> = (props) => {
+  const { } = props;
+  const { config } = useApp();
+  return (
+    <Box>
+      {config.collections.filter(col => col.featured && col.featured.length > 0).map(col => (
+        <FeaturedItem key={col.id} collection={col} />
+      ))}
+    </Box>
+  )
+}
+
+export default Featured

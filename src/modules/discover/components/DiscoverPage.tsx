@@ -15,9 +15,6 @@ const DiscoverPage: FC<DiscoverPageProps> = (props) => {
 
   return (
     <Box>
-      <Text fontSize="xl" fontWeight="bold">
-        Featured NFT
-      </Text>
       <Box mt="4">
         <Featured />
       </Box>

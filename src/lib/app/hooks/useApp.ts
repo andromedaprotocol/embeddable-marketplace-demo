@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext} from "react";
 import { IConfig } from "../types";
-import config from '@/config.json';
+import { CONFIG } from "@/config";
 
 export interface AppContext {
   config: IConfig;
@@ -8,7 +8,7 @@ export interface AppContext {
 }
 
 const defaulValue: AppContext = {
-  config: config,
+  config: CONFIG,
   updateConfig: ()=>{ throw new Error("Userd Outside")}
 };
 

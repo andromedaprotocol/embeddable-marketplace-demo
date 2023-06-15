@@ -1,8 +1,5 @@
 import { useBuyNowConstruct } from "@/lib/andrjs";
 import useApp from "@/lib/app/hooks/useApp";
-import { useGetTokenAuctionState } from "@/lib/graphql/hooks/auction";
-import { useGetToken } from "@/lib/graphql/hooks/collection";
-import { NumberInput } from "@/modules/common/ui";
 import {
   Box,
   Button,
@@ -19,10 +16,11 @@ import { useExecuteModal } from "../hooks";
 import { BuyNowModalProps } from "../types";
 import { Msg } from "@andromedaprotocol/andromeda.js";
 import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
+import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 
 const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const { contractAddress, tokenId, marketplaceAddress } = props;
-  const { data: token } = useGetToken(contractAddress, tokenId);
+  const { data: token } = useGetCw721Token(contractAddress, tokenId);
    const { data: marketplaceState } = useGetTokenMarketplaceInfo(
      marketplaceAddress,
      contractAddress,

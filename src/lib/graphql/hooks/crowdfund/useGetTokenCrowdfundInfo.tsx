@@ -90,7 +90,6 @@ type newQueryResponse = {
 
 export function useGetTokenCrowdfundInfo(
   adoAddress: string,
-  
 ): IQueryResult {
   
   const { loading, error, data } = useQuery<newQueryResponse, newQuery>(
@@ -108,21 +107,4 @@ export function useGetTokenCrowdfundInfo(
     error,
     data: data?.ADO.crowdfund ,
   };
-}
-
-export function useGetTokenCrowdfundInfoFromColId(
-  collectionId: string,
-  tokenId: string
-): IQueryResult {
-  const { getCollection } = useAppUtils();
-
-  const colConfig = useMemo(() => {
-    return getCollection(collectionId);
-  }, [getCollection, collectionId]);
-
-  const result = useGetTokenCrowdfundInfo(
-    colConfig?.crowdfundAddress ?? "",
-    
-  );
-  return result;
 }

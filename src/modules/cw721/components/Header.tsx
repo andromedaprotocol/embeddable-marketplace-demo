@@ -1,27 +1,29 @@
-import { useGetCollection } from "@/lib/app/hooks/useGetCollection";
+import { IBaseCollection } from "@/lib/app/types";
+import { useGetCw721 } from "@/lib/graphql/hooks/cw721";
 import { Box, Flex, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 
 interface HeaderProps {
-  collectionId: string;
+  contractAddress: string;
+  collection: IBaseCollection;
 }
 const Header: FC<HeaderProps> = (props) => {
-  const { collectionId } = props;
-  const collection = useGetCollection(collectionId);
+  const { contractAddress } = props;
+  const { data: cw721 } = useGetCw721(contractAddress);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" gap="4" py="2">
       <GridItem colSpan={1}>
         <Flex direction="column" gap="2" align="start" maxW="md">
           <Text fontSize="2xl" fontWeight="bold">
-            {collection.name}
+            {cw721?.contractInfo.name}
           </Text>
           <Text textStyle="light" fontSize="sm">
             Created by <b>0x64fe0...fec9</b>
           </Text>
           <Text fontWeight="light" fontSize="sm" mt="2">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus, orci sit amet eleifend facilisis,
-             arcu eros gravida massa, id pharetra dui nisi a leo. Integer a tellus elit. Proin quis venenatis magna... <b>Read more</b>
+            arcu eros gravida massa, id pharetra dui nisi a leo. Integer a tellus elit. Proin quis venenatis magna... <b>Read more</b>
           </Text>
         </Flex>
       </GridItem>

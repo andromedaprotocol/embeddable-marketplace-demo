@@ -1,11 +1,9 @@
-import { useAppUtils } from "@/lib/app/hooks";
 import {
   QueryAuctionBids as Query,
   QUERY_AUCTION_BIDS as QueryText,
   QueryAuctionBidsResponse as QueryResponse,
 } from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
 import { gql, QueryResult, useQuery } from "@apollo/client";
-import { useMemo } from "react";
 
 export interface IQueryResult
   extends Pick<QueryResult<QueryResponse>, "loading" | "error"> {
@@ -33,18 +31,4 @@ export function useGetBids(
     error,
     data: data?.auction?.bids?.bids,
   };
-}
-
-export function useGetBidsFromColId(
-  collectionId: string,
-  auctionId: number
-): IQueryResult {
-  const { getCollection } = useAppUtils();
-
-  const colConfig = useMemo(() => {
-    return getCollection(collectionId);
-  }, [getCollection, collectionId]);
-
-  const result = useGetBids(colConfig?.auction ?? "", auctionId);
-  return result;
 }

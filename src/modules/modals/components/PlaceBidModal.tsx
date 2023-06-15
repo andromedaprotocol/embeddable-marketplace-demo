@@ -1,7 +1,6 @@
 import { usePlaceBidConstruct } from "@/lib/andrjs";
 import useApp from "@/lib/app/hooks/useApp";
 import { useGetTokenAuctionState } from "@/lib/graphql/hooks/auction";
-import { useGetToken } from "@/lib/graphql/hooks/collection";
 import { NumberInput } from "@/modules/common/ui";
 import {
   Box,
@@ -17,10 +16,11 @@ import { coins } from "@cosmjs/proto-signing";
 import { FC, useState } from "react";
 import { useExecuteModal } from "../hooks";
 import { PlaceBidModalProps } from "../types";
+import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 
 const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
   const { contractAddress, tokenId, auctionAddress } = props;
-  const { data: token } = useGetToken(contractAddress, tokenId);
+  const { data: token } = useGetCw721Token(contractAddress, tokenId);
   const { data: auctionState } = useGetTokenAuctionState(
     contractAddress,
     auctionAddress,

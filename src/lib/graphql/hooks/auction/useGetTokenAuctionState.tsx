@@ -36,21 +36,3 @@ export function useGetTokenAuctionState(
     data: data?.auction?.latestAuctionState,
   };
 }
-
-export function useGetTokenAuctionStateFromColId(
-  collectionId: string,
-  tokenId: string
-): IQueryResult {
-  const { getCollection } = useAppUtils();
-
-  const colConfig = useMemo(() => {
-    return getCollection(collectionId);
-  }, [getCollection, collectionId]);
-
-  const result = useGetTokenAuctionState(
-    colConfig?.cw721 ?? "",
-    colConfig?.auction ?? "",
-    tokenId
-  );
-  return result;
-}

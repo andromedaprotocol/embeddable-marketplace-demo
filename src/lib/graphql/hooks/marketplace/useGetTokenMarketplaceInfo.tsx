@@ -1,12 +1,4 @@
-import { useAppUtils } from "@/lib/app/hooks";
-import { ContractAddressQuery } from "@andromedaprotocol/andromeda.js";
-import {
-  QueryAuctionLatestAuctionState as Query,
-  QUERY_AUCTION_LATEST_AUCTION_STATE as QueryText,
-  QueryAuctionLatestAuctionStateResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
 import { gql, QueryResult, useQuery } from "@apollo/client";
-import { useMemo } from "react";
 
 export interface IQueryResult
   extends Pick<QueryResult<newQueryResponse>, "loading" | "error"> {
@@ -55,8 +47,6 @@ type newQueryResponse = {
   }
 }
 
-
-
 export function useGetTokenMarketplaceInfo(
   adoAddress: string,
   tokenAddress: string,
@@ -79,22 +69,4 @@ export function useGetTokenMarketplaceInfo(
     error,
     data: data?.ADO.marketplace ,
   };
-}
-
-export function useGetTokenMarketplaceInfoFromColId(
-  collectionId: string,
-  tokenId: string
-): IQueryResult {
-  const { getCollection } = useAppUtils();
-
-  const colConfig = useMemo(() => {
-    return getCollection(collectionId);
-  }, [getCollection, collectionId]);
-
-  const result = useGetTokenMarketplaceInfo(
-    colConfig?.marketplaceAddress ?? "",
-    colConfig?.cw721 ?? "",
-    tokenId
-  );
-  return result;
 }

@@ -1,10 +1,6 @@
 import { useAppUtils } from "@/lib/app/hooks";
-import {
-  useGetCollection,
-  useGetTokenFromColId,
-} from "@/lib/graphql/hooks/collection";
+import { IBaseCollection } from "@/lib/app/types";
 import { LINKS } from "@/utils/links";
-import { truncate } from "@/utils/text";
 import {
   Button,
   Menu,
@@ -17,13 +13,12 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { FC, useMemo } from "react";
 
-interface CollectionDropdownProps {}
+interface CollectionDropdownProps { }
 const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
-  const {} = props;
   const { getCollections } = useAppUtils();
 
   const collections = useMemo(() => {
-    return getCollections();
+    return getCollections() as IBaseCollection[];
   }, [getCollections]);
 
   return (
@@ -40,7 +35,7 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         {collections.map((col) => (
           <Link key={col.id} href={LINKS.collection(col.id)} passHref>
             <MenuItem as="a" key={col.id}>
-              <CollectionLinkItem colId={col.id} />
+              <CollectionLinkItem name={col.name} />
             </MenuItem>
           </Link>
         ))}
@@ -50,13 +45,12 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
 };
 
 interface CollectionLinkItemProps {
-  colId: string;
+  name: string;
 }
 const CollectionLinkItem: FC<CollectionLinkItemProps> = (props) => {
-  const { colId } = props;
-  const { data: collection } = useGetCollection(colId);
+  const { name } = props;
 
-  return <Text>{collection?.contractInfo?.name ?? colId}</Text>;
+  return <Text>{name}</Text>;
 };
 
 export default CollectionDropdown;
