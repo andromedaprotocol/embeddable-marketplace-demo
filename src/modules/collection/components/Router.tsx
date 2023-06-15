@@ -11,7 +11,7 @@ const CollectionRouter: FC<Props> = (props) => {
     const { collectionId } = props;
     const collection = useGetCollection(collectionId);
 
-    if (collection?.type === ICollectionType.AUCTION) {
+    if (collection?.type === ICollectionType.AUCTION || ICollectionType.MARKETPLACE || ICollectionType.CROWDFUND) {
         return <Cw721Page collection={collection} contractAddress={collection.cw721} />
     }
 

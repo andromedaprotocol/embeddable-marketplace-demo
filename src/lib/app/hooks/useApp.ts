@@ -1,21 +1,18 @@
-import { createContext, useContext} from "react";
+import { createContext, useContext } from "react";
 import { IConfig } from "../types";
-import { CONFIG } from "@/config";
 
 export interface AppContext {
   config: IConfig;
-  updateConfig: (newConfig:IConfig)=>void;
 }
 
 const defaulValue: AppContext = {
-  config: CONFIG,
-  updateConfig: ()=>{ throw new Error("Userd Outside")}
+  config: {} as any,
 };
 
 export const AppContext = createContext(defaulValue);
 
 
 
-const useApp = ()=>useContext(AppContext);
+const useApp = () => useContext(AppContext);
 export default useApp;
 
