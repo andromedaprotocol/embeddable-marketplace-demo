@@ -11,6 +11,7 @@ import { AppContext } from "../hooks";
 import { AndromedaProvider } from "@/lib/andrjs";
 import { useAppConfigFromUrl } from "../hooks/useAppConfigFromUrl";
 import Loading from "@/modules/common/ui/Loading";
+// import { APP_ENV } from "@/appEnv"; // Uncomment this line in private build
 
 
 interface AppProviderProps {
@@ -19,10 +20,14 @@ interface AppProviderProps {
 }
 const AppProvider: FC<AppProviderProps> = (props) => {
   const { children, theme = defaultTheme } = props;
-  const { configState } = useAppConfigFromUrl();
+
+  const { configState } = useAppConfigFromUrl(); // Comment this line if you are using your own private build
 
   return (
-    <AppContext.Provider value={{ config: configState as any }}>
+    <AppContext.Provider value={{
+      config: configState // Comment this line if you are using your own private build
+      // config: APP_ENV.DEFAULT_CONFIG // Un-comment this line if you are using your own private build
+    }}>
       <ChakraProvider theme={theme} colorModeManager={ThemeStorageManager}>
         <CSSReset />
         <Loading loading={!configState}>
