@@ -8,14 +8,15 @@ import { IConfig } from "../types";
 
 export const useAppConfigFromUrl = () => {
     const router = useRouter();
-    const [configState, setConfigState] = useState<IConfig>();
+    const [configState, setConfigState] = useState<IConfig>(APP_ENV.DEFAULT_CONFIG);
 
     // Get Config uri from url
     const configUri = useMemo(() => {
-        return router.query.config as string ?? Object.keys(APP_ENV.EXAMPLES_MAP)[0];
+        return router.query.config as string | undefined;
     }, [router.query])
 
     const { primitive, key } = useMemo(() => {
+        if (!configUri) return {};
         if (configUri in APP_ENV.EXAMPLES_MAP) {
             return {
                 primitive: APP_ENV.EXAMPLES_MAP[configUri].primitive,
@@ -37,8 +38,7 @@ export const useAppConfigFromUrl = () => {
                 if (!primitiveValue) return;
                 console.log(primitiveValue, "PRIMITIVE")
                 _config = JSON.parse(primitiveValue.value.string)
-            } else {
-                // TODO: Check if url is contract address or json url
+            } else if (configUri) {
                 _config = parseEmbeddableUrl(configUri);
             }
             setConfigState(_config);

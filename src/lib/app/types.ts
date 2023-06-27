@@ -41,5 +41,5 @@ export type ICollection = IAuctionCollection | IMarketplaceCollection | ICrowdfu
 
 
 export interface IShareUrls {
-    twitter: string;
+    twitter?: string;
 }

@@ -17,6 +17,9 @@ const CollectionRow: FC<CollectionRowProps> = (props) => {
   if (collection?.type === ICollectionType.MARKETPLACE) {
     return <Cw721CollectionRow collectionId={collectionId} />
   }
+  if (collection?.type === ICollectionType.CROWDFUND) {
+    return <Cw721CollectionRow collectionId={collectionId} />
+  }
 
   return null;
 };
