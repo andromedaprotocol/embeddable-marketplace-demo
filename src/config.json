@@ -1,26 +1,29 @@
 {
-    "name": "Marketplace",
     "chainId": "elgafar-1",
-    "coinDenom": "ustars",
-    "featured": {
-        "collectionId": "collection-1",
-        "tokenId": "1"
-    },
+    "coinDenom": "STARS",
+    "name": "My App",
     "collections": [
         {
-            "id": "collection-1",
-            "contractAddress": "stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",
-            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+            "cw721": "stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",
+            "auction": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t",
+            "name": "My Auction",
+            "featured": "1",
+            "id": "usecase-1",
+            "type": "embeddables-auction"
         },
         {
-            "id": "collection-2",
-            "contractAddress": "stars1t7nhc6pem4qj23ekxg5urlh5gddvyr6tc7gja7ryyu85fq5x3ycqtrpf8e",
-            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+            "cw721": "stars1tu8hqnapzufujwuutr2ghanxkj7z4j4fr00aw37pxupqkxr87jvqmuzpjh",
+            "marketplace": "stars1jnlyqy0tnyx9k9wy5feu6slhs7tytykrlr9ys6fq7xvtkmyqf3dqhy2spp",
+            "name": "My Marketplace",
+            "id": "usecase-2",
+            "type": "embeddables-marketplace"
         },
         {
-            "id": "collection-3",
-            "contractAddress": "stars14t0jglntqg27hxrz0nulhlvnjhwu4cvfnas2zu967c3uwzd5dscsatjpfv",
-            "auctionAddress": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t"
+            "crowdfund": "stars1eq4jnjwuth2shrcglnfpr6z66v0ghhnfw7vt75xla8p907kxczls2syfws",
+            "cw721": "stars1mx5qtcvcpa5p0tpx6ewd9g0aes0fdr8q849vdjh4zctv82a7vaasctj6cw",
+            "name": "My Crowdfund",
+            "id": "usecase-3",
+            "type": "embeddables-crowdfund"
         }
     ]
 }

@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --quiet",
+    "export": "next build && next export",
     "tsc": "tsc"
   },
   "dependencies": {
-    "@andromedaprotocol/andromeda.js": "^0.0.61",
+    "@andromedaprotocol/andromeda.js": "^0.3.0",
     "@apollo/client": "^3.7.0",
     "@chakra-ui/react": "^2.3.4",
     "@cosmjs/proto-signing": "^0.28.11",
@@ -19,6 +20,7 @@
     "dayjs": "^1.11.6",
     "framer-motion": "^6.5.1",
     "graphql": "^16.6.0",
+    "jsoncrush": "^1.1.8",
     "lucide-react": "^0.90.0",
     "next": "12.3.1",
     "react": "18.2.0",

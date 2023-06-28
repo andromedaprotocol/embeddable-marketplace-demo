@@ -1,18 +1,24 @@
 import { useAppUtils } from "@/lib/app/hooks";
+import { IBaseCollection } from "@/lib/app/types";
 import { LINKS } from "@/utils/links";
-import { truncate } from "@/utils/text";
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { FC, useMemo } from "react";
 
-interface CollectionDropdownProps {}
+interface CollectionDropdownProps { }
 const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
-  const {} = props;
   const { getCollections } = useAppUtils();
 
   const collections = useMemo(() => {
-    return getCollections();
+    return getCollections() as IBaseCollection[];
   }, [getCollections]);
 
   return (
@@ -29,7 +35,7 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         {collections.map((col) => (
           <Link key={col.id} href={LINKS.collection(col.id)} passHref>
             <MenuItem as="a" key={col.id}>
-              {col.id}
+              <CollectionLinkItem name={col.name} />
             </MenuItem>
           </Link>
         ))}
@@ -37,4 +43,14 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
     </Menu>
   );
 };
+
+interface CollectionLinkItemProps {
+  name: string;
+}
+const CollectionLinkItem: FC<CollectionLinkItemProps> = (props) => {
+  const { name } = props;
+
+  return <Text>{name}</Text>;
+};
+
 export default CollectionDropdown;

@@ -1,34 +1,32 @@
-import { useGetCollection } from "@/lib/graphql/hooks/collection";
+import { useGetCollection } from "@/lib/app/hooks/useGetCollection";
 import { Box, Flex, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { ICollection } from "../types";
 
 interface HeaderProps {
   collectionId: string;
 }
 const Header: FC<HeaderProps> = (props) => {
   const { collectionId } = props;
-  const { data: collection } = useGetCollection(collectionId);
+  const collection = useGetCollection(collectionId);
 
   return (
     <Grid templateColumns="repeat(2,1fr)" gap="4" py="2">
       <GridItem colSpan={1}>
         <Flex direction="column" gap="2" align="start" maxW="md">
           <Text fontSize="2xl" fontWeight="bold">
-            {collection?.contractInfo.name}
+            {collection.name}
           </Text>
           <Text textStyle="light" fontSize="sm">
             Created by <b>0x64fe0...fec9</b>
           </Text>
           <Text fontWeight="light" fontSize="sm" mt="2">
-            To demonstrate how “location based NFTs” can drive utility, we went
-            ahead and created unique collection we affectionately refer to as
-            Banded Armadillo Rock Club ™... <b>Learn more</b>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus, orci sit amet eleifend facilisis,
+             arcu eros gravida massa, id pharetra dui nisi a leo. Integer a tellus elit. Proin quis venenatis magna... <b>Read more</b>
           </Text>
         </Flex>
       </GridItem>
       <GridItem colSpan={1}>
-        <Box>
+        {/* <Box>
           <HStack
             align="start"
             border="1px"
@@ -43,7 +41,7 @@ const Header: FC<HeaderProps> = (props) => {
               <Stat key={stat.label} label={stat.label} value={stat.value} />
             ))}
           </HStack>
-        </Box>
+        </Box> */}
       </GridItem>
     </Grid>
   );

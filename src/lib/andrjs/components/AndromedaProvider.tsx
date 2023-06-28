@@ -43,6 +43,8 @@ const AndromedaProvider: React.FC<AndromedaProviderProps> = memo(
           await client.connect(
             config.chainUrl,
             config.registryAddress,
+            config.kernelAddress,
+            config.addressPrefix,
             signer,
             {
               gasPrice: GasPrice.fromString(config.defaultFee),
@@ -56,7 +58,7 @@ const AndromedaProvider: React.FC<AndromedaProviderProps> = memo(
           if (client.isConnected) {
             setConnected(true);
             console.log(cloneDeep(client.isConnected), new Date().getTime());
-            setFactoryAddress(client.factory.address ?? "");
+            setFactoryAddress(client.adoDB.address ?? "");
             console.log("Andromeda Client connected");
           }
         } catch (error) {

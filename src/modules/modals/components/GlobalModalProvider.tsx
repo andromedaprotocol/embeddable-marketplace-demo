@@ -20,6 +20,7 @@ import ModalError from "./ModalError";
 import PlaceBidModal from "./PlaceBidModal";
 import TransactionModal from "./TransactionModal";
 import WalletModal from "./WalletModal";
+import BuyNowModal from "./BuyNowModal";
 
 interface ModalState {
   props?: Omit<ModalProps, "modalType">;
@@ -31,6 +32,7 @@ const components: Record<ModalType, React.FC<any>> = {
   [ModalType.Wallet]: WalletModal,
   [ModalType.Transaction]: TransactionModal,
   [ModalType.PlaceBid]: PlaceBidModal,
+  [ModalType.BuyNow] : BuyNowModal
 };
 
 interface GlobalModalProviderProps {

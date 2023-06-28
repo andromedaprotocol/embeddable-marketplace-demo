@@ -3,7 +3,7 @@ import {
   QueryAuctionLatestAuctionState as Query,
   QUERY_AUCTION_LATEST_AUCTION_STATE as QueryText,
   QueryAuctionLatestAuctionStateResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/andr-js/graphql/queries/auction";
+} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
 import { gql, QueryResult, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 
@@ -35,22 +35,4 @@ export function useGetTokenAuctionState(
     error,
     data: data?.auction?.latestAuctionState,
   };
-}
-
-export function useGetTokenAuctionStateFromColId(
-  collectionId: string,
-  tokenId: string
-): IQueryResult {
-  const { getCollection } = useAppUtils();
-
-  const colConfig = useMemo(() => {
-    return getCollection(collectionId);
-  }, [getCollection, collectionId]);
-
-  const result = useGetTokenAuctionState(
-    colConfig?.contractAddress ?? "",
-    colConfig?.auctionAddress ?? "",
-    tokenId
-  );
-  return result;
 }
