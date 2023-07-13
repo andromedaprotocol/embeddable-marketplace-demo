@@ -4,16 +4,16 @@
     "name": "My App",
     "collections": [
         {
-            "cw721": "stars1aafcltgesj2ky4elw2azztffc8058m8pnwqkujup6clf3fxs9xws8xg0md",
-            "auction": "stars1taccphzzzwvgc20aqwxndrry49udhglpwu0rwsne82sk6rf2z7cscp095t",
+            "cw721": "stars1sddhtm0wzsytuk7s7qnwjvge9sxt4mdsvqq42ye9n7zfac4qg2qsu27pwr",
+            "auction": "stars1j5hasgzjhw0w6q0z53zx9za4xltc54ggsfhxug3ak58u946wjz5q9u5fdm",
             "name": "My Auction",
             "featured": "1",
             "id": "usecase-1",
             "type": "embeddables-auction"
         },
         {
-            "cw721": "stars1tu8hqnapzufujwuutr2ghanxkj7z4j4fr00aw37pxupqkxr87jvqmuzpjh",
-            "marketplace": "stars1jnlyqy0tnyx9k9wy5feu6slhs7tytykrlr9ys6fq7xvtkmyqf3dqhy2spp",
+            "cw721": "stars1lz4z8zw3amk9zv2xun27q4j268xjnuhnynjegr5cdma7556pwuzsncwnwu",
+            "marketplace": "stars137z8ux9e32ghntdz9w5g8qs2jn5nvfhdvglk8n53avakp0wkhm7sua9e5c",
             "name": "My Marketplace",
             "id": "usecase-2",
             "type": "embeddables-marketplace"

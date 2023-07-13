@@ -1,3 +1,4 @@
+import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
 import useBuyNowModal from "@/modules/modals/hooks/useBuyNowModal";
 import usePlaceBidModal from "@/modules/modals/hooks/usePlaceBidModal";
 import { Button, ButtonProps } from "@chakra-ui/react";
@@ -11,12 +12,16 @@ interface IButtonProps extends ButtonProps {
 
 const BuyNowButton: FC<IButtonProps> = (props) => {
   const { marketplaceAddress, contractAddress, tokenId, children, ...buttonProps } = props;
-
+  const { data: marketplaceState } = useGetTokenMarketplaceInfo(
+    marketplaceAddress,
+    contractAddress,
+    tokenId
+  )
   const open = useBuyNowModal({ marketplaceAddress, contractAddress, tokenId });
 
   return (
     <Button onClick={open} w="full" variant="solid" {...buttonProps}>
-      Buy Now
+      Buy for {marketplaceState?.latestSaleState.price} {marketplaceState?.latestSaleState.coin_denom}
     </Button>
   );
 };

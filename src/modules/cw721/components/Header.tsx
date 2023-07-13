@@ -19,7 +19,7 @@ const Header: FC<HeaderProps> = (props) => {
             {cw721?.contractInfo.name}
           </Text>
           <Text textStyle="light" fontSize="sm">
-            Created by <b>0x64fe0...fec9</b>
+            Minter - <b>{cw721?.minter}</b>
           </Text>
           <Text fontWeight="light" fontSize="sm" mt="2">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus, orci sit amet eleifend facilisis,

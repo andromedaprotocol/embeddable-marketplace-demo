@@ -14,6 +14,7 @@ import {
 import dayjs from "dayjs";
 import { Flame, Share } from "lucide-react";
 import React, { FC, useEffect, useMemo, useState } from "react";
+import AuctionStartStat from "./AuctionStartStat";
 
 interface AuctionInfoProps {
   tokenId: string;
@@ -112,18 +113,14 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
                 {auctionState?.high_bidder_amount}{" "}
                 {auctionState?.coin_denom?.toUpperCase()}
               </Text>
-
             </Flex>
           </Box>
         </SimpleGrid>
         <Divider my="4" />
-        <Flex gap="1" align="center">
-          <Flame color="orange" width={14} />
-          <Text fontSize="xs" fontWeight="bold">
-            Sale {isStarted ? "ends" : "starts"}{" "}
-            {formatTime(isStarted ? endTime : startTime)}
-          </Text>
-        </Flex>
+        <AuctionStartStat
+          collection={collection}
+          tokenId={tokenId}
+        />
         <SimpleGrid
           spacing="4"
           columns={3}
