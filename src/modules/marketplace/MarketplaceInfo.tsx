@@ -4,6 +4,7 @@ import {
   Button,
   Divider,
   Flex,
+  GridItem,
   HStack,
   SimpleGrid,
   Text,
@@ -12,6 +13,7 @@ import { Flame, Share } from "lucide-react";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { BuyNowButton } from "../common/cta/components/buynow";
 import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
+import MarketplaceStartStat from "./MarketplaceStartStat";
 
 interface MarketplaceInfoProps {
   tokenId: string;
@@ -47,43 +49,17 @@ const MarketplaceInfo: FC<MarketplaceInfoProps> = (props) => {
         border="1px"
         borderColor="gray.300"
         rounded="lg"
-        mt="4"
         p="4"
         minW="xs"
         w="full"
       >
         <SimpleGrid columns={2} spacing="2">
-
-          {marketplaceState?.latestSaleState.status === "open" ? (
-            <Box>
-              <Text fontSize="xs" textStyle="light">
-                Current Price
-              </Text>
-              <Flex gap="2">
-                <Text fontWeight="bold" fontSize="sm">
-                  {marketplaceState?.latestSaleState.price} - {marketplaceState?.latestSaleState.coin_denom}
-                </Text>
-              </Flex>
-            </Box>
-          ) : (
-            <Box>
-              <Text fontSize="xs" textStyle="light">
-                Currently Not For Sale
-              </Text>
-              <Flex gap="2">
-                <Text fontWeight="bold" fontSize="sm">
-                  {marketplaceState?.latestSaleState.price} - {marketplaceState?.latestSaleState.coin_denom}
-                </Text>
-              </Flex>
-            </Box>
-
-          )}
-          <Box>
-            <Text fontSize="xs" textStyle="light">
-              &nbsp;
-            </Text>
-
-          </Box>
+          <GridItem>
+            <MarketplaceStartStat
+              collection={collection}
+              tokenId={tokenId}
+            />
+          </GridItem>
         </SimpleGrid>
         <Divider my="4" />
         <BuyNowButton
@@ -91,9 +67,7 @@ const MarketplaceInfo: FC<MarketplaceInfoProps> = (props) => {
           contractAddress={collection.cw721}
           marketplaceAddress={marketplaceState?.address ?? ""}
           tokenId={tokenId}
-          mt="4"
         >
-
         </BuyNowButton>
       </Box>
     </Box>

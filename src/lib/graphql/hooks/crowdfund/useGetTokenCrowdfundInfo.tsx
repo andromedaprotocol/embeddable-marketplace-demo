@@ -1,13 +1,4 @@
-import { useAppUtils } from "@/lib/app/hooks";
-import { ContractAddressQuery } from "@andromedaprotocol/andromeda.js";
-import {
-  QueryAuctionLatestAuctionState as Query,
-  QUERY_AUCTION_LATEST_AUCTION_STATE as QueryText,
-  QueryAuctionLatestAuctionStateResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
 import { gql, QueryResult, useQuery } from "@apollo/client";
-import { useMemo } from "react";
-
 export interface IQueryResult
   extends Pick<QueryResult<newQueryResponse>, "loading" | "error"> {
   data: newQueryResponse["ADO"]["crowdfund"] | undefined;

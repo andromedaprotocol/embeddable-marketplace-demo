@@ -27,7 +27,8 @@ export default function useGetCW721(address: string): IQueryResult {
             symbol
           }
           address
-          numTokens
+          numTokens,
+          minter
         }
       }
     `,

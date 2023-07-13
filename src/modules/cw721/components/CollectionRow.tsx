@@ -66,7 +66,7 @@ const Cw721CollectionRow: FC<Cw721CollectionRowProps> = (props) => {
           </Flex>
         </GridItem>
         {allTokens?.slice(0, 3).map((tokenId) => (
-          <GridItem key={tokenId}>
+          <GridItem key={tokenId} alignSelf='center'>
             <CollectionRowToken tokenId={tokenId} collection={collection} contractAddress={collection.cw721} />
           </GridItem>
         ))}

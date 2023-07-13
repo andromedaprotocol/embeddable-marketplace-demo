@@ -35,7 +35,7 @@ const Cw721TokenCard: FC<Cw721TokenCardProps> = ({ tokenId, collectionId, contra
           body={token?.extension.name ?? ''}
         />
       </HStack>
-      <Box mt="3">
+      <Box mt="1">
         {collection?.type === ICollectionType.AUCTION && (
           <Cw721AuctionState collection={collection} tokenId={tokenId} />
         )}
