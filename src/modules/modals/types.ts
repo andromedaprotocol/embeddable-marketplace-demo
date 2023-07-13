@@ -5,7 +5,8 @@ export enum ModalType {
   Wallet = "wallet",
   Transaction = "transaction",
   PlaceBid = "placebid",
-  BuyNow = "buynow"
+  BuyNow = "buynow",
+  CrowdfundGroupBuy = 'crowdfundgroupbuy'
 }
 
 export interface WalletModalProps {
@@ -27,6 +28,11 @@ export interface BuyNowModalProps {
   tokenId: string;
 }
 
+export interface CrowdfundGroupBuyModalProps {
+  crowdfundAddress: string;
+  modalType: ModalType.CrowdfundGroupBuy;
+}
+
 export interface TransactionModalProps {
   contractAddress: string;
   funds: Coin[];
@@ -37,4 +43,4 @@ export interface TransactionModalProps {
   memo?: string
 }
 
-export type ModalProps = WalletModalProps | TransactionModalProps | PlaceBidModalProps | BuyNowModalProps
+export type ModalProps = WalletModalProps | TransactionModalProps | PlaceBidModalProps | BuyNowModalProps | CrowdfundGroupBuyModalProps

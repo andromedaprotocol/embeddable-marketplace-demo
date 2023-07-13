@@ -16,11 +16,11 @@ import CrowdfundGroupBuyButton from "../common/cta/components/crowdfundGroupBuy/
 import { Flame } from "lucide-react";
 
 
-interface CrowdfundInfoProps {
+interface CrowdfundGroupInfoProps {
   collection: ICrowdfundCollection;
   collectionName: string;
 }
-const CrowdfundInfo: FC<CrowdfundInfoProps> = (props) => {
+const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
   const { collection, collectionName } = props;
 
   const { data: crowdfundState } = useGetCrowdfund(
@@ -159,7 +159,6 @@ const CrowdfundInfo: FC<CrowdfundInfoProps> = (props) => {
             </Text>
           </Box>
         </SimpleGrid>
-        {/* TODO: Replace this buy now with token specific buy now */}
         <CrowdfundGroupBuyButton
           disabled={!((crowdfundState?.availableTokens?.length ?? 0) > 0)}
           crowdfundAddress={collection.crowdfund}
@@ -169,4 +168,4 @@ const CrowdfundInfo: FC<CrowdfundInfoProps> = (props) => {
     </Box>
   );
 };
-export default CrowdfundInfo;
+export default CrowdfundGroupInfo;
