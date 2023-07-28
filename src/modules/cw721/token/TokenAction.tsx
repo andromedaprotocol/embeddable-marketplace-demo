@@ -35,8 +35,6 @@ const Cw721TokenAction: FC<Props> = (props) => {
         <CrowdfundInfo
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
-            tokenId={tokenId}
-            name={token?.extension.name ?? 'Loading...'}
         />
     )
     return null;

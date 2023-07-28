@@ -1,7 +1,7 @@
 import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
 import useBuyNowModal from "@/modules/modals/hooks/useBuyNowModal";
 import usePlaceBidModal from "@/modules/modals/hooks/usePlaceBidModal";
-import { Button, ButtonProps } from "@chakra-ui/react";
+import { Button, ButtonProps, HStack } from "@chakra-ui/react";
 import React, { FC } from "react";
 
 interface IButtonProps extends ButtonProps {

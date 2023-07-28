@@ -21,6 +21,7 @@ import PlaceBidModal from "./PlaceBidModal";
 import TransactionModal from "./TransactionModal";
 import WalletModal from "./WalletModal";
 import BuyNowModal from "./BuyNowModal";
+import CrowdfundGroupBuyModal from "./CrowdfundGroupBuyModal";
 
 interface ModalState {
   props?: Omit<ModalProps, "modalType">;
@@ -32,7 +33,8 @@ const components: Record<ModalType, React.FC<any>> = {
   [ModalType.Wallet]: WalletModal,
   [ModalType.Transaction]: TransactionModal,
   [ModalType.PlaceBid]: PlaceBidModal,
-  [ModalType.BuyNow] : BuyNowModal
+  [ModalType.BuyNow]: BuyNowModal,
+  [ModalType.CrowdfundGroupBuy]: CrowdfundGroupBuyModal
 };
 
 interface GlobalModalProviderProps {

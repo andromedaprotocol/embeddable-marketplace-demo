@@ -19,8 +19,8 @@
             "type": "embeddables-marketplace"
         },
         {
-            "crowdfund": "stars1eq4jnjwuth2shrcglnfpr6z66v0ghhnfw7vt75xla8p907kxczls2syfws",
-            "cw721": "stars1mx5qtcvcpa5p0tpx6ewd9g0aes0fdr8q849vdjh4zctv82a7vaasctj6cw",
+            "crowdfund": "stars1kcxf66cwrantuvgak9fdwdyyl62r48s77ylt8k33pkntev3cgwqqg7kgag",
+            "cw721": "stars189umlaydk3cjr7nyt2w39csvpecj8cm669w3fn80anhskcl95whsjs45k7",
             "name": "My Crowdfund",
             "id": "usecase-3",
             "type": "embeddables-crowdfund"
