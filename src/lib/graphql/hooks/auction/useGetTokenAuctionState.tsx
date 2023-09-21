@@ -1,38 +1,21 @@
-import { useAppUtils } from "@/lib/app/hooks";
-import {
-  QueryAuctionLatestAuctionState as Query,
-  QUERY_AUCTION_LATEST_AUCTION_STATE as QueryText,
-  QueryAuctionLatestAuctionStateResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
-import { gql, QueryResult, useQuery } from "@apollo/client";
-import { useMemo } from "react";
-
-export interface IQueryResult
-  extends Pick<QueryResult<QueryResponse>, "loading" | "error"> {
-  data: QueryResponse["auction"]["latestAuctionState"] | undefined;
-}
+import { useCodegenGeneratedAdoAuctionLatestauctionstateQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 
 export function useGetTokenAuctionState(
   tokenAddress: string,
   auctionAddress: string,
   tokenId: string
-): IQueryResult {
-  const { loading, error, data } = useQuery<QueryResponse, Query>(
-    gql`
-      ${QueryText}
-    `,
-    {
-      variables: {
-        contractAddress: auctionAddress ?? "",
-        tokenAddress: tokenAddress ?? "",
-        tokenId,
-      },
+) {
+  const { loading, error, data } = useCodegenGeneratedAdoAuctionLatestauctionstateQuery({
+    variables: {
+      'ADO_auction_address': auctionAddress,
+      'ADO_auction_auction_latestAuctionState_tokenAddress': tokenAddress,
+      'ADO_auction_auction_latestAuctionState_tokenId': tokenId
     }
-  );
+  })
 
   return {
     loading,
     error,
-    data: data?.auction?.latestAuctionState,
+    data: data?.ADO?.auction?.latestAuctionState,
   };
 }

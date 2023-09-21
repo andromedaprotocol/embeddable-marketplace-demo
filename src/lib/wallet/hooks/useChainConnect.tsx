@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { connectByChainId } from "../chains";
 import { AUTOCONNECT_KEY } from "../utils/contants";
 import useGetKeplrOnStart from "./useGetKeplrOnStart";

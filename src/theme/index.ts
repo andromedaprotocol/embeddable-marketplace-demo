@@ -55,7 +55,7 @@ export default extendTheme({
     Button,
     Heading,
     Input,
-    Menu,
+    // Menu,
     Modal,
     Popover,
     Spinner,

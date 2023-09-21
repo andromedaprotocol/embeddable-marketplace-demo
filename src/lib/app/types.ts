@@ -3,6 +3,7 @@ export interface IConfig extends IShareUrls {
     chainId: string;
     coinDenom: string;
     collections: ICollection[];
+    id: string;
 }
 
 export interface IBaseCollection extends IShareUrls {

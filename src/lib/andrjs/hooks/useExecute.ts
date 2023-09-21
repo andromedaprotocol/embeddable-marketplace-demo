@@ -1,7 +1,7 @@
 import type { Fee, Msg } from "@andromedaprotocol/andromeda.js";
 import { Coin } from "@cosmjs/proto-signing";
 import { useCallback } from "react";
-import useAndromedaContext from "./useAndromedaContext";
+import useAndromedaClient from "./useAndromedaClient";
 
 /**
  * A hook for performing an execute message on a given contract, returns an async execute function
@@ -9,11 +9,11 @@ import useAndromedaContext from "./useAndromedaContext";
  * @returns
  */
 export default function useExecute(address: string) {
-  const { client } = useAndromedaContext();
+  const client = useAndromedaClient();
 
   const execute = useCallback(
     async (msg: Msg, fee: Fee, memo?: string, funds?: Coin[]) => {
-      return client.execute(address, msg, fee, memo, funds);
+      return client!.execute(address, msg, fee, memo, funds);
     },
     [address, client],
   );

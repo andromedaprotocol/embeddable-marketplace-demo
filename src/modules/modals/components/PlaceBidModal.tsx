@@ -34,8 +34,8 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
 
   const MIN_BID = Math.max(
     0,
-    parseFloat(auctionState?.min_bid ?? "0"),
-    parseFloat(auctionState?.high_bidder_amount ?? "0")
+    auctionState?.min_bid ?? 0,
+    auctionState?.high_bidder_amount ?? 0
   );
 
   const DENOM = auctionState?.coin_denom ?? config?.coinDenom ?? "ujunox";

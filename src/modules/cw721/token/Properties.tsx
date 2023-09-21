@@ -1,10 +1,10 @@
-import { NFTInfo } from "@andromedaprotocol/andromeda.js";
+import { INftInfo } from "@andromedaprotocol/gql";
 import { Box, Divider, Flex, Icon, Link, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 
 
 interface PropertiesProps {
-    token: NFTInfo;
+    token: INftInfo;
 }
 
 const Properties: FC<PropertiesProps> = (props) => {

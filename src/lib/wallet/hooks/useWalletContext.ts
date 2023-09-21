@@ -1,14 +1,15 @@
-import type { ChainConfig } from "@andromedaprotocol/andromeda.js";
+"use client";
 import { AccountData } from "@cosmjs/proto-signing";
 import { Keplr } from "@keplr-wallet/types";
 import type { OfflineSigner } from "@cosmjs/proto-signing";
 import { createContext, useContext } from "react";
 import { KeplrConnectionStatus } from "../types";
+import { IChainConfig } from "@andromedaprotocol/gql/dist/__generated/types";
 
 export interface WalletContext {
   keplr?: Keplr;
   status: KeplrConnectionStatus;
-  config?: ChainConfig;
+  config?: IChainConfig;
   signer?: OfflineSigner;
   account?: AccountData
   //Requests the user's wallet info from Keplr

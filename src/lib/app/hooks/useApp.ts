@@ -1,18 +1,5 @@
-import { createContext, useContext } from "react";
-import { IConfig } from "../types";
+import { useAppStore } from "@/zustand/app";
 
-export interface AppContext {
-  config: IConfig;
-}
-
-const defaulValue: AppContext = {
-  config: {} as any,
-};
-
-export const AppContext = createContext(defaulValue);
-
-
-
-const useApp = () => useContext(AppContext);
+const useApp = () => useAppStore();
 export default useApp;
 

@@ -1,4 +1,6 @@
+"use client";
 import { useAppUtils } from "@/lib/app/hooks";
+import useApp from "@/lib/app/hooks/useApp";
 import { IBaseCollection } from "@/lib/app/types";
 import { LINKS } from "@/utils/links";
 import {
@@ -15,6 +17,7 @@ import React, { FC, useMemo } from "react";
 
 interface CollectionDropdownProps { }
 const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
+  const { config } = useApp();
   const { getCollections } = useAppUtils();
 
   const collections = useMemo(() => {
@@ -33,11 +36,9 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
       </MenuButton>
       <MenuList>
         {collections.map((col) => (
-          <Link key={col.id} href={LINKS.collection(col.id)} passHref>
-            <MenuItem as="a" key={col.id}>
-              <CollectionLinkItem name={col.name} />
-            </MenuItem>
-          </Link>
+          <MenuItem as={Link} href={LINKS.collection(col.id)} key={col.id}>
+            <CollectionLinkItem name={col.name} />
+          </MenuItem>
         ))}
       </MenuList>
     </Menu>

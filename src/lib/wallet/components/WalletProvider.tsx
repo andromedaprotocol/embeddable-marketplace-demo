@@ -1,5 +1,5 @@
+"use client";
 import type { OfflineSigner, AccountData } from "@cosmjs/proto-signing";
-import type { ChainConfig } from "@andromedaprotocol/andromeda.js/dist/types";
 
 import React, {
   FC,

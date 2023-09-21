@@ -33,7 +33,7 @@ const WalletModal: FC = () => {
             "Install Keplr to Connect"
           ) : (
             <>
-              <Image src={`${APP_ENV.BASE_PATH}/keplr.png`} h="8" />
+              <Image src={`/keplr.png`} h="8" />
               <Text fontSize="md">Keplr</Text>
             </>
           )}

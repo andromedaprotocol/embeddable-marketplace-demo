@@ -13,16 +13,16 @@ import CollectionRowToken from "./CollectionRowToken";
 import { useAppUtils } from "@/lib/app/hooks";
 import { useGetCw721, useGetCw721Tokens } from "@/lib/graphql/hooks/cw721";
 import { IAuctionCollection } from "@/lib/app/types";
+import useApp from "@/lib/app/hooks/useApp";
 
 interface Cw721CollectionRowProps {
   collectionId: string;
 }
 const Cw721CollectionRow: FC<Cw721CollectionRowProps> = (props) => {
   const { collectionId } = props;
-  const {getCollection} = useAppUtils()
+  const { getCollection } = useAppUtils();
   const collection = getCollection(collectionId) as IAuctionCollection;
 
-  const { data: cw721} = useGetCw721(collection.cw721);
   const { data: allTokens } = useGetCw721Tokens(collection.cw721);
 
   return (
