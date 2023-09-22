@@ -10,12 +10,7 @@ interface Props {
 
 const Providers: FC<Props> = (props) => {
     const { children, config } = props;
-
-    useLayoutEffect(() => {
-        console.log(config, "CONFIG");
-        updateConfig(config);
-    }, [config])
-
+    updateConfig(config);
     return (
         <>
             {children}

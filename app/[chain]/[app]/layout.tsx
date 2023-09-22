@@ -21,6 +21,9 @@ export async function generateMetadata(
         title: config.name,
         openGraph: {
             images: ['/logo.png'],
+            'title': config.name,
+            'releaseDate': config.modifiedDate,
+            'creators': config.twitter
         },
     }
 }

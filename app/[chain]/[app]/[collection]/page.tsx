@@ -13,7 +13,6 @@ interface Props {
 const Page: FC<Props> = (props) => {
     const { params: { collection: collectionId } } = props;
     const collection = useGetCollection(collectionId);
-    console.log(collection);
     if (!collection) {
         return notFound()
     }
