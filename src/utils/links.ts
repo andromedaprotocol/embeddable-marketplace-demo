@@ -1,8 +1,17 @@
 import { useAppStore } from "@/zustand/app";
-import { SESSION_KEYS, getSessionStorage } from "./storage";
 
 export const LINKS = {
-    home: (key?: string) => `/${key || useAppStore.getState().config.id}`,
-    collection: (id: string) => `/${useAppStore.getState().config.id}/${id}`,
-    cw721Token: (collectionId: string, tokenId: string) => `/${useAppStore.getState().config.id}/${collectionId}/cw721/${tokenId}`
+    home: (key?: string) => wrapPrefix('', key),
+    collection: (id: string) => wrapPrefix(`/${id}`),
+    cw721Token: (collectionId: string, tokenId: string) => wrapPrefix(`/${collectionId}/cw721/${tokenId}`)
 } as const;
+
+const wrapPrefix = (path: string, appId?: string) => {
+    const { config, isPreview } = useAppStore.getState();
+    const { chainId, id } = config ?? {};
+    if (isPreview) {
+        const params = new URLSearchParams(window.location.search)
+        return `/preview${path}?${params}`
+    }
+    return `/${chainId}/${appId || id}${path}`
+}

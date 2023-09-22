@@ -13,23 +13,25 @@ export const getClient = cache(async (chainId: string) => {
 })
 
 export const getConfig = cache(async (client: CosmWasmClient, key: string) => {
-    if (key === APP_ENV.DEFAULT_CONFIG.id) return APP_ENV.DEFAULT_CONFIG;
+    const chainId = await client.getChainId();
+    if (key === APP_ENV.DEFAULT_CONFIG.id && chainId === APP_ENV.DEFAULT_CONFIG.chainId) return APP_ENV.DEFAULT_CONFIG;
     const query: IGetKeyQuery = {
         "get_value": {
             "key": key
         }
     }
-    const rawConfig: IGetKeyQueryResponse = await client.queryContractSmart(APP_ENV.DATABASE.address, query);
+    const rawConfig: IGetKeyQueryResponse = await client.queryContractSmart(APP_ENV.DATABASE[chainId], query);
     const config: IConfig = JSON.parse(rawConfig.value.string);
     config.id = key;
     return config;
 })
 
 export const getAllApps = cache(async (client: CosmWasmClient) => {
+    const chainId = await client.getChainId();
     const query: IAllKeysQuery = {
         "all_keys": {
         }
     }
-    const keys: IAllKeysQueryResponse = await client.queryContractSmart(APP_ENV.DATABASE.address, query);
+    const keys: IAllKeysQueryResponse = await client.queryContractSmart(APP_ENV.DATABASE[chainId], query);
     return keys;
 })

@@ -35,10 +35,20 @@ export const useAndromedaStore = create<IAndromedaStore>((set, get) => ({
     isLoading: false
 }))
 
-export const KEPLR_AUTOCONNECT_KEY = "keplr_autoconnect";
+export const resetAndromedaStore = () => {
+    useAndromedaStore.setState({
+        client: undefined,
+        chainId: APP_ENV.DEFAULT_CONFIG.chainId,
+        isConnected: false,
+        keplr: undefined,
+        accounts: [],
+        keplrStatus: KeplrConnectionStatus.NotInstalled,
+        autoconnect: false,
+        isLoading: false
+    })
+}
 
-const FIXED_KERNEL_ADDRESSES: string[] = [
-]
+export const KEPLR_AUTOCONNECT_KEY = "keplr_autoconnect";
 
 export const connectAndromedaClient = async (chainId?: string | null) => {
     try {
@@ -47,7 +57,9 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
         const state = useAndromedaStore.getState();
         if (state.isLoading) return;
         useAndromedaStore.setState({ isLoading: true })
-        chainId = chainId || state.chainId
+        chainId = chainId || state.chainId;
+
+        console.log(chainId, "CHAIN ID");
 
 
         const keplr = state.keplr;
@@ -79,11 +91,10 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
         const signer = await keplr.getOfflineSignerAuto(config.chainId);
         const accounts = await signer.getAccounts();
 
-        const kernelAddr = FIXED_KERNEL_ADDRESSES.find(addr => addr.startsWith(config.addressPrefix)) || config.kernelAddress || '';
         // This is needed because there is some ssr error with andromeda client creation
         state.client = state.client || new (await import("@andromedaprotocol/andromeda.js")).default()
         await state.client.connect(config.chainUrl,
-            kernelAddr,
+            config.kernelAddress,
             config.addressPrefix,
             signer,
             { gasPrice: GasPrice.fromString(config.defaultFee) });

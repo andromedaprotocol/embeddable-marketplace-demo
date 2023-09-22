@@ -1,5 +1,4 @@
-import { useAllChainConfig } from "@/lib/graphql/hooks/chain";
-import { useWallet } from "@/lib/wallet";
+import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
 import {
   ChevronDownIcon,
   CopyIcon,
@@ -9,16 +8,13 @@ import {
 } from "@/modules/common/icons";
 import { CopyButton } from "@/modules/common/ui";
 import { truncate } from "@/utils/text";
+import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
 import {
   Badge,
   Button,
   HStack,
   Image,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Popover,
   PopoverBody,
   PopoverContent,
@@ -27,10 +23,12 @@ import {
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 
-interface ConnectedProps {}
+interface ConnectedProps { }
 const Connected: FC<ConnectedProps> = (props) => {
-  const {} = props;
-  const { disconnect, config, account } = useWallet();
+  const { } = props;
+  const { accounts, chainId } = useAndromedaStore();
+  const account = accounts[0];
+  const { data: config } = useQueryChain(chainId);
 
   return (
     <Popover placement="bottom-end">
@@ -128,7 +126,7 @@ const Connected: FC<ConnectedProps> = (props) => {
               <Button
                 leftIcon={<LogOutIcon boxSize={4} />}
                 variant="outline"
-                onClick={disconnect}
+                onClick={disconnectAndromedaClient}
                 fontWeight={500}
                 color="gray.700"
                 w="full"

@@ -1,23 +1,21 @@
-import React, { FC, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import Providers from "./providers";
-import { Metadata, ResolvingMetadata } from "next";
-import { Layout } from "@/modules/common/layout";
+import { Metadata } from "next";
 import { getClient, getConfig } from "@/lib/database/get";
-import { APP_ENV } from "@/appEnv";
+import { Layout } from "@/modules/common/layout";
 
-const client = await getClient(APP_ENV.DATABASE.chainId);
 interface Props {
     children?: ReactNode;
     params: {
         app: string;
+        chain: string;
     };
 }
 
 export async function generateMetadata(
     { params }: Props,
-    parent: ResolvingMetadata
 ): Promise<Metadata> {
-
+    const client = await getClient(params.chain);
     const config = await getConfig(client, params.app);
     return {
         title: config.name,
@@ -29,6 +27,7 @@ export async function generateMetadata(
 
 const RootLayout = async (props: Props) => {
     const { children, params } = props;
+    const client = await getClient(params.chain);
     const config = await getConfig(client, params.app);
     return (
         <Providers config={config}>

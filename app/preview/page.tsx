@@ -1,5 +1,6 @@
-import { DefaultApp } from "@/modules/default";
+"use client";
 import React, { FC } from "react"
+import { DiscoverPage } from "@/modules/discover";
 
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 const Page = async (props: Props) => {
     const { } = props;
     return (
-        <DefaultApp />
+        <DiscoverPage />
     )
 }
 

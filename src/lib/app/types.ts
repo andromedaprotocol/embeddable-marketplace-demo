@@ -4,6 +4,9 @@ export interface IConfig extends IShareUrls {
     coinDenom: string;
     collections: ICollection[];
     id: string;
+    createdDate: string;
+    modifiedDate: string;
+    banner?: string;
 }
 
 export interface IBaseCollection extends IShareUrls {

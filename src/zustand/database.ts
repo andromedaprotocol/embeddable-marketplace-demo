@@ -19,6 +19,14 @@ export const useDatabaseStore = create<IDatabaseStore>((set, get) => ({
     }
 }))
 
+export const resetDatabaseStore = () => {
+    useDatabaseStore.setState({
+        cache: {
+            [APP_ENV.DEFAULT_CONFIG.id]: APP_ENV.DEFAULT_CONFIG,
+        }
+    })
+}
+
 export const addDatabaseCacheConfig = async (key: string) => {
     try {
         let client = useDatabaseStore.getState().client;

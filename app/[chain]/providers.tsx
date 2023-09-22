@@ -1,25 +1,18 @@
 "use client"
-import { IConfig } from "@/lib/app/types";
-import { WalletProvider } from "@/lib/wallet";
-import { GlobalModalProvider } from "@/modules/modals";
 import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndromedaStore } from "@/zustand/andromeda";
-import { updateConfig } from "@/zustand/app";
 import React, { FC, ReactNode, useEffect } from "react"
 
 interface Props {
     children?: ReactNode;
-    config: IConfig;
+    chainId: string;
 }
 
 const Providers: FC<Props> = (props) => {
-    const { children, config } = props;
+    const { children, chainId } = props;
     const isConnected = useAndromedaStore(state => state.isConnected)
     const isLoading = useAndromedaStore(state => state.isLoading)
     const keplr = useAndromedaStore(state => state.keplr)
-
-    useEffect(() => {
-        updateConfig(config);
-    }, [config])
+    const connectedChainId = useAndromedaStore(state => state.chainId)
 
     useEffect(() => {
         initiateKeplr();
@@ -27,16 +20,17 @@ const Providers: FC<Props> = (props) => {
 
     useEffect(() => {
         const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
-        if (!isLoading || !isConnected && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
-            connectAndromedaClient(config.chainId);
+        if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
+            if (!isConnected || (isConnected && connectedChainId !== chainId)) {
+                connectAndromedaClient(chainId);
+            }
         }
-    }, [keplr, isConnected, isLoading]);
+    }, [keplr, isConnected, isLoading, connectedChainId]);
+
     return (
-        <WalletProvider>
-            <GlobalModalProvider>
-                {children}
-            </GlobalModalProvider>
-        </WalletProvider>
+        <>
+            {children}
+        </>
     )
 }
 

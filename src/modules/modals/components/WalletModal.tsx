@@ -1,17 +1,15 @@
-import { APP_ENV } from "@/appEnv";
-import { useWallet } from "@/lib/wallet";
-import { KeplrConnectionStatus } from "@/lib/wallet/types";
 import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
 import { FC, useEffect } from "react";
 import { useGlobalModalContext } from "../hooks";
+import { KeplrConnectionStatus, connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
 
 const WalletModal: FC = () => {
   const { close } = useGlobalModalContext();
-  const { account, status: keplrStatus, connect } = useWallet();
+  const { keplrStatus, isConnected } = useAndromedaStore();
 
   useEffect(() => {
-    if (account) close();
-  }, [account, close]);
+    if (isConnected) close();
+  }, [isConnected, close]);
 
   return (
     <>
@@ -24,7 +22,7 @@ const WalletModal: FC = () => {
           // leftIcon={<chakra.img src={icon} alt={name} boxSize={6} />} //TODO: Fix Icon
           mb={4}
           py={8}
-          onClick={connect}
+          onClick={() => connectAndromedaClient()}
           gap="2"
           disabled={keplrStatus !== KeplrConnectionStatus.Ok}
           w='full'
