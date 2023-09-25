@@ -2,17 +2,17 @@ import { Text, VStack } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { useGlobalModalContext } from "../../hooks";
 import KeplrWallet from "./Keplr";
-import { useAndromedaStore } from "@/zustand/andromeda";
 import { useParams } from "next/navigation";
+import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 
 const WalletModal: FC = () => {
     const { close } = useGlobalModalContext();
-    const connected = useAndromedaStore(state => state.isConnected);
+    const client = useAndromedaClient();
     const { chain } = useParams()
 
     useEffect(() => {
-        if (connected) close();
-    }, [connected, close]);
+        if (client) close();
+    }, [client, close]);
 
     return (
         <VStack alignItems="stretch">

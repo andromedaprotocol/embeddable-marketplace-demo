@@ -1,6 +1,5 @@
 import React, { FC } from "react"
 import { getAllApps, getClient } from "@/lib/database/get";
-import { APP_ENV } from "@/appEnv";
 import { HomePage } from "@/modules/home";
 
 

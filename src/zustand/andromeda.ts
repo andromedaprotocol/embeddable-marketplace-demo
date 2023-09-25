@@ -92,8 +92,8 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
         const accounts = await signer.getAccounts();
 
         // This is needed because there is some ssr error with andromeda client creation
-        state.client = state.client || new (await import("@andromedaprotocol/andromeda.js")).default()
-        await state.client.connect(config.chainUrl,
+        const client = state.client || new (await import("@andromedaprotocol/andromeda.js")).default()
+        await client.connect(config.chainUrl,
             config.kernelAddress,
             config.addressPrefix,
             signer,
@@ -107,7 +107,8 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
             keplr: keplr,
             keplrStatus: KeplrConnectionStatus.Ok,
             autoconnect: true,
-            isLoading: false
+            isLoading: false,
+            client: client
         })
     } catch (err) {
         useAndromedaStore.setState({ isLoading: false })

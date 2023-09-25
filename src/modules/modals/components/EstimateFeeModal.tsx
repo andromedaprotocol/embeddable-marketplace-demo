@@ -77,6 +77,7 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
     const simulateFee = async () => {
       setLoading(true);
       const getFee = () => {
+        console.log(client);
         return client!.estimateExecuteFee(
           props.contractAddress,
           props.msg,

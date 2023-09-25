@@ -10,14 +10,15 @@ import { Plus } from "lucide-react";
 interface ConnectWalletProps { }
 const ConnectWallet: FC<ConnectWalletProps> = (props) => {
   const { } = props;
-  const { isConnected, isLoading } = useAndromedaStore();
+  const { isLoading } = useAndromedaStore();
+  const client = useAndromedaClient();
   const open = useWalletModal();
-  if (isConnected) {
+  if (client) {
     return <Connected />;
   }
   return (
     <Button
-      leftIcon={<Icon as={Plus}  boxSize={5}/>}
+      leftIcon={<Icon as={Plus} boxSize={5} />}
       colorScheme="purple"
       onClick={open}
       isLoading={isLoading}

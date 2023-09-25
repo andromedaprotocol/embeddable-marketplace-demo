@@ -1,8 +1,8 @@
 "use client";
-import { Box, GridItem, SimpleGrid, Text } from "@chakra-ui/react";
-import React, { FC, useMemo } from "react";
-import AppRow from "./AppRow";
-import Featured from "./Featured";
+import { Box, GridItem, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import React, { FC } from "react";
+import EmbeddableList from "./List";
+import NoClientLayout from "@/modules/common/layout/components/NoClientLayout";
 
 interface HomePageProps {
   apps: string[]
@@ -10,21 +10,14 @@ interface HomePageProps {
 const HomePage: FC<HomePageProps> = (props) => {
   const { apps } = props;
   return (
-    <Box>
-      <Box mt="4">
-        <Featured />
+    <NoClientLayout>
+      <Box>
+        <Heading textAlign={'start'} fontWeight='600' fontSize={'24px'}>
+          Explore Apps created by community
+        </Heading>
+        <EmbeddableList apps={apps} />
       </Box>
-      <Text fontSize="xl" fontWeight="bold" mt="16">
-        Explore Apps created by community
-      </Text>
-      <SimpleGrid mt="10" columns={3} spacing="4">
-        {apps.map((app) => (
-          <GridItem key={app}>
-            <AppRow appId={app} />
-          </GridItem>
-        ))}
-      </SimpleGrid>
-    </Box>
+    </NoClientLayout>
   );
 };
 export default HomePage;

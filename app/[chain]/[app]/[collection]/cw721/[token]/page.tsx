@@ -2,6 +2,7 @@
 import { IAuctionCollection, useAppUtils } from "@/lib/app";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 import Cw721TokenPage from "@/modules/cw721/token";
+import { useCodegenGeneratedAdoCw721AndrQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 import { notFound } from 'next/navigation'
 import React, { FC } from "react"
 
@@ -16,7 +17,11 @@ const Page: FC<Props> = (props) => {
     const { params: { collection: collectionId, token: tokenId } } = props;
     const { getCollection } = useAppUtils();
     const collection = getCollection(collectionId) as IAuctionCollection;
-    const { error } = useGetCw721Token(collection?.cw721 ?? '', tokenId);
+    const { error } = useCodegenGeneratedAdoCw721AndrQuery({
+        variables: {
+            'ADO_cw721_address': collection.cw721
+        }
+    });
     if (error) {
         return notFound()
     }
