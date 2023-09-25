@@ -13,7 +13,7 @@ const CardOutline: FC<Props> = (props) => {
     return (
         <Box border="1px solid" borderColor="gray.300" p={5} borderRadius="lg">
             <Link href={link}>
-                <Image src={img} alt="Image" borderRadius="lg" cursor='pointer' _hover={{
+                <Image src={img} fallbackSrc="/fallback.svg" alt="Image" borderRadius="lg" cursor='pointer' _hover={{
                     scale: "105%"
                 }} transform='auto' transition='ease-in' transitionProperty='all' transitionDuration='150ms' />
             </Link>

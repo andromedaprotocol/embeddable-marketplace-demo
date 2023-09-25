@@ -31,6 +31,7 @@ const Cw721TokenPage: FC<Props> = (props) => {
                             alt="Image"
                             borderRadius="lg"
                             maxW="md"
+                            fallbackSrc="/fallback.svg"
                         />
                     </Box>
                     <Box py="2" mt="12">
