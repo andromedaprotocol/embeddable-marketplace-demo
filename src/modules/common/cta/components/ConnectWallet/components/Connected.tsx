@@ -40,8 +40,8 @@ const Connected: FC<ConnectedProps> = (props) => {
               size="lg"
               borderColor={isOpen ? "primary.600" : "gray.300"}
             >
-              <HStack mr={8}>
-                <Image src={config?.iconUrls?.sm ?? ""} w="6" />
+              <HStack mr='2'>
+                <Image src={config?.iconUrls?.sm ?? ""} w="5" />
                 <Text>{truncate(account?.address ?? "")}</Text>
                 <Badge
                   colorScheme={

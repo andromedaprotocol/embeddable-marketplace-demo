@@ -36,11 +36,10 @@ const Providers: FC<Props> = (props) => {
         const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
         if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
             if (!isConnected || (isConnected && (connectedChainId !== chainId))) {
-                console.log(chainId, "CHAIN")
                 connectAndromedaClient(chainId);
             }
         }
-    }, [keplr, isConnected, isLoading, connectedChainId]);
+    }, [keplr, isConnected, isLoading, chainId]);
 
     if (!loaded) return null;
 
