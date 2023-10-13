@@ -8,7 +8,8 @@ export function useGetBids(
     variables: {
       'ADO_auction_address': auctionAddress,
       'ADO_auction_auction_bids_auctionId': auctionId
-    }
+    },
+    pollInterval: 1000
   })
 
   return {

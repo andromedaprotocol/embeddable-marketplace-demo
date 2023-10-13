@@ -11,9 +11,8 @@ import Link from "next/link";
 import React, { FC, useMemo } from "react";
 import CollectionRowToken from "./CollectionRowToken";
 import { useAppUtils } from "@/lib/app/hooks";
-import { useGetCw721, useGetCw721Tokens } from "@/lib/graphql/hooks/cw721";
+import { useGetCw721Tokens } from "@/lib/graphql/hooks/cw721";
 import { IAuctionCollection } from "@/lib/app/types";
-import useApp from "@/lib/app/hooks/useApp";
 
 interface Cw721CollectionRowProps {
   collectionId: string;
@@ -30,15 +29,6 @@ const Cw721CollectionRow: FC<Cw721CollectionRowProps> = (props) => {
       <SimpleGrid columns={4} spacing="4">
         <GridItem>
           <Flex direction="column" gap="4" alignItems="start">
-            {/* <Image
-              rounded="2xl"
-              bottom="4"
-              left="4"
-              border="2px solid white"
-              alt="Image"
-              h="24"
-              fit="contain"
-            /> */}
             <Text fontSize="xl" fontWeight="bold">
               {collection.name}
             </Text>

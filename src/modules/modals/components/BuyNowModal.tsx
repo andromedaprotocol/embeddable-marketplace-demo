@@ -17,15 +17,17 @@ import { BuyNowModalProps } from "../types";
 import { Msg } from "@andromedaprotocol/andromeda.js";
 import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
+import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 
 const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const { contractAddress, tokenId, marketplaceAddress } = props;
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
-   const { data: marketplaceState } = useGetTokenMarketplaceInfo(
-     marketplaceAddress,
-     contractAddress,
-     tokenId
-   );
+  const { tokenUri } = useGetTokenUri(token?.token_uri);
+  const { data: marketplaceState } = useGetTokenMarketplaceInfo(
+    marketplaceAddress,
+    contractAddress,
+    tokenId
+  );
 
 
   const { config } = useApp();
@@ -39,9 +41,9 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const onSubmit = () => {
     const msg = construct({ tokenAddress: contractAddress, tokenId: tokenId });
     console.log("price:", marketplaceState?.latestSaleState.price);
-    console.log (JSON.stringify(msg));
+    console.log(JSON.stringify(msg));
     console.log("DENOM:", DENOM);
-    const funds = coins(marketplaceState?.latestSaleState.price ?? 0 , DENOM);
+    const funds = coins(marketplaceState?.latestSaleState.price ?? 0, DENOM);
     openExecute(msg, true, funds);
   };
 
@@ -51,12 +53,12 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
         Purchase
       </Heading>
       <Text textStyle="light" mb="4">
-        You are about to buy <b>{token?.extension?.name}</b>.
-       
+        You are about to buy <b>{tokenUri?.name}</b> which has tokenId <b>{tokenId}</b>.
+
       </Text>
       <Box>
         <FormControl>
-          
+
           <Button onClick={onSubmit} w="full" mt="6" variant="solid">
             Buy Now
           </Button>

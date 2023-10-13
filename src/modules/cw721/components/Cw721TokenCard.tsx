@@ -12,6 +12,7 @@ import { useGetCollection } from "@/lib/app/hooks/useGetCollection";
 import { ICollectionType } from "@/lib/app/types";
 import Cw721AuctionState from "./Cw721AuctionState";
 import Cw721MarketplaceState from "./Cw721MarketplaceState";
+import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 
 interface Cw721TokenCardProps {
   tokenId: string;
@@ -21,18 +22,19 @@ interface Cw721TokenCardProps {
 const Cw721TokenCard: FC<Cw721TokenCardProps> = ({ tokenId, collectionId, contractAddress }) => {
   const { data: cw721 } = useGetCw721(contractAddress);
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
+  const { tokenUri } = useGetTokenUri(token?.token_uri ?? '')
   const collection = useGetCollection(collectionId);
 
 
   return (
     <CardOutline
       link={LINKS.cw721Token(collectionId, tokenId)}
-      img={token?.extension.image}
+      img={tokenUri?.image}
     >
       <HStack justifyContent="space-between" mt="3">
         <CardStats
           title={cw721?.contractInfo?.name ?? ""}
-          body={token?.extension.name ?? ''}
+          body={tokenUri?.name ?? ''}
         />
       </HStack>
       <Box mt="1">

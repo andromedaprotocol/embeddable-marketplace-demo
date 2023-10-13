@@ -64,7 +64,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
       }
     }, 1000);
     return () => clearInterval(tId);
-  }, [auctionState]);
+  }, [auctionState, isStarted, isEnded]);
 
 
   return (
@@ -155,7 +155,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
           </Box>
         </SimpleGrid>
         <PlaceBidButton
-          disabled={!isStarted || isEnded}
+          isDisabled={!auctionState || !isStarted || isEnded}
           contractAddress={collection.cw721}
           auctionAddress={collection.auction}
           tokenId={tokenId}
