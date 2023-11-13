@@ -1,17 +1,17 @@
 import { useAppStore } from "@/zustand/app";
 
 export const LINKS = {
-    home: (key?: string) => wrapPrefix('', key),
+    home: (key?: string, chainId?: string) => wrapPrefix('', key, chainId),
     collection: (id: string) => wrapPrefix(`/${id}`),
     cw721Token: (collectionId: string, tokenId: string) => wrapPrefix(`/${collectionId}/cw721/${tokenId}`)
 } as const;
 
-const wrapPrefix = (path: string, appId?: string) => {
+const wrapPrefix = (path: string, appId?: string, chainId?: string) => {
     const { config, isPreview } = useAppStore.getState();
-    const { chainId, id } = config ?? {};
+    const { chainId: configChainId, id } = config ?? {};
     if (isPreview) {
         const params = new URLSearchParams(window.location.search)
         return `/preview${path}?${params}`
     }
-    return `/${chainId}/${appId || id}${path}`
+    return `/${chainId || configChainId}/${appId || id}${path}`
 }

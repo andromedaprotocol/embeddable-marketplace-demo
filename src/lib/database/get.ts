@@ -32,6 +32,7 @@ export const getAllApps = cache(async (client: CosmWasmClient) => {
         "all_keys": {
         }
     }
+    console.log(APP_ENV.DATABASE[chainId], chainId, "DB");
     const keys: IAllKeysQueryResponse = await client.queryContractSmart(APP_ENV.DATABASE[chainId], query);
     return keys;
 })

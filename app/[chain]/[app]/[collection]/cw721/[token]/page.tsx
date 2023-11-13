@@ -22,6 +22,7 @@ const Page: FC<Props> = (props) => {
             'ADO_cw721_address': collection.cw721
         }
     });
+    console.log(error, "Error");
     if (error) {
         return notFound()
     }

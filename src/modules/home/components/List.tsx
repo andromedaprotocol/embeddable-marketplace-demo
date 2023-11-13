@@ -1,4 +1,5 @@
 import { LINKS } from "@/utils/links";
+import { useAndromedaStore } from "@/zustand/andromeda";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Flex, Grid, GridItem, Heading, HStack, Input, InputGroup, InputLeftElement, Select, SimpleGrid, Skeleton, Stack, VStack } from "@chakra-ui/react";
 import Link from "next/link";
@@ -11,6 +12,7 @@ interface Props {
 const EmbeddableList: FC<Props> = (props) => {
     const { apps } = props;
     const [searchInput, setSearchInput] = useState('');
+    const chainId = useAndromedaStore(state => state.chainId);
 
     const [sortType, setSortType] = useState('');
     const [keyList, setkeyList] = useState(apps);
@@ -51,7 +53,7 @@ const EmbeddableList: FC<Props> = (props) => {
                     </Grid>
                     <SimpleGrid columns={2} spacing={6}>
                         {keyList.map(key => (
-                            <GridItem as={Link} href={LINKS.home(key)} key={key} px='4' py='3' rounded="xl" bg='gray.100' textTransform="uppercase" fontWeight='bold'>
+                            <GridItem as={Link} href={LINKS.home(key, chainId)} key={key} px='4' py='3' rounded="xl" bg='gray.100' textTransform="uppercase" fontWeight='bold'>
                                 {key}
                             </GridItem>
                         ))}
