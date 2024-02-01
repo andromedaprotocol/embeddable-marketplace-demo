@@ -13,11 +13,12 @@ const ExchangePage: FC<Props> = (props) => {
     
     const [nativeAmount, setNativeAmount] = useState(0);
     const handleAndrInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setNativeAmount(parseFloat(e.currentTarget.value) || 0)
+        let value = e.currentTarget.value? parseFloat(e.currentTarget.value): 0;
+        setNativeAmount(value)
     }
     return (
         <Flex direction="row" justify={"space-between"}>
-            <ExchangeIntro />
+            <ExchangeIntro cw20={collection.cw20}/>
             <ExchangeCard
                 handleAndrInput={handleAndrInput}
                 nativeAmount={nativeAmount}

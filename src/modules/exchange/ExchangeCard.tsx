@@ -38,7 +38,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
         exchange,
         cw20,
         balance.denom
-        );
+    );
 
     const {data: cw20_balance} = useGetCw20Balance(cw20, account?.address);
 
@@ -100,7 +100,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
                     <Image src={cw20_url} alt={symbol} w="8"/>
                 </Flex>
             </Box>
-            <Button backgroundColor={"gray.900"} display={"block"} width={"full"} onClick={open} disabled={!nativeAmount}>Buy</Button>
+            <Button backgroundColor={"gray.900"} display={"block"} width={"full"} onClick={open} isDisabled={nativeAmount == 0}>Buy</Button>
             <ExchangeCardSummary
                 rate={exchange_rate}
                 estimatedCost={nativeAmount}

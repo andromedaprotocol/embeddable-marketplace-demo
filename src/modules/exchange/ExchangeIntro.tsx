@@ -1,14 +1,18 @@
 import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
+import { useGetCw20MarketingInfo } from "@/lib/graphql/hooks/cw20";
 import { useAndromedaStore } from "@/zustand/andromeda";
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button, Link } from "@chakra-ui/react";
 import React, { FC } from "react"
 
 interface ExchangeIntroProps {
+    cw20: string
 }
 
 const ExchangeIntro: FC<ExchangeIntroProps> = (props) => {
+    const {cw20} = props;
     const { accounts, chainId } = useAndromedaStore();
     const { data: chainConfig } = useQueryChain(chainId);
+    const { data: tokenInfo } = useGetCw20MarketingInfo(cw20);
 
     return (
         <Flex direction="row" justify={"space-between"} my={"auto"}>
@@ -17,9 +21,11 @@ const ExchangeIntro: FC<ExchangeIntroProps> = (props) => {
                     Buy and sell CW20 tokens on {chainConfig?.chainName} Chain
                 </Text>
                 <Text fontWeight="light" fontSize="md" mt="2" mb="2">
-                    Lorem ipsum dolor sit amet consectetur. Et condimentum aenean tristique cursus vitae. Sit nec convallis massa senectus tincidunt dis blandit massa.
+                    {tokenInfo?.marketingInfo?.description}
                 </Text>
-                <Button width={"fit-content"} backgroundColor={"gray.900"} paddingX={12}>Learn more</Button>
+                <Link href={tokenInfo?.marketingInfo?.project} target="_blank">
+                    <Button width={"fit-content"} backgroundColor={"gray.900"} paddingX={12}>Learn more</Button>
+                </Link>
             </Flex>
         </Flex>
     )

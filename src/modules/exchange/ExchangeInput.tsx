@@ -16,7 +16,7 @@ const ExchangeInput: FC<ExchangeInputProps> = (props) => {
                 borderColor={"purple.400"}
                 focusBorderColor="purple.500"
                 borderWidth={2}
-                value={value}
+                value={value.toString()}
                 onChange={onChange}
                 type="number"
             />
