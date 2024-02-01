@@ -1,4 +1,3 @@
-import { useCodegenGeneratedAdoCw20ExchangeSaleassetsQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 import { QueryResult, gql, useQuery } from "@apollo/client";
 
 interface QueryResponse extends Pick<QueryResult<SaleAssetsResponse>, "loading" | "error"> {
@@ -8,7 +7,7 @@ interface QueryResponse extends Pick<QueryResult<SaleAssetsResponse>, "loading" 
 type SaleAssetsResponse = {
   ADO: {
     cw20_exchange: {
-      tokenAddress: String
+      tokenAddress: string
       saleAssets: [string]
     }
   }

@@ -2,6 +2,7 @@ export { default as AlertCircleIcon } from "./AlertCircleIcon";
 export {default as AndromedaIcon} from './AndromedaIcon'
 export { default as AppStore } from "./AppStore";
 export { default as ArchiveIcon } from "./ArchiveIcon";
+export { default as ArrowDownIcon } from "./ArrowDownIcon";
 export { default as BarChartIcon } from "./BarChartIcon";
 export { default as BookOpenIcon } from "./BookOpenIcon";
 export { default as BoxIcon } from "./BoxIcon";

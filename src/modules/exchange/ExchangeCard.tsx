@@ -1,0 +1,106 @@
+import { Box, Flex, Text, Button, Image } from "@chakra-ui/react";
+import React, { ChangeEvent, FC, useMemo } from "react"
+import ExchangeInput from "./ExchangeInput";
+import {
+    ArrowDownIcon
+} from "@/modules/common/icons";
+import ExchangeCardSummary from "./ExchangeCardSummary";
+import { useGetSaleInfo } from "@/lib/graphql/hooks/exchange";
+import useExchangeConfirmModal from "@/modules/modals/hooks/useExchangeConfirmModal";
+import useApp from "@/lib/app/hooks/useApp";
+import { useGetBalance } from "@/lib/andrjs/hooks";
+import { formatNumber } from "@/utils/number";
+import { useAndromedaStore } from "@/zustand/andromeda";
+import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
+
+interface ExchangeCardProps {
+    handleAndrInput: (e: ChangeEvent<HTMLInputElement>) => void,
+    nativeAmount: number,
+    exchange: string,
+    cw20: string,
+}
+
+const ExchangeCard: FC<ExchangeCardProps> = (props) => {
+    const {handleAndrInput, nativeAmount, exchange, cw20} = props;
+    const { config } = useApp();
+
+    const { accounts, chainId } = useAndromedaStore();
+    const account = accounts[0];
+
+    const {balance} = useGetBalance(config.coinDenom, account?.address);
+    const { data: chainConfig } = useQueryChain(chainId);
+
+    const { data, loading, error } = useGetSaleInfo(
+        // address: string, cw20: string, native: string
+        exchange,
+        cw20,
+        balance.denom
+    );
+    const {symbol, amount, exchange_rate, cw20_url} = useMemo(() => {
+        let logo = JSON.parse(JSON.stringify(data?.cw20.marketingInfo?.logo) || "{}")
+        // if (logo == null) {
+        //     logo = {
+        //         url: "https://assets.coingecko.com/coins/images/22363/small/stars.png"
+        //     }
+        // }
+        return {
+            symbol: data?.cw20.tokenInfo?.symbol || "",
+            amount: data?.cw20_exchange?.sale?.amount || 0,
+            exchange_rate: data?.cw20_exchange?.sale?.exchange_rate || 0,
+            cw20_url:  logo && logo["url"]
+        }
+    }, [data])
+
+    const open = useExchangeConfirmModal({
+        cw20Symbol: symbol,
+        nativeAmount: nativeAmount,
+        exchangeAddress: "",
+        exchangeRate: exchange_rate,
+        nativeDenom: config.coinDenom
+    });
+
+    return (
+        <Box borderWidth='1px' borderRadius='lg' padding={6}>
+            <Text fontWeight="bold" fontSize="3xl">Buy {symbol} Tokens</Text>
+            <Flex gap={6} backgroundColor={"blue.50"} rounded={"sm"} py={1} px={4} mt={6}>
+                <Flex gap={1}>
+                    <Text color={"blackAlpha.600"}>Max Supply</Text>
+                    <Text fontWeight={"bold"}>{formatNumber(amount)} {symbol}</Text>
+                </Flex>
+                <Flex gap={1}>
+                    <Text color={"blackAlpha.600"}>Available for Purchase</Text>
+                    <Text fontWeight={"bold"}>{formatNumber(amount)} {symbol}</Text>
+                </Flex>
+            </Flex>
+            <Box mt={6}>
+                <Flex justify={"space-between"} mb={2}>
+                    <Text color={"blackAlpha.600"}>You pay in {config.coinDenom}</Text>
+                    <Text color={"#5B6BCF"} decoration={"underline"}>Balance: {balance.amount}</Text>
+                </Flex>
+                <ExchangeInput onChange={handleAndrInput} value={nativeAmount} icon={chainConfig?.iconUrls?.sm || ''} symbol={symbol} />
+            </Box>
+            <Box textAlign={"center"} my={4}>
+                <ArrowDownIcon color={"#5B6BCF"}/>
+            </Box>
+            <Box mb={6}>
+                <Flex justify={"space-between"} mb={2}>
+                    <Text color={"blackAlpha.600"}>You get {symbol}</Text>
+                    <Text color={"#5B6BCF"} decoration={"underline"}>1 {symbol} = {exchange_rate} {balance.denom}</Text>
+                </Flex>
+                <Flex justify={"space-between"} align={"center"} mb={2} background={"gray.100"} py={2} px={3} borderRadius={"lg"}>
+                    <Text fontWeight={"bold"}>{nativeAmount / exchange_rate || 0}</Text>
+                    <Image src={cw20_url} alt={symbol} w="8"/>
+                </Flex>
+            </Box>
+            <Button backgroundColor={"gray.900"} display={"block"} width={"full"} onClick={open} disabled={!nativeAmount}>Buy</Button>
+            <ExchangeCardSummary
+                rate={exchange_rate}
+                estimatedCost={nativeAmount}
+                balance={balance}
+                targetSymbol={symbol}
+            />
+        </Box>
+    )
+}
+
+export default ExchangeCard

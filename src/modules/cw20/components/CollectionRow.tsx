@@ -13,7 +13,6 @@ import CollectionRowItem from "./CollectionRowItem";
 import { useAppUtils } from "@/lib/app/hooks";
 import { useGetSaleAssets } from "@/lib/graphql/hooks/exchange";
 import { IExchangeCollection } from "@/lib/app/types";
-import useApp from "@/lib/app/hooks/useApp";
 
 interface Cw20CollectionRowProps {
   collectionId: string;
