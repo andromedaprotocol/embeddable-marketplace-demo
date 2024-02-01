@@ -8,10 +8,12 @@ interface ExchangeCardSummaryProps {
     rate: number,
     balance: Coin,
     targetSymbol: string,
+    cw20_balance: number
+    cw20_decimals: number
 }
 
 const ExchangeCardSummary: FC<ExchangeCardSummaryProps> = (props) => {
-    const {estimatedCost, rate, balance, targetSymbol} = props;
+    const {estimatedCost, rate, balance, targetSymbol, cw20_balance, cw20_decimals} = props;
     return (
         <Box borderColor="gray.300" p={4} borderWidth={"1px"} mt={6}>
             <Flex justify={"space-between"}>
@@ -24,7 +26,9 @@ const ExchangeCardSummary: FC<ExchangeCardSummaryProps> = (props) => {
             </Flex>
             <Flex justify={"space-between"}>
                 <Text color={"blackAlpha.600"}>Your Asset Balance</Text>
-                <Text>{formatNumber(estimatedCost)} {balance.denom}</Text>
+                <Text>
+                    {cw20_balance + estimatedCost / rate} {targetSymbol}
+                </Text>
             </Flex>
         </Box>
     )

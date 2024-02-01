@@ -8,10 +8,11 @@ import ExchangeCardSummary from "./ExchangeCardSummary";
 import { useGetSaleInfo } from "@/lib/graphql/hooks/exchange";
 import useExchangeConfirmModal from "@/modules/modals/hooks/useExchangeConfirmModal";
 import useApp from "@/lib/app/hooks/useApp";
-import { useGetBalance } from "@/lib/andrjs/hooks";
 import { formatNumber } from "@/utils/number";
 import { useAndromedaStore } from "@/zustand/andromeda";
 import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
+import { useGetCw20Balance } from "@/lib/graphql/hooks/cw20";
+import { useGetBalance } from "@/lib/andrjs";
 
 interface ExchangeCardProps {
     handleAndrInput: (e: ChangeEvent<HTMLInputElement>) => void,
@@ -28,15 +29,20 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
     const account = accounts[0];
 
     const {balance} = useGetBalance(config.coinDenom, account?.address);
-    const { data: chainConfig } = useQueryChain(chainId);
 
+    
+    const { data: chainConfig } = useQueryChain(chainId);
+    
     const { data, loading, error } = useGetSaleInfo(
         // address: string, cw20: string, native: string
         exchange,
         cw20,
         balance.denom
-    );
-    const {symbol, amount, exchange_rate, cw20_url} = useMemo(() => {
+        );
+
+    const {data: cw20_balance} = useGetCw20Balance(cw20, account?.address);
+
+    const {symbol, total_amount, amount, exchange_rate, cw20_url, cw20_decimals} = useMemo(() => {
         let logo = JSON.parse(JSON.stringify(data?.cw20.marketingInfo?.logo) || "{}")
         // if (logo == null) {
         //     logo = {
@@ -44,7 +50,9 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
         //     }
         // }
         return {
+            cw20_decimals: data?.cw20.tokenInfo.decimals,
             symbol: data?.cw20.tokenInfo?.symbol || "",
+            total_amount: data?.cw20.tokenInfo.total_supply || 0,
             amount: data?.cw20_exchange?.sale?.amount || 0,
             exchange_rate: data?.cw20_exchange?.sale?.exchange_rate || 0,
             cw20_url:  logo && logo["url"]
@@ -54,7 +62,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
     const open = useExchangeConfirmModal({
         cw20Symbol: symbol,
         nativeAmount: nativeAmount,
-        exchangeAddress: "",
+        exchangeAddress: exchange,
         exchangeRate: exchange_rate,
         nativeDenom: config.coinDenom
     });
@@ -65,7 +73,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
             <Flex gap={6} backgroundColor={"blue.50"} rounded={"sm"} py={1} px={4} mt={6}>
                 <Flex gap={1}>
                     <Text color={"blackAlpha.600"}>Max Supply</Text>
-                    <Text fontWeight={"bold"}>{formatNumber(amount)} {symbol}</Text>
+                    <Text fontWeight={"bold"}>{formatNumber(total_amount)} {symbol}</Text>
                 </Flex>
                 <Flex gap={1}>
                     <Text color={"blackAlpha.600"}>Available for Purchase</Text>
@@ -97,6 +105,8 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
                 rate={exchange_rate}
                 estimatedCost={nativeAmount}
                 balance={balance}
+                cw20_balance={cw20_balance|| 0}
+                cw20_decimals={cw20_decimals || 0}
                 targetSymbol={symbol}
             />
         </Box>
