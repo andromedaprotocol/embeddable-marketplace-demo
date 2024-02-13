@@ -100,7 +100,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
                     <Text color={"#5B6BCF"} decoration={"underline"}>1 {symbol} = {exchange_rate} {balance.denom}</Text>
                 </Flex>
                 <Flex justify={"space-between"} align={"center"} mb={2} background={"gray.100"} py={2} px={3} borderRadius={"lg"}>
-                    <Text fontWeight={"bold"}>{nativeAmount / exchange_rate || 0}</Text>
+                    <Text fontWeight={"bold"}>{Math.floor(nativeAmount / exchange_rate) || 0}</Text>
                     <Image src={cw20_url} alt={symbol} w="8"/>
                 </Flex>
             </Box>
