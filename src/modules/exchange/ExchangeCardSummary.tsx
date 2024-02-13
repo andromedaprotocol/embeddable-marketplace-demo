@@ -27,7 +27,7 @@ const ExchangeCardSummary: FC<ExchangeCardSummaryProps> = (props) => {
             <Flex justify={"space-between"}>
                 <Text color={"blackAlpha.600"}>Your Asset Balance</Text>
                 <Text>
-                    {cw20_balance + estimatedCost / rate} {targetSymbol}
+                    {cw20_balance} {targetSymbol}
                 </Text>
             </Flex>
         </Box>

@@ -49,11 +49,15 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
         //         url: "https://assets.coingecko.com/coins/images/22363/small/stars.png"
         //     }
         // }
+        let decimals = data?.cw20.tokenInfo.decimals || 0;
+        let divider = 10 ** decimals;
+        let total_amount = (data?.cw20.tokenInfo.total_supply || 0) / (divider);
+        let amount = (data?.cw20_exchange?.sale?.amount || 0) / (divider);
         return {
-            cw20_decimals: data?.cw20.tokenInfo.decimals,
+            cw20_decimals: decimals,
             symbol: data?.cw20.tokenInfo?.symbol || "",
-            total_amount: data?.cw20.tokenInfo.total_supply || 0,
-            amount: data?.cw20_exchange?.sale?.amount || 0,
+            total_amount: total_amount,
+            amount: amount,
             exchange_rate: data?.cw20_exchange?.sale?.exchange_rate || 0,
             cw20_url:  logo && logo["url"]
         }
@@ -82,7 +86,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
             </Flex>
             <Box mt={6}>
                 <Flex justify={"space-between"} mb={2}>
-                    <Text color={"blackAlpha.600"}>You pay in {config.coinDenom}</Text>
+                    <Text color={"blackAlpha.600"}>You pay in {account ? config.coinDenom: "uandr"}</Text>
                     <Text color={"#5B6BCF"} decoration={"underline"}>Balance: {balance.amount}</Text>
                 </Flex>
                 <ExchangeInput onChange={handleAndrInput} value={nativeAmount} icon={chainConfig?.iconUrls?.sm || ''} symbol={symbol} />
