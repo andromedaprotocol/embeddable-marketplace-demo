@@ -13,6 +13,7 @@ import { useAndromedaStore } from "@/zustand/andromeda";
 import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
 import { useGetCw20Balance } from "@/lib/graphql/hooks/cw20";
 import { useGetBalance } from "@/lib/andrjs";
+import { ConnectWallet } from "../common/cta";
 
 interface ExchangeCardProps {
     handleAndrInput: (e: ChangeEvent<HTMLInputElement>) => void,
@@ -34,7 +35,6 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
     const { data: chainConfig } = useQueryChain(chainId);
     
     const { data, loading, error } = useGetSaleInfo(
-        // address: string, cw20: string, native: string
         exchange,
         cw20,
         balance.denom
@@ -44,11 +44,6 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
 
     const {symbol, total_amount, amount, exchange_rate, cw20_url, cw20_decimals} = useMemo(() => {
         let logo = JSON.parse(JSON.stringify(data?.cw20.marketingInfo?.logo) || "{}")
-        // if (logo == null) {
-        //     logo = {
-        //         url: "https://assets.coingecko.com/coins/images/22363/small/stars.png"
-        //     }
-        // }
         let decimals = data?.cw20.tokenInfo.decimals || 0;
         let divider = 10 ** decimals;
         let total_amount = (data?.cw20.tokenInfo.total_supply || 0) / (divider);
@@ -86,7 +81,7 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
             </Flex>
             <Box mt={6}>
                 <Flex justify={"space-between"} mb={2}>
-                    <Text color={"blackAlpha.600"}>You pay in {account ? config.coinDenom: "uandr"}</Text>
+                    <Text color={"blackAlpha.600"}>You pay in {account ? balance.denom: "uandr"}</Text>
                     <Text color={"#5B6BCF"} decoration={"underline"}>Balance: {balance.amount}</Text>
                 </Flex>
                 <ExchangeInput onChange={handleAndrInput} value={nativeAmount} icon={chainConfig?.iconUrls?.sm || ''} symbol={symbol} />
@@ -94,25 +89,35 @@ const ExchangeCard: FC<ExchangeCardProps> = (props) => {
             <Box textAlign={"center"} my={4}>
                 <ArrowDownIcon color={"#5B6BCF"}/>
             </Box>
-            <Box mb={6}>
-                <Flex justify={"space-between"} mb={2}>
-                    <Text color={"blackAlpha.600"}>You get {symbol}</Text>
-                    <Text color={"#5B6BCF"} decoration={"underline"}>1 {symbol} = {exchange_rate} {balance.denom}</Text>
-                </Flex>
-                <Flex justify={"space-between"} align={"center"} mb={2} background={"gray.100"} py={2} px={3} borderRadius={"lg"}>
-                    <Text fontWeight={"bold"}>{Math.floor(nativeAmount / exchange_rate) || 0}</Text>
-                    <Image src={cw20_url} alt={symbol} w="8"/>
-                </Flex>
-            </Box>
-            <Button backgroundColor={"gray.900"} display={"block"} width={"full"} onClick={open} isDisabled={nativeAmount == 0}>Buy</Button>
-            <ExchangeCardSummary
-                rate={exchange_rate}
-                estimatedCost={nativeAmount}
-                balance={balance}
-                cw20_balance={cw20_balance|| 0}
-                cw20_decimals={cw20_decimals || 0}
-                targetSymbol={symbol}
-            />
+            {
+                account ? (
+                    <Box>    
+                        <Box mb={6}>    
+                            <Flex justify={"space-between"} mb={2}>
+                                <Text color={"blackAlpha.600"}>You get {symbol}</Text>
+                            </Flex>
+                            <Flex justify={"space-between"} align={"center"} mb={2} background={"gray.100"} py={2} px={3} borderRadius={"lg"}>
+                                <Text fontWeight={"bold"}>{Math.floor(nativeAmount / exchange_rate) || 0}</Text>
+                                <Image src={cw20_url} alt={symbol} w="8"/>
+                            </Flex>
+                        </Box>
+                        <Button backgroundColor={"gray.900"} display={"block"} width={"full"} onClick={open} isDisabled={nativeAmount == 0}>Buy</Button>
+                        <ExchangeCardSummary
+                            rate={exchange_rate}
+                            estimatedCost={nativeAmount}
+                            balance={balance}
+                            cw20_balance={cw20_balance|| 0}
+                            cw20_decimals={cw20_decimals || 0}
+                            targetSymbol={symbol}
+                        />
+                    </Box>
+            
+                ): (
+                    <Flex justify={"center"}>
+                        <ConnectWallet/>
+                    </Flex>
+                )
+            }
         </Box>
     )
 }
