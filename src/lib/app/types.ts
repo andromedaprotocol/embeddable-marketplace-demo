@@ -49,7 +49,8 @@ export interface IExchangeCollection extends IBaseCollection {
     type: ICollectionType.EXCHANGE;
 }
 
-export type ICollection = IAuctionCollection | IMarketplaceCollection | ICrowdfundCollection | IExchangeCollection;
+export type ICollectionCw20 = IExchangeCollection;
+export type ICollectionCw721 = IAuctionCollection | IMarketplaceCollection | ICrowdfundCollection;
 
 
 export interface IShareUrls {

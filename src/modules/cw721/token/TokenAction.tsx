@@ -1,4 +1,4 @@
-import { ICollection, ICollectionType } from "@/lib/app/types";
+import { ICollectionCw721, ICollectionType } from "@/lib/app/types";
 import { useGetCw721, useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 import AuctionInfo from "@/modules/auction/AuctionInfo";
@@ -7,7 +7,7 @@ import MarketplaceInfo from "@/modules/marketplace/MarketplaceInfo";
 import React, { FC } from "react"
 
 interface Props {
-    collection: ICollection;
+    collection: ICollectionCw721;
     tokenId: string;
 }
 
