@@ -18,7 +18,9 @@ export enum ICollectionType {
     AUCTION = 'embeddables-auction',
     MARKETPLACE = 'embeddables-marketplace',
     CROWDFUND = 'embeddables-crowdfund',
+    EXCHANGE = 'embeddables-exchange',
 }
+
 
 export interface IAuctionCollection extends IBaseCollection {
     auction: string;
@@ -41,7 +43,15 @@ export interface ICrowdfundCollection extends IBaseCollection {
     type: ICollectionType.CROWDFUND;
 }
 
-export type ICollection = IAuctionCollection | IMarketplaceCollection | ICrowdfundCollection;
+export interface IExchangeCollection extends IBaseCollection {
+    exchange: string;
+    cw20: string;
+    type: ICollectionType.EXCHANGE;
+}
+
+export type ICollectionCw20 = IExchangeCollection;
+export type ICollectionCw721 = IAuctionCollection | IMarketplaceCollection | ICrowdfundCollection;
+export type ICollection = ICollectionCw20 | ICollectionCw721;
 
 
 export interface IShareUrls {

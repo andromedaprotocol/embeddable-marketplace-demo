@@ -4,7 +4,7 @@ import React, { FC } from "react"
 import Cw721TokenCard from "../components/Cw721TokenCard";
 import Overview from "./Overview";
 import Properties from "./Properties";
-import { ICollection, ICollectionType } from "@/lib/app/types";
+import { ICollectionCw721, ICollectionType } from "@/lib/app/types";
 import Cw721AuctionBids from "@/modules/auction/Cw721Bids";
 import Cw721TokenAction from "./TokenAction";
 import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
@@ -12,7 +12,7 @@ import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 
 interface Props {
     contractAddress: string;
-    collection: ICollection;
+    collection: ICollectionCw721;
     tokenId: string;
 }
 

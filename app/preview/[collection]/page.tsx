@@ -16,6 +16,7 @@ const Page: FC<Props> = (props) => {
     if (!collection) {
         return notFound()
     }
+    console.log(collection)
 
     return (
         <CollectionRouter collectionId={collectionId} />

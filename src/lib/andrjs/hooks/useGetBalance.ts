@@ -16,6 +16,7 @@ export default function useGetBalance(denom: string, address?: string) {
 
   useEffect(() => {
     const fetchBalance = async () => {
+      if (!client) return;
       setLoading(true);
       const balance = await client!.getBalance(denom, address);
 
