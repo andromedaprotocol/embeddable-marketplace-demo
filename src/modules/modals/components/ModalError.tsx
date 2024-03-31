@@ -1,20 +1,16 @@
-import { CopyButton } from "@/modules/common/ui";
-import { truncate } from "@/utils/text";
-import { Box, Button, Center, Text, useToast } from "@chakra-ui/react";
+import { InfoIcon } from "@chakra-ui/icons";
+import { Box, Button, Center, Flex, Text, Textarea } from "@chakra-ui/react";
 import { AlertCircle, Copy } from "lucide-react";
-import { FC, memo, ReactNode } from "react";
+import { FC, memo, PropsWithChildren } from "react";
 import { useGlobalModalContext } from "../hooks";
+import { CopyButton } from "@/modules/common/ui";
 
-interface ModalErrorProps {
-  children: ReactNode;
-}
-const ModalError: FC<ModalErrorProps> = memo(function ModalError(props) {
-  const { children } = props;
+const ModalError: FC<PropsWithChildren> = memo(function ModalError({ children }) {
   const { error, setError, close } = useGlobalModalContext();
 
-  const onClose = () => {
+  const onReport = () => {
     close();
-    setError();
+    // setError();
   };
 
   if (!error) return <>{children}</>;
@@ -36,52 +32,83 @@ const ModalError: FC<ModalErrorProps> = memo(function ModalError(props) {
         sx={{
           width: "80px",
           height: "80px",
-          padding: "23px",
-          background: "#FEE4E2",
-          borderRadius: "50%",
-          color: "#D92D20",
+          padding: "16px",
+          background: "error.500",
+          borderRadius: "xl",
+          color: "white",
         }}
       >
-        <AlertCircle style={{ width: "32px", height: "32px" }} />
+        <AlertCircle width='40px' height='40px' />
       </Center>
 
       <Text
-        mt="40px"
-        sx={{ textAlign: "center", fontWeight: "bold", color: "#B42318" }}
+        mt="20px"
+        fontSize={'20px'}
+        sx={{ textAlign: "center", fontWeight: "bold" }}
       >
-        Something went wrong!
+        {/* {Return the error title by extracting it from the end of the error message} */}
+        {error?.message?.split(':')?.pop()?.trim()?.toUpperCase() ?? ''}
       </Text>
-      <Text mt="10px" sx={{ fontWeight: 400, color: "#D92D20" }}>
+      {/* <Text mt="20px" textAlign='center' sx={{ fontWeight: 400, color: "dark.500" }}>
         {error.message.length > 100
           ? truncate(error.message, [25, 50])
           : error.message}
-      </Text>
-      <Center>
-        {error.message.length > 100 && (
+      </Text> */}
+      <Textarea
+        value={error.message}
+        fontSize={'16px'}
+        color='dark.500'
+        backgroundColor={'dark.100'}
+        resize='none'
+        mt="20px"
+        pb='10px'
+      />
+      <Flex
+        bgColor={'rgba(255, 160, 70, 0.12)'}
+        p={'12px 20px'}
+        borderRadius='6px'
+        mt='20px'
+        gap={'10px'}
+      >
+        <Box>
+          <InfoIcon boxSize={3.5} color='rgba(255, 183, 130, 1)' />
+        </Box>
+        <Text fontSize={'16px'}>
+          We apologize for any unclear errors you may encounter. At present there are problems with the foundational chain-level systems that Andromeda runs on top of to appropriately return errors.
+          This is expected to be resolved in an upcoming release of CosmWasm 2.0. You can view <u><a href="https://www.youtube.com/watch?v=VNwoLZZSoYs&t=8119s" target="_blank" rel="noopener noreferrer"> here</a></u> for more details.
+        </Text>
+      </Flex>
+      <Flex w="full" justifyContent={'end'}>
+        <Button
+          variant="outline"
+          sx={{
+            fontSize: "16px",
+            padding: "10px 32px"
+          }}
+          onClick={onReport}
+          mt="40px"
+          mr="10px"
+          isDisabled={true}
+        >
+          Report
+        </Button>
+        {error.message && (
           <CopyButton
             variant="solid"
             sx={{
               fontSize: "16px",
               padding: "10px 16px",
-              "&:hover": { bg: "#7F56D9" },
-              bg: "#7F56D9",
             }}
             text={error.message}
             mt="40px"
-            mr="10px"
+            leftIcon={<Copy />}
+            fontWeight='bold'
+            colorScheme={'primary'}
           >
-            <Copy />
+            Copy
           </CopyButton>
         )}
-        <Button
-          variant="outline"
-          sx={{ fontSize: "16px", padding: "10px 32px" }}
-          onClick={onClose}
-          mt="40px"
-        >
-          Close
-        </Button>
-      </Center>
+      </Flex>
     </Box>
   );
 });

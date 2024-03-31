@@ -1,6 +1,5 @@
 import { IBaseCollection } from "@/lib/app/types";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 import { LINKS } from "@/utils/links";
 import { Box, Flex, HStack, Image, Text } from "@chakra-ui/react";
@@ -16,14 +15,11 @@ const CollectionRowToken: FC<CollectionRowTokenProps> = (props) => {
   const { collection, contractAddress, tokenId } = props;
 
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
-  const { tokenUri } = useGetTokenUri(token?.token_uri ?? '');
-
-  if (!token) return null;
 
   return (
     <Box p={2}>
       <Link href={LINKS.cw721Token(collection.id, tokenId)}>
-        <FallbackImage src={tokenUri?.image} alt="Image" borderRadius="lg" cursor='pointer' _hover={{
+        <FallbackImage src={token?.metadata?.image} alt="Image" borderRadius="lg" cursor='pointer' _hover={{
           scale: "110%"
         }} transform='auto' transition='ease-in' transitionProperty='all' transitionDuration='150ms' />
       </Link>

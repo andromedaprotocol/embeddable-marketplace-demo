@@ -10,6 +10,7 @@ export const apolloClient = new ApolloClient({
   'defaultOptions': {
     'query': {
       'notifyOnNetworkStatusChange': true,
+      'fetchPolicy': 'cache-first'
     }
   },
   ssrMode: true,

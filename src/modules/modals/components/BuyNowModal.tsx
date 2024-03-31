@@ -4,10 +4,7 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
-  FormLabel,
   Heading,
-  HStack,
   Text,
 } from "@chakra-ui/react";
 import { coins } from "@cosmjs/proto-signing";
@@ -17,12 +14,10 @@ import { BuyNowModalProps } from "../types";
 import { Msg } from "@andromedaprotocol/andromeda.js";
 import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 
 const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const { contractAddress, tokenId, marketplaceAddress } = props;
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
-  const { tokenUri } = useGetTokenUri(token?.token_uri);
   const { data: marketplaceState } = useGetTokenMarketplaceInfo(
     marketplaceAddress,
     contractAddress,
@@ -53,7 +48,7 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
         Purchase
       </Heading>
       <Text textStyle="light" mb="4">
-        You are about to buy <b>{tokenUri?.name}</b> which has tokenId <b>{tokenId}</b>.
+        You are about to buy <b>{token?.metadata?.name}</b> which has tokenId <b>{tokenId}</b>.
 
       </Text>
       <Box>

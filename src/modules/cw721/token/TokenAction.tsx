@@ -1,6 +1,5 @@
 import { ICollectionCw721, ICollectionType } from "@/lib/app/types";
 import { useGetCw721, useGetCw721Token } from "@/lib/graphql/hooks/cw721";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 import AuctionInfo from "@/modules/auction/AuctionInfo";
 import CrowdfundInfo from "@/modules/crowdfund/CrowdfundInfo";
 import MarketplaceInfo from "@/modules/marketplace/MarketplaceInfo";
@@ -15,14 +14,13 @@ const Cw721TokenAction: FC<Props> = (props) => {
     const { collection, tokenId } = props;
     const { data: cw721 } = useGetCw721(collection.cw721);
     const { data: token } = useGetCw721Token(collection.cw721, tokenId)
-    const { tokenUri } = useGetTokenUri(token?.token_uri);
 
     if (collection.type === ICollectionType.AUCTION) return (
         <AuctionInfo
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
             tokenId={tokenId}
-            name={tokenUri?.name ?? tokenId}
+            name={token?.metadata?.name ?? tokenId}
         />
     )
     if (collection.type === ICollectionType.MARKETPLACE) return (
@@ -30,7 +28,7 @@ const Cw721TokenAction: FC<Props> = (props) => {
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
             tokenId={tokenId}
-            name={tokenUri?.name ?? tokenId}
+            name={token?.metadata?.name ?? tokenId}
         />
     )
     if (collection.type === ICollectionType.CROWDFUND) return (

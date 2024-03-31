@@ -11,15 +11,15 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@andromedaprotocol/andromeda.js": "^0.3.7",
-    "@andromedaprotocol/gql": "^0.3.7",
+    "@andromedaprotocol/andromeda.js": "^0.3.8-beta.3",
+    "@andromedaprotocol/gql": "^0.3.8-beta.3",
     "@apollo/client": "^3.7.0",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.1",
-    "@cosmjs/cosmwasm-stargate": "^0.31.0",
-    "@cosmjs/proto-signing": "^0.31.0",
-    "@cosmjs/stargate": "^0.31.0",
+    "@cosmjs/cosmwasm-stargate": "^0.32.3",
+    "@cosmjs/proto-signing": "^0.32.3",
+    "@cosmjs/stargate": "^0.32.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "axios": "^1.5.1",
@@ -34,7 +34,7 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@keplr-wallet/types": "^0.12.26",
+    "@keplr-wallet/types": "^0.12.76",
     "@types/axios": "^0.14.0",
     "@types/node": "18.7.18",
     "@types/react": "^18.2.22",

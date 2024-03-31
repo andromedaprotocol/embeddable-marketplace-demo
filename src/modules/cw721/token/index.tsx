@@ -7,7 +7,6 @@ import Properties from "./Properties";
 import { ICollectionCw721, ICollectionType } from "@/lib/app/types";
 import Cw721AuctionBids from "@/modules/auction/Cw721Bids";
 import Cw721TokenAction from "./TokenAction";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 
 interface Props {
@@ -19,7 +18,6 @@ interface Props {
 const Cw721TokenPage: FC<Props> = (props) => {
     const { contractAddress, tokenId, collection } = props;
     const { data: token } = useGetCw721Token(contractAddress, tokenId)
-    const { tokenUri } = useGetTokenUri(token?.token_uri)
     const { data: allTokens } = useGetCw721Tokens(contractAddress)
     return (
         <Box>
@@ -27,7 +25,7 @@ const Cw721TokenPage: FC<Props> = (props) => {
                 <GridItem>
                     <Box>
                         <FallbackImage
-                            src={tokenUri?.image}
+                            src={token?.metadata?.image}
                             alt="Image"
                             borderRadius="lg"
                             maxW="md"
@@ -50,8 +48,8 @@ const Cw721TokenPage: FC<Props> = (props) => {
                                     <Overview tokenId={tokenId} contractAddress={contractAddress} collection={props.collection} />
                                 </TabPanel>
                                 <TabPanel>
-                                    {tokenUri && (
-                                        <Properties tokenUri={tokenUri} />
+                                    {token?.metadata && (
+                                        <Properties metadata={token.metadata} />
                                     )}
                                 </TabPanel>
                                 {collection.type === ICollectionType.AUCTION &&

@@ -1,7 +1,6 @@
 import useApp from "@/lib/app/hooks/useApp";
 import { ICollectionCw721 } from "@/lib/app/types";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 import Cw721TokenAction from "@/modules/cw721/token/TokenAction";
 import { LINKS } from "@/utils/links";
@@ -15,7 +14,6 @@ interface FeaturedItemProps {
 const FeaturedItem: FC<FeaturedItemProps> = (props) => {
   const { collection } = props;
   const { data: token } = useGetCw721Token(collection.cw721, collection.featured);
-  const { tokenUri } = useGetTokenUri(token?.token_uri);
   const [primary] = useToken("colors", ["primary.300"]);
   if (!token) return null;
   return (
@@ -24,7 +22,7 @@ const FeaturedItem: FC<FeaturedItemProps> = (props) => {
         <Box>
           <Link href={LINKS.cw721Token(collection.id, collection.featured)}>
             <FallbackImage
-              src={tokenUri?.image}
+              src={token?.metadata?.image}
               alt="Image"
               borderRadius="lg"
               maxW="sm"

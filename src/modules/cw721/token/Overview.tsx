@@ -7,7 +7,6 @@ import { useChainConfig } from "@/lib/graphql/hooks/chain";
 import { IBaseCollection } from "@/lib/app/types";
 import { useGetCw721Token, useGetCw721 } from "@/lib/graphql/hooks/cw721";
 import { LINKS } from "@/utils/links";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 
 
 interface OverviewProps {
@@ -18,7 +17,6 @@ interface OverviewProps {
 const Overview: FC<OverviewProps> = (props) => {
   const { tokenId, contractAddress, collection } = props;
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
-  const { tokenUri } = useGetTokenUri(token?.token_uri);
   const { data: cw721 } = useGetCw721(contractAddress);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +31,7 @@ const Overview: FC<OverviewProps> = (props) => {
   };
   const handleCopyContentsClick = () => {
     // Copy the metadata object to the clipboard
-    navigator.clipboard.writeText(JSON.stringify(tokenUri ?? {}));
+    navigator.clipboard.writeText(JSON.stringify(token?.metadata ?? {}));
   };
 
   function embededYTLink(youTubeUrl: string) {
@@ -60,7 +58,7 @@ const Overview: FC<OverviewProps> = (props) => {
           Description
         </Text>
         <Text mt="4" fontWeight="light" fontSize="sm">
-          {tokenUri?.description}
+          {token?.metadata?.description}
         </Text>
         <Text fontWeight="bold" fontSize="xl" mt="8">
           Details
@@ -105,14 +103,14 @@ const Overview: FC<OverviewProps> = (props) => {
 
         </Box>
 
-        {tokenUri?.youtube_url && tokenUri.youtube_url.length > 10 && (
+        {token?.metadata?.youtube_url && token?.metadata.youtube_url.length > 10 && (
           <>
             <Text fontWeight="bold" fontSize="xl" mt="8">
               Video:
             </Text>
             <Box mt="4" p="10" rounded="2xl" border="1px" borderColor="gray.300" display="flex" alignItems="center" justifyContent="center">
               <iframe width="640" height="360"
-                src={embededYTLink(tokenUri.youtube_url)}>
+                src={embededYTLink(token?.metadata.youtube_url)}>
               </iframe>
             </Box>
           </>
@@ -144,7 +142,7 @@ const Overview: FC<OverviewProps> = (props) => {
             <Box position="relative">
               <Textarea
                 rows={10}
-                value={JSON.stringify(tokenUri, null, 2)}
+                value={JSON.stringify(token?.metadata, null, 2)}
                 readOnly
 
                 resize="none"

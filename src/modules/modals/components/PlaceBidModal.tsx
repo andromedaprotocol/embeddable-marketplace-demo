@@ -17,12 +17,10 @@ import { FC, useState } from "react";
 import { useExecuteModal } from "../hooks";
 import { PlaceBidModalProps } from "../types";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
-import { useGetTokenUri } from "@/lib/graphql/hooks/cw721/useGetTokenUri";
 
 const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
   const { contractAddress, tokenId, auctionAddress } = props;
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
-  const { tokenUri } = useGetTokenUri(token?.token_uri);
   const { data: auctionState } = useGetTokenAuctionState(
     contractAddress,
     auctionAddress,
@@ -56,7 +54,7 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
         Place Bid
       </Heading>
       <Text textStyle="light" mb="4">
-        You are about to place bid for <b>{tokenUri?.name}</b>
+        You are about to place bid for <b>{token?.metadata?.name}</b>
         <br />
         Token Id: {tokenId}
         <br />

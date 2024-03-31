@@ -96,7 +96,7 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
         await client.connect(config.chainUrl,
             config.kernelAddress,
             config.addressPrefix,
-            signer,
+            signer as any,
             { gasPrice: GasPrice.fromString(config.defaultFee) });
         localStorage.setItem(KEPLR_AUTOCONNECT_KEY, keplr?.mode ?? "extension");
 
