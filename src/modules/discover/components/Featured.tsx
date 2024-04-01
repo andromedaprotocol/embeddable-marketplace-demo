@@ -4,7 +4,7 @@ import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 import Cw721TokenAction from "@/modules/cw721/token/TokenAction";
 import { LINKS } from "@/utils/links";
-import { Box, GridItem, Image, SimpleGrid, Text, useToken } from "@chakra-ui/react";
+import { Box, GridItem, Image, SimpleGrid, Text, VStack, useToken } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC } from "react";
 
@@ -13,9 +13,9 @@ interface FeaturedItemProps {
 }
 const FeaturedItem: FC<FeaturedItemProps> = (props) => {
   const { collection } = props;
-  const { data: token } = useGetCw721Token(collection.cw721, collection.featured);
+  const { data: token } = useGetCw721Token(collection.cw721, collection.featured || "");
   const [primary] = useToken("colors", ["primary.300"]);
-  if (!token) return null;
+  if (!token || !collection.featured) return null;
   return (
     <SimpleGrid columns={2} spacing="4">
       <GridItem>
@@ -55,11 +55,11 @@ const Featured: FC<Props> = (props) => {
   const { } = props;
   const { config } = useApp();
   return (
-    <Box>
+    <VStack alignItems="stretch" gap={4}>
       {config.collections.filter(col => "featured" in col && col.featured && col.featured.length > 0).map(col => (
         <FeaturedItem key={col.id} collection={col as ICollectionCw721} />
       ))}
-    </Box>
+    </VStack>
   )
 }
 

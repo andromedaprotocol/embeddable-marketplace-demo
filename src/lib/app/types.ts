@@ -25,21 +25,21 @@ export enum ICollectionType {
 export interface IAuctionCollection extends IBaseCollection {
     auction: string;
     cw721: string;
-    featured: string;
+    featured?: string;
     type: ICollectionType.AUCTION;
 }
 
 export interface IMarketplaceCollection extends IBaseCollection {
     marketplace: string;
     cw721: string;
-    featured: string;
+    featured?: string;
     type: ICollectionType.MARKETPLACE;
 }
 
 export interface ICrowdfundCollection extends IBaseCollection {
     crowdfund: string;
     cw721: string;
-    featured: string;
+    featured?: string;
     type: ICollectionType.CROWDFUND;
 }
 
