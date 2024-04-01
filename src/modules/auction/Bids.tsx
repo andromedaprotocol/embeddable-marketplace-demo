@@ -1,14 +1,14 @@
 import { ProfileIcon } from "@/modules/common/icons";
-import { AuctionState } from "@andromedaprotocol/andromeda.js";
 import { Box, Divider, Flex, Link, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import useApp from "@/lib/app/hooks/useApp";
 import { useChainConfig } from "@/lib/graphql/hooks/chain";
 import { useGetBids } from "@/lib/graphql/hooks/auction/useGetBids";
 import { truncateAddress } from "@/utils/text";
+import { IAuctionStateResponse } from "@andromedaprotocol/gql";
 
 interface AuctionBidsProps {
-  auctionState: AuctionState;
+  auctionState: IAuctionStateResponse;
   auctionAddress: string;
 }
 const AuctionBids: FC<AuctionBidsProps> = (props) => {

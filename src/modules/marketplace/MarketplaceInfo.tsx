@@ -65,7 +65,7 @@ const MarketplaceInfo: FC<MarketplaceInfoProps> = (props) => {
         <BuyNowButton
           disabled={marketplaceState?.latestSaleState.status !== "open"}
           contractAddress={collection.cw721}
-          marketplaceAddress={marketplaceState?.address ?? ""}
+          marketplaceAddress={collection.marketplace}
           tokenId={tokenId}
         >
         </BuyNowButton>

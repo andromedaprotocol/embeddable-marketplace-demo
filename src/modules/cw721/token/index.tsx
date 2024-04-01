@@ -4,21 +4,19 @@ import React, { FC } from "react"
 import Cw721TokenCard from "../components/Cw721TokenCard";
 import Overview from "./Overview";
 import Properties from "./Properties";
-import { ICollection, ICollectionType } from "@/lib/app/types";
+import { ICollectionCw721, ICollectionType } from "@/lib/app/types";
 import Cw721AuctionBids from "@/modules/auction/Cw721Bids";
-import AuctionInfo from "@/modules/auction/AuctionInfo";
-import MarketplaceInfo from "@/modules/marketplace/MarketplaceInfo";
 import Cw721TokenAction from "./TokenAction";
+import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 
 interface Props {
     contractAddress: string;
-    collection: ICollection;
+    collection: ICollectionCw721;
     tokenId: string;
 }
 
 const Cw721TokenPage: FC<Props> = (props) => {
     const { contractAddress, tokenId, collection } = props;
-    const { data: cw721 } = useGetCw721(contractAddress);
     const { data: token } = useGetCw721Token(contractAddress, tokenId)
     const { data: allTokens } = useGetCw721Tokens(contractAddress)
     return (
@@ -26,8 +24,8 @@ const Cw721TokenPage: FC<Props> = (props) => {
             <SimpleGrid columns={2}>
                 <GridItem>
                     <Box>
-                        <Image
-                            src={token?.extension.image}
+                        <FallbackImage
+                            src={token?.metadata?.image}
                             alt="Image"
                             borderRadius="lg"
                             maxW="md"
@@ -50,8 +48,8 @@ const Cw721TokenPage: FC<Props> = (props) => {
                                     <Overview tokenId={tokenId} contractAddress={contractAddress} collection={props.collection} />
                                 </TabPanel>
                                 <TabPanel>
-                                    {token && (
-                                        <Properties token={token} />
+                                    {token?.metadata && (
+                                        <Properties metadata={token.metadata} />
                                     )}
                                 </TabPanel>
                                 {collection.type === ICollectionType.AUCTION &&

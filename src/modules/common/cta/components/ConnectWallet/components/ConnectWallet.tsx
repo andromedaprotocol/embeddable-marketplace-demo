@@ -1,24 +1,27 @@
-import { useWallet } from "@/lib/wallet/hooks";
 import { useWalletModal } from "@/modules/modals/hooks";
 import { PlusIcon } from "@/theme/icons";
-import { Button } from "@chakra-ui/react";
+import { Button, Icon } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Connected from "./Connected";
+import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
+import { useAndromedaStore } from "@/zustand/andromeda";
+import { Plus } from "lucide-react";
 
-interface ConnectWalletProps {}
+interface ConnectWalletProps { }
 const ConnectWallet: FC<ConnectWalletProps> = (props) => {
-  const {} = props;
-  const { account } = useWallet();
+  const { } = props;
+  const { isLoading } = useAndromedaStore();
+  const client = useAndromedaClient();
   const open = useWalletModal();
-  if (account) {
+  if (client) {
     return <Connected />;
   }
   return (
     <Button
-      leftIcon={<PlusIcon width={4} />}
+      leftIcon={<Icon as={Plus} boxSize={5} />}
       colorScheme="purple"
       onClick={open}
-      size="lg"
+      isLoading={isLoading}
     >
       Connect Wallet
     </Button>

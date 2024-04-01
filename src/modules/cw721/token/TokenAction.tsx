@@ -1,4 +1,4 @@
-import { ICollection, ICollectionType } from "@/lib/app/types";
+import { ICollectionCw721, ICollectionType } from "@/lib/app/types";
 import { useGetCw721, useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 import AuctionInfo from "@/modules/auction/AuctionInfo";
 import CrowdfundInfo from "@/modules/crowdfund/CrowdfundInfo";
@@ -6,7 +6,7 @@ import MarketplaceInfo from "@/modules/marketplace/MarketplaceInfo";
 import React, { FC } from "react"
 
 interface Props {
-    collection: ICollection;
+    collection: ICollectionCw721;
     tokenId: string;
 }
 
@@ -20,7 +20,7 @@ const Cw721TokenAction: FC<Props> = (props) => {
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
             tokenId={tokenId}
-            name={token?.extension.name ?? 'Loading...'}
+            name={token?.metadata?.name ?? tokenId}
         />
     )
     if (collection.type === ICollectionType.MARKETPLACE) return (
@@ -28,7 +28,7 @@ const Cw721TokenAction: FC<Props> = (props) => {
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
             tokenId={tokenId}
-            name={token?.extension.name ?? 'Loading...'}
+            name={token?.metadata?.name ?? tokenId}
         />
     )
     if (collection.type === ICollectionType.CROWDFUND) return (

@@ -1,4 +1,3 @@
-import { useAndromedaContext } from "@/lib/andrjs";
 import { Text, Box, Center, Button } from "@chakra-ui/react";
 import { Check, ExternalLink } from "lucide-react";
 import { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
@@ -10,6 +9,9 @@ import type {
   InstantiateResult,
 } from "@cosmjs/cosmwasm-stargate";
 import { truncate } from "@/utils/text";
+import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
+import { useAndromedaStore } from "@/zustand/andromeda";
+import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
 
 interface OptionalProps {
   onNextStage?: () => void;
@@ -18,15 +20,16 @@ interface OptionalProps {
 const BroadcastingModal: FC<TransactionModalProps & OptionalProps> = memo(
   function BroadcastingModal(props) {
     const [loading, setLoading] = useState<boolean>(true);
-    const { client, connected, chainConfig: config } = useAndromedaContext();
+    const client = useAndromedaClient();
+    const { chainId } = useAndromedaStore();
+    const { data: chainConfig } = useQueryChain(chainId);
     const { close, setError } = useGlobalModalContext();
     const [result, setResult] = useState<
       ExecuteResult | InstantiateResult | undefined
     >();
 
     const broadcast = useCallback(async () => {
-      if (!connected) throw new Error("Not connected!");
-      return client.execute(
+      return client!.execute(
         props.contractAddress,
         props.msg,
         // Here props fee can be used to set gas price from the estimated result. However gas price calculated is low so using auto till its fixed
@@ -34,7 +37,7 @@ const BroadcastingModal: FC<TransactionModalProps & OptionalProps> = memo(
         props.memo,
         props.funds
       );
-    }, [props, connected, client]);
+    }, [props, client]);
 
     useEffect(() => {
       const broadcastTx = async () => {
@@ -78,7 +81,7 @@ const BroadcastingModal: FC<TransactionModalProps & OptionalProps> = memo(
           <Text mt="6px" style={{ color: "#7F56D9" }}>
             <a
               href={
-                config?.blockExplorerTxPages[0]?.replaceAll(
+                chainConfig?.blockExplorerTxPages[0]?.replaceAll(
                   "${txHash}",
                   transactionHash
                 ) ?? ""
@@ -93,7 +96,7 @@ const BroadcastingModal: FC<TransactionModalProps & OptionalProps> = memo(
         </Box>
       );
     }, [props, result]);
-    
+
     return (
       <Box
         sx={{

@@ -1,5 +1,4 @@
 import { FC, memo, useEffect, useMemo, useState } from "react";
-import { useAndromedaContext } from "@/lib/andrjs";
 import { Coin, StdFee } from "@cosmjs/stargate";
 
 import { useGlobalModalContext } from "../hooks";
@@ -9,6 +8,7 @@ import { Box, Button, Center, Divider, Text } from "@/theme/ui-elements";
 import ModalLoading from "./ModalLoading";
 import { sumCoins } from "@/lib/andrjs/utils/funds";
 import { GasIcon } from "@/modules/common/icons";
+import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 // import { useCurrentChainConfig } from "@/lib/andrjs/hooks/useKeplrChainConfig";
 // import { CoinPretty } from "@keplr-wallet/unit";
 
@@ -63,7 +63,7 @@ const FeeAmount: FC<{ coin: Coin; text: string }> = memo(function FeeAmount({
 // Displays EstimateFee Modal (with a condition of (props.simulate && props.onNextStep))
 // Repair note from fix/transaction-modal-processing: A bang operator (!) was appended to the props.simulate declaration causing inverse evaluations of the intended conditions
 const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
-  const { client, connected } = useAndromedaContext();
+  const client = useAndromedaClient();
   const { close, setError } = useGlobalModalContext();
   const [loading, setLoading] = useState<boolean>(true);
   const [fee, setFee] = useState<StdFee>({ amount: [], gas: "0" });
@@ -77,7 +77,8 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
     const simulateFee = async () => {
       setLoading(true);
       const getFee = () => {
-        return client.estimateExecuteFee(
+        console.log(client);
+        return client!.estimateExecuteFee(
           props.contractAddress,
           props.msg,
           props.funds,
@@ -95,11 +96,11 @@ const EstimateFeeModal: FC<TransactionModalProps & OptionalProps> = (props) => {
     };
 
     const tId = setTimeout(() => {
-      if (connected) simulateFee();
+      simulateFee();
     }, 500);
 
     return () => clearTimeout(tId);
-  }, [client, props, connected, setError]);
+  }, [client, props, setError]);
 
   return (
     <Box

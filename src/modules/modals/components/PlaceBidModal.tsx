@@ -34,8 +34,8 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
 
   const MIN_BID = Math.max(
     0,
-    parseFloat(auctionState?.min_bid ?? "0"),
-    parseFloat(auctionState?.high_bidder_amount ?? "0")
+    auctionState?.min_bid ?? 0,
+    auctionState?.high_bidder_amount ?? 0
   );
 
   const DENOM = auctionState?.coin_denom ?? config?.coinDenom ?? "ujunox";
@@ -54,8 +54,11 @@ const PlaceBidModal: FC<PlaceBidModalProps> = (props) => {
         Place Bid
       </Heading>
       <Text textStyle="light" mb="4">
-        You are about to place bid for <b>{token?.extension?.name}</b>. Auction
-        Id: {auctionState?.auction_id}
+        You are about to place bid for <b>{token?.metadata?.name}</b>
+        <br />
+        Token Id: {tokenId}
+        <br />
+        Auction Id: {auctionState?.auction_id}
       </Text>
       <Box>
         <FormControl>

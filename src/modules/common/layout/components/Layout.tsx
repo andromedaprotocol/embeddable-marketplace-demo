@@ -1,7 +1,7 @@
+"use client";
 import { Box, Divider } from "@chakra-ui/react";
 import React, { FC, ReactNode } from "react";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import PoweredByLogo from "./PoweredByLogo";
 
 interface LayoutProps {

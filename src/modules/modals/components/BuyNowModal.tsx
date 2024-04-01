@@ -4,10 +4,7 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
-  FormLabel,
   Heading,
-  HStack,
   Text,
 } from "@chakra-ui/react";
 import { coins } from "@cosmjs/proto-signing";
@@ -21,11 +18,11 @@ import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
 const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const { contractAddress, tokenId, marketplaceAddress } = props;
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
-   const { data: marketplaceState } = useGetTokenMarketplaceInfo(
-     marketplaceAddress,
-     contractAddress,
-     tokenId
-   );
+  const { data: marketplaceState } = useGetTokenMarketplaceInfo(
+    marketplaceAddress,
+    contractAddress,
+    tokenId
+  );
 
 
   const { config } = useApp();
@@ -39,9 +36,9 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const onSubmit = () => {
     const msg = construct({ tokenAddress: contractAddress, tokenId: tokenId });
     console.log("price:", marketplaceState?.latestSaleState.price);
-    console.log (JSON.stringify(msg));
+    console.log(JSON.stringify(msg));
     console.log("DENOM:", DENOM);
-    const funds = coins(marketplaceState?.latestSaleState.price ?? 0 , DENOM);
+    const funds = coins(marketplaceState?.latestSaleState.price ?? 0, DENOM);
     openExecute(msg, true, funds);
   };
 
@@ -51,12 +48,12 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
         Purchase
       </Heading>
       <Text textStyle="light" mb="4">
-        You are about to buy <b>{token?.extension?.name}</b>.
-       
+        You are about to buy <b>{token?.metadata?.name}</b> which has tokenId <b>{tokenId}</b>.
+
       </Text>
       <Box>
         <FormControl>
-          
+
           <Button onClick={onSubmit} w="full" mt="6" variant="solid">
             Buy Now
           </Button>

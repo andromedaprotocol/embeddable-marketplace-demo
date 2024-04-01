@@ -27,12 +27,12 @@ const Cw721TokenCard: FC<Cw721TokenCardProps> = ({ tokenId, collectionId, contra
   return (
     <CardOutline
       link={LINKS.cw721Token(collectionId, tokenId)}
-      img={token?.extension.image}
+      img={token?.metadata?.image}
     >
       <HStack justifyContent="space-between" mt="3">
         <CardStats
           title={cw721?.contractInfo?.name ?? ""}
-          body={token?.extension.name ?? ''}
+          body={token?.metadata?.name ?? ''}
         />
       </HStack>
       <Box mt="1">

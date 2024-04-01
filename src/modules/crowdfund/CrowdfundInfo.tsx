@@ -37,8 +37,7 @@ const CrowdfundInfo: FC<CrowdfundInfoProps> = (props) => {
   const total_amount_sold = amount_to_send + amount_transferred;
   const total_sold = crowdfundState?.state?.amount_sold || 0;
   const progress = Math.floor(total_sold / min_tokens_sold * 100);
-
-  const expires = getTime(crowdfundState?.state.expiration ?? {});
+  const expires = getTime(crowdfundState?.state.end_time ?? {});
   const isEnded = expires.isBefore(new Date());
   const [duration, setDuration] = useState(dayjs.duration(0));
 

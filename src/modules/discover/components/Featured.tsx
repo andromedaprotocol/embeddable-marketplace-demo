@@ -1,6 +1,7 @@
 import useApp from "@/lib/app/hooks/useApp";
-import { ICollection } from "@/lib/app/types";
+import { ICollectionCw721 } from "@/lib/app/types";
 import { useGetCw721Token } from "@/lib/graphql/hooks/cw721";
+import FallbackImage from "@/modules/common/ui/Image/FallbackImage";
 import Cw721TokenAction from "@/modules/cw721/token/TokenAction";
 import { LINKS } from "@/utils/links";
 import { Box, GridItem, Image, SimpleGrid, Text, useToken } from "@chakra-ui/react";
@@ -8,7 +9,7 @@ import Link from "next/link";
 import React, { FC } from "react";
 
 interface FeaturedItemProps {
-  collection: ICollection;
+  collection: ICollectionCw721;
 }
 const FeaturedItem: FC<FeaturedItemProps> = (props) => {
   const { collection } = props;
@@ -20,8 +21,8 @@ const FeaturedItem: FC<FeaturedItemProps> = (props) => {
       <GridItem>
         <Box>
           <Link href={LINKS.cw721Token(collection.id, collection.featured)}>
-            <Image
-              src={token?.extension.image}
+            <FallbackImage
+              src={token?.metadata?.image}
               alt="Image"
               borderRadius="lg"
               maxW="sm"
@@ -55,8 +56,8 @@ const Featured: FC<Props> = (props) => {
   const { config } = useApp();
   return (
     <Box>
-      {config.collections.filter(col => col.featured && col.featured.length > 0).map(col => (
-        <FeaturedItem key={col.id} collection={col} />
+      {config.collections.filter(col => "featured" in col && col.featured && col.featured.length > 0).map(col => (
+        <FeaturedItem key={col.id} collection={col as ICollectionCw721} />
       ))}
     </Box>
   )

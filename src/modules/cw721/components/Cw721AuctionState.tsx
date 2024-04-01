@@ -18,6 +18,18 @@ const Cw721AuctionState: FC<Props> = (props) => {
         tokenId
     );
 
+    if (!auction) {
+        return (
+            <Box>
+                <Flex justify="space-between" align="start" gap="2">
+                    <Text fontSize="xs" textStyle="light">
+                        Token not for sale
+                    </Text>
+                </Flex>
+            </Box>
+        )
+    }
+
     return (
         <Box>
             <Box mb='1'>

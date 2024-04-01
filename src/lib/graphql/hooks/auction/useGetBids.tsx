@@ -1,34 +1,20 @@
-import {
-  QueryAuctionBids as Query,
-  QUERY_AUCTION_BIDS as QueryText,
-  QueryAuctionBidsResponse as QueryResponse,
-} from "@andromedaprotocol/andromeda.js/dist/graphql/queries/auction";
-import { gql, QueryResult, useQuery } from "@apollo/client";
-
-export interface IQueryResult
-  extends Pick<QueryResult<QueryResponse>, "loading" | "error"> {
-  data: QueryResponse["auction"]["bids"]["bids"] | undefined;
-}
+import { useCodegenGeneratedAdoAuctionBidsBidsQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 
 export function useGetBids(
   auctionAddress: string,
   auctionId: number
-): IQueryResult {
-  const { loading, error, data } = useQuery<QueryResponse, Query>(
-    gql`
-      ${QueryText}
-    `,
-    {
-      variables: {
-        contractAddress: auctionAddress ?? "",
-        auctionId,
-      },
-    }
-  );
+) {
+  const { loading, error, data } = useCodegenGeneratedAdoAuctionBidsBidsQuery({
+    variables: {
+      'ADO_auction_address': auctionAddress,
+      'ADO_auction_auction_bids_auctionId': auctionId
+    },
+    pollInterval: 1000
+  })
 
   return {
     loading,
     error,
-    data: data?.auction?.bids?.bids,
+    data: data?.ADO?.auction?.bids?.bids,
   };
 }

@@ -1,1 +1,0 @@
-export const AUTOCONNECT_KEY = 'keplr_autoconnect'
