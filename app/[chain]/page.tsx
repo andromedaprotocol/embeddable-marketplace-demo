@@ -14,7 +14,7 @@ const Page = async (props: Props) => {
     const client = await getClient(chain);
     const apps = await getAllApps(client);
     return (
-        <HomePage apps={apps} />
+        <HomePage apps={apps} chainId={chain} />
     )
 }
 

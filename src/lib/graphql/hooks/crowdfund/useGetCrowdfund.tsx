@@ -4,12 +4,12 @@ import { useCodegenGeneratedAdoCrowdfundQuery } from "@andromedaprotocol/gql/dis
 export function useGetCrowdfund(
     adoAddress: string,
 ) {
-
     const { loading, error, data } = useCodegenGeneratedAdoCrowdfundQuery({
         variables: {
             'ADO_crowdfund_address': adoAddress
         }
     })
+    console.log(data);
     return {
         loading,
         error,

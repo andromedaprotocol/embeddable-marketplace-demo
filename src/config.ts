@@ -1,22 +1,23 @@
 import { ICollectionType, IConfig } from "./lib/app/types";
 
 const CONFIG: IConfig = {
-    "id": "andromeda",
-    "coinDenom": "ANDR",
-    "name": "Embeddable Collection",
-    "chainId": "pisco-1",
-    "createdDate": "2023-10-13T15:02:23.861Z",
-    "modifiedDate": "2023-10-13T15:02:23.861Z",
-    "collections": [
+    coinDenom: "ustars",
+    name: "Embeddable House",
+    chainId: "elgafar-1",
+    createdDate: "2024-03-31T19:01:01.148Z",
+    modifiedDate: "2024-03-31T19:01:01.148Z",
+    id: "andromeda",
+    collections: [
         {
-            "marketplace": "terra19wye26rk6deywsqha58ju2qhp4atx8jagz5mwyrtsdtgh47c3c6swlw30l",
-            "cw721": "terra1sa4lhgak9epws9p5v4lz38vksvwyj5f25upn7c6v7dwkcnkum86ssc2rq4",
-            "name": "Collection 1",
-            "type": ICollectionType.MARKETPLACE,
-            "featured": "1",
-            "id": "embeddables-auction-1"
-        }
+            auction:
+                "stars1vq94sxvpw3cr4y67z8egragv3quakshs9dfh9mpzaukt66ml2fwst7yp23",
+            cw721: "stars1qtllkquvzczy27rfm5dl05x4a3e57f07t4t6kvlxq39x5el6n0ws45f3vs",
+            name: "Auction Collection",
+            type: ICollectionType.AUCTION,
+            id: "embeddables-auction-1",
+            featured: "TOKEN-1"
+        },
     ],
-}
+};
 
-export default CONFIG
+export default CONFIG;

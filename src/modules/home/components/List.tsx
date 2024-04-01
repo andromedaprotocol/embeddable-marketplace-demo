@@ -7,12 +7,12 @@ import React, { FC, useEffect, useState } from "react"
 
 interface Props {
     apps: string[]
+    chainId: string;
 }
 
 const EmbeddableList: FC<Props> = (props) => {
-    const { apps } = props;
+    const { apps, chainId } = props;
     const [searchInput, setSearchInput] = useState('');
-    const chainId = useAndromedaStore(state => state.chainId);
 
     const [sortType, setSortType] = useState('');
     const [keyList, setkeyList] = useState(apps);

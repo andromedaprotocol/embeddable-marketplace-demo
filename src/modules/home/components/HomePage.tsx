@@ -6,16 +6,17 @@ import NoClientLayout from "@/modules/common/layout/components/NoClientLayout";
 
 interface HomePageProps {
   apps: string[]
+  chainId: string;
 }
 const HomePage: FC<HomePageProps> = (props) => {
-  const { apps } = props;
+  const { apps, chainId } = props;
   return (
     <NoClientLayout>
       <Box>
         <Heading textAlign={'start'} fontWeight='600' fontSize={'24px'}>
           Explore Apps created by community
         </Heading>
-        <EmbeddableList apps={apps} />
+        <EmbeddableList apps={apps} chainId={chainId} />
       </Box>
     </NoClientLayout>
   );

@@ -1,5 +1,5 @@
 import { TwitterIcon, ExternalLinkIcon, FolderOpenIcon } from "@/modules/common/icons";
-import { Box, Divider, Flex, Link, Text, Image, Button, Heading, Textarea } from "@chakra-ui/react";
+import { Box, Divider, Flex, Link, Text, Image, Button, Heading, Textarea, Modal, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ButtonGroup } from "@chakra-ui/react";
 import { Share } from "lucide-react";
 import React, { FC, useMemo, useState } from "react";
 import useApp from "@/lib/app/hooks/useApp";
@@ -7,6 +7,8 @@ import { useChainConfig } from "@/lib/graphql/hooks/chain";
 import { IBaseCollection } from "@/lib/app/types";
 import { useGetCw721Token, useGetCw721 } from "@/lib/graphql/hooks/cw721";
 import { LINKS } from "@/utils/links";
+import { CopyButton } from "@/modules/common/ui";
+import { truncate, truncateAddress } from "@/utils/text";
 
 
 interface OverviewProps {
@@ -18,21 +20,12 @@ const Overview: FC<OverviewProps> = (props) => {
   const { tokenId, contractAddress, collection } = props;
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
   const { data: cw721 } = useGetCw721(contractAddress);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
 
   const { config } = useApp();
   const { data: chainConfig } = useChainConfig(config.chainId ?? "");
 
-
-  const handleViewMetadataClick = () => {
-    setIsModalOpen(true);
-  };
-  const handleCopyContentsClick = () => {
-    // Copy the metadata object to the clipboard
-    navigator.clipboard.writeText(JSON.stringify(token?.metadata ?? {}));
-  };
 
   function embededYTLink(youTubeUrl: string) {
     const videoId = youTubeUrl.includes("youtu.be/")
@@ -86,21 +79,56 @@ const Overview: FC<OverviewProps> = (props) => {
                 <Text>{chainConfig?.chainName}</Text>{chainConfig?.chainType === "testnet" ? <Text ml="5px" fontSize={"small"}>(testnet)</Text> : null}
               </Box>
             </Link>
-            <Link href={explorerUrl} target="_blank">
-              <Box px="9px" mt="10px" display="inline-flex" alignItems="center">
+            <Box border="1px" borderColor="gray.300" borderRadius="lg" px="4" py='6' my='6'>
+              <Flex justifyContent="space-between">
+                <Text fontWeight="bold" fontSize="sm">
+                  Token Collection Address
+                </Text>
+                <CopyButton variant="unstyled" text={contractAddress} as={Text} height="auto" fontWeight="light" fontSize="sm">
+                  {truncateAddress(contractAddress)}
+                </CopyButton>
+              </Flex>
+              <Divider orientation="horizontal" my="4" />
+              <Flex justifyContent="space-between">
+                <Text fontWeight="bold" fontSize="sm">
+                  Token Id
+                </Text>
+                <Text fontWeight="light" fontSize="sm">
+                  {token?.tokenId}
+                </Text>
+              </Flex>
+              <Divider orientation="horizontal" my="4" />
+              <Flex justifyContent="space-between">
+                <Text fontWeight="bold" fontSize="sm">
+                  Publisher
+                </Text>
+                <Text fontWeight="light" fontSize="sm">
+                  {token?.extension.publisher}
+                </Text>
+              </Flex>
+              <Divider orientation="horizontal" my="4" />
+              <Flex justifyContent="space-between">
+                <Text fontWeight="bold" fontSize="sm">
+                  Token URI
+                </Text>
+                <Link isExternal href={token?.token_uri} fontWeight="light" fontSize="sm">
+                  {truncate(token?.token_uri, [30, 12])}
+                </Link>
+              </Flex>
+            </Box>
+            <ButtonGroup mt='2' size='sm' w='full'>
+              <Button as={Link} isExternal href={explorerUrl} flex={1} variant="outline">
                 <ExternalLinkIcon mr="10px" />
                 <Text>View on Explorer</Text>
-              </Box>
-            </Link>
-            <Link href="#" onClick={handleViewMetadataClick}>
-              <Box px="9px" mt="10px" display="inline-flex" alignItems="center">
-                <FolderOpenIcon mr="10px" />
-                <Text>View Metadata</Text>
-              </Box>
-            </Link>
-
+              </Button>
+              {token?.metadata && (
+                <Button onClick={onOpen} flex={1} variant="outline">
+                  <FolderOpenIcon mr="10px" />
+                  <Text>View Metadata</Text>
+                </Button>
+              )}
+            </ButtonGroup>
           </Box>
-
         </Box>
 
         {token?.metadata?.youtube_url && token?.metadata.youtube_url.length > 10 && (
@@ -116,29 +144,15 @@ const Overview: FC<OverviewProps> = (props) => {
           </>
         )}
       </Box>
-      {isModalOpen && (
-        <Box
-          pos="fixed"
-          top="0"
-          left="0"
-          right="0"
-          bottom="0"
-          bg="rgba(0,0,0,0.8)"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box
-            p="4"
-            bg="white"
-            maxW="800px"
-            w="100%"
-            borderRadius="md"
-            boxShadow="lg"
-          >
-            <Heading as="h3" size="md" mb="4">
-              Metadata Object
-            </Heading>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Metadata Object
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
             <Box position="relative">
               <Textarea
                 rows={10}
@@ -148,13 +162,17 @@ const Overview: FC<OverviewProps> = (props) => {
                 resize="none"
 
               />
-              <Button mr="10px" onClick={() => setIsModalOpen(false)}>Close</Button>
-              <Button onClick={handleCopyContentsClick}>Copy Contents</Button>
             </Box>
+          </ModalBody>
 
-          </Box>
-        </Box>
-      )}
+          <ModalFooter>
+            <CopyButton text={JSON.stringify(token?.metadata || "{}")} variant='ghost'>Copy</CopyButton>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

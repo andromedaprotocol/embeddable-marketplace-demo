@@ -4,7 +4,7 @@ export const LINKS = {
     home: (key?: string, chainId?: string) => wrapPrefix('', key, chainId),
     collection: (id: string) => wrapPrefix(`/${id}`),
     cw721Token: (collectionId: string, tokenId: string) => wrapPrefix(`/${collectionId}/cw721/${tokenId}`),
-    cw20Token: (collectionId: string, tokenId: string) => wrapPrefix(`/${collectionId}`)
+    cw20Token: (collectionId: string) => wrapPrefix(`/${collectionId}`)
 } as const;
 
 const wrapPrefix = (path: string, appId?: string, chainId?: string) => {
