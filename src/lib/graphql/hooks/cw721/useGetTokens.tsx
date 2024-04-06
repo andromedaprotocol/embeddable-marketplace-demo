@@ -5,7 +5,10 @@ export default function useGetTokens(address: string) {
 
   const { data, loading, error } = useCodegenGeneratedAdoCw721AlltokensQuery({
     variables: {
-      'ADO_cw721_address': address
+      'ADO_cw721_address': address,
+      'ADO_cw721_cw721_allTokens_options': {
+        'limit': 100,
+      }
     }
   })
 
