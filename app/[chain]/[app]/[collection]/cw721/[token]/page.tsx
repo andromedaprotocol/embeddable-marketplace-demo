@@ -13,7 +13,8 @@ interface Props {
 }
 
 const Page: FC<Props> = (props) => {
-    const { params: { collection: collectionId, token: tokenId } } = props;
+    const { params: { collection: collectionId, token: _tokenId } } = props;
+    const tokenId = decodeURI(_tokenId);
     const { getCollection } = useAppUtils();
     const collection = getCollection(collectionId) as IAuctionCollection;
     const { error } = useCodegenGeneratedAdoCw721NftinfoExtensionQuery({
