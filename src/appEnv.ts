@@ -6,7 +6,6 @@ export namespace APP_ENV {
 
     export const FEATURED_APPS = ['andromeda'];
 
-    export const DATABASE: Record<string, string> = {
-        'elgafar-1': 'stars1p8w6t6acg9zruu3j5c4qfsp9f96ujkmu33tezeg305qf8lcdhajsdan9ku',
+    export const OVERRIDE_DATABASE: Record<string, string> = {
     }
 }

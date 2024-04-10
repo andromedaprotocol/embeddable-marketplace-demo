@@ -29,10 +29,7 @@ export const resetDatabaseStore = () => {
 
 export const addDatabaseCacheConfig = async (key: string) => {
     try {
-        let client = useDatabaseStore.getState().client;
-        if (!client) {
-            client = await getClient(APP_ENV.DATABASE.chainId);
-        }
+        let client = useDatabaseStore.getState().client!;
         const config = await getConfig(client, key);
         useDatabaseStore.setState((prev) => ({
             ...prev,
