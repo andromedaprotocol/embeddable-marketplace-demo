@@ -17,3 +17,10 @@ export interface IAllKeysQuery {
 }
 
 export type IAllKeysQueryResponse = Array<string>;
+
+
+export interface IKernelKeyQuery {
+    "key_address": {
+        "key": "embeddables"
+    }
+}
