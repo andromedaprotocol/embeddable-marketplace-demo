@@ -12,6 +12,7 @@ export const getClient = cache(async (chainId: string) => {
         const client = await CosmWasmClient.connect(config.data.chainConfigs.config.chainUrl);
         return client;
     } catch (err) {
+        console.log("Chain config not found for ", chainId);
         console.error(err);
         throw err;
     }
