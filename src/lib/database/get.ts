@@ -6,7 +6,7 @@ import { APP_ENV } from '@/appEnv';
 import { IAllKeysQuery, IAllKeysQueryResponse, IGetKeyQuery, IGetKeyQueryResponse, IKernelKeyQuery } from './types';
 import { IConfig } from '../app/types';
 
-export const getClient = cache(async (chainId: string) => {
+export const getClient = async (chainId: string) => {
     try {
         const config = await apolloClient.query<IChainConfigQuery>(refetchChainConfigQuery({ identifier: chainId }));
         const client = await CosmWasmClient.connect(config.data.chainConfigs.config.chainUrl);
@@ -16,7 +16,7 @@ export const getClient = cache(async (chainId: string) => {
         console.error(err);
         throw err;
     }
-})
+};
 
 export const getEmbeddableAddress = cache(async (client: CosmWasmClient) => {
     const query: IKernelKeyQuery = {
