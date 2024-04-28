@@ -7,9 +7,14 @@ import { IAllKeysQuery, IAllKeysQueryResponse, IGetKeyQuery, IGetKeyQueryRespons
 import { IConfig } from '../app/types';
 
 export const getClient = cache(async (chainId: string) => {
-    const config = await apolloClient.query<IChainConfigQuery>(refetchChainConfigQuery({ identifier: chainId }));
-    const client = await CosmWasmClient.connect(config.data.chainConfigs.config.chainUrl);
-    return client;
+    try {
+        const config = await apolloClient.query<IChainConfigQuery>(refetchChainConfigQuery({ identifier: chainId }));
+        const client = await CosmWasmClient.connect(config.data.chainConfigs.config.chainUrl);
+        return client;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
 })
 
 export const getEmbeddableAddress = cache(async (client: CosmWasmClient) => {
