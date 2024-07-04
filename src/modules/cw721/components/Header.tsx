@@ -8,7 +8,7 @@ interface HeaderProps {
   collection: IBaseCollection;
 }
 const Header: FC<HeaderProps> = (props) => {
-  const { contractAddress } = props;
+  const { contractAddress, collection } = props;
   const { data: cw721 } = useGetCw721(contractAddress);
 
   return (
@@ -22,8 +22,7 @@ const Header: FC<HeaderProps> = (props) => {
             Minter - <b>{cw721?.minter}</b>
           </Text>
           <Text fontWeight="light" fontSize="sm" mt="2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus, orci sit amet eleifend facilisis,
-            arcu eros gravida massa, id pharetra dui nisi a leo. Integer a tellus elit. Proin quis venenatis magna... <b>Read more</b>
+            {collection?.description}
           </Text>
         </Flex>
       </GridItem>

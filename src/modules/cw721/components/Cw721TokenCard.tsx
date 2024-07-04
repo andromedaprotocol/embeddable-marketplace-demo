@@ -12,6 +12,7 @@ import { useGetCollection } from "@/lib/app/hooks/useGetCollection";
 import { ICollectionType } from "@/lib/app/types";
 import Cw721AuctionState from "./Cw721AuctionState";
 import Cw721MarketplaceState from "./Cw721MarketplaceState";
+import { useCodegenGeneratedAdoCw721ContractinfoQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 
 interface Cw721TokenCardProps {
   tokenId: string;
@@ -19,7 +20,11 @@ interface Cw721TokenCardProps {
   collectionId: string;
 }
 const Cw721TokenCard: FC<Cw721TokenCardProps> = ({ tokenId, collectionId, contractAddress }) => {
-  const { data: cw721 } = useGetCw721(contractAddress);
+  const { data: cw721 } = useCodegenGeneratedAdoCw721ContractinfoQuery({
+    variables: {
+      'ADO_cw721_address': contractAddress
+    }
+  });
   const { data: token } = useGetCw721Token(contractAddress, tokenId);
   const collection = useGetCollection(collectionId);
 
@@ -31,7 +36,7 @@ const Cw721TokenCard: FC<Cw721TokenCardProps> = ({ tokenId, collectionId, contra
     >
       <HStack justifyContent="space-between" mt="3">
         <CardStats
-          title={cw721?.contractInfo?.name ?? ""}
+          title={cw721?.ADO.cw721.contractInfo?.name ?? ""}
           body={token?.metadata?.name ?? ''}
         />
       </HStack>

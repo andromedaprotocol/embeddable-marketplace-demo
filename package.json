@@ -11,8 +11,8 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@andromedaprotocol/andromeda.js": "^0.3.8-beta.3",
-    "@andromedaprotocol/gql": "^0.3.8-beta.3",
+    "@andromedaprotocol/andromeda.js": "^0.3.8-beta.4",
+    "@andromedaprotocol/gql": "^0.3.8-beta.4",
     "@apollo/client": "^3.7.0",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/next-js": "^2.1.5",

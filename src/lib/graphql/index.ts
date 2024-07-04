@@ -46,8 +46,11 @@ export const apolloClient = new ApolloClient({
         }
       },
       AssetResult: {
-        keyFields: ['address', 'name']
+        keyFields: ['address', 'name', 'chainId']
       },
+      NftInfo: {
+        keyFields: ['tokenId']
+      }
     } as StrictTypedTypePolicies
   }),
 });

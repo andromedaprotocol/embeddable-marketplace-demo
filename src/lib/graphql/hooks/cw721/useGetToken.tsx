@@ -7,7 +7,7 @@ export default function useGetToken(contractAddress: string, tokenId: string) {
     variables: {
       'ADO_cw721_address': contractAddress,
       ADO_cw721_cw721_nftInfo_tokenId: tokenId
-    }
+    },
   })
   return {
     loading,

@@ -7,11 +7,14 @@ export interface IConfig extends IShareUrls {
     createdDate: string;
     modifiedDate: string;
     banner?: string;
+    description?: string;
 }
 
 export interface IBaseCollection extends IShareUrls {
     id: string;
     name: string;
+    description?: string;
+
 }
 
 export enum ICollectionType {
