@@ -31,12 +31,18 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         variant="ghost"
         fontSize="sm"
         rightIcon={<ChevronDown width={16} />}
+        data-testid="collection-dropdown-button"
       >
         Collections
       </MenuButton>
-      <MenuList>
+      <MenuList data-testid="collection-dropdown-list">
         {collections.map((col) => (
-          <MenuItem as={Link} href={LINKS.collection(col.id)} key={col.id}>
+          <MenuItem
+            as={Link}
+            href={LINKS.collection(col.id)}
+            key={col.id}
+            data-testid={`collection-dropdown-item-${col.id}`}
+          >
             <CollectionLinkItem name={col.name} />
           </MenuItem>
         ))}
@@ -51,7 +57,7 @@ interface CollectionLinkItemProps {
 const CollectionLinkItem: FC<CollectionLinkItemProps> = (props) => {
   const { name } = props;
 
-  return <Text>{name}</Text>;
+  return <Text data-testid="collection-link-item-name">{name}</Text>;
 };
 
 export default CollectionDropdown;

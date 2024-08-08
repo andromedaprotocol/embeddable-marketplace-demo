@@ -5,27 +5,28 @@ import React, { FC } from "react";
 interface HeaderProps {
   collectionId: string;
 }
+
 const Header: FC<HeaderProps> = (props) => {
   const { collectionId } = props;
   const collection = useGetCollection(collectionId);
 
   return (
-    <Grid templateColumns="repeat(2,1fr)" gap="4" py="2">
+    <Grid templateColumns="repeat(2,1fr)" gap="4" py="2" data-testid="header">
       <GridItem colSpan={1}>
-        <Flex direction="column" gap="2" align="start" maxW="md">
-          <Text fontSize="2xl" fontWeight="bold">
+        <Flex direction="column" gap="2" align="start" maxW="md" data-testid="header-left">
+          <Text fontSize="2xl" fontWeight="bold" data-testid="collection-name">
             {collection.name}
           </Text>
-          <Text textStyle="light" fontSize="sm">
+          <Text textStyle="light" fontSize="sm" data-testid="collection-creator">
             Created by <b>0x64fe0...fec9</b>
           </Text>
-          <Text fontWeight="light" fontSize="sm" mt="2">
+          <Text fontWeight="light" fontSize="sm" mt="2" data-testid="collection-description">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus, orci sit amet eleifend facilisis,
              arcu eros gravida massa, id pharetra dui nisi a leo. Integer a tellus elit. Proin quis venenatis magna... <b>Read more</b>
           </Text>
         </Flex>
       </GridItem>
-      <GridItem colSpan={1}>
+      <GridItem colSpan={1} data-testid="header-right">
         {/* <Box>
           <HStack
             align="start"
@@ -51,15 +52,16 @@ interface StatProps {
   label: string;
   value: string;
 }
+
 const Stat: FC<StatProps> = (props) => {
   const { label, value } = props;
 
   return (
-    <Box>
-      <Text fontSize="xs" textStyle="light">
+    <Box data-testid="stat">
+      <Text fontSize="xs" textStyle="light" data-testid="stat-label">
         {label}
       </Text>
-      <Text fontWeight="medium" fontSize="md">
+      <Text fontWeight="medium" fontSize="md" data-testid="stat-value">
         {value}
       </Text>
     </Box>
