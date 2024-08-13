@@ -23,36 +23,38 @@ interface Cw721TokensListProps {
   collectionId: string;
   contractAddress: string;
 }
+
 const Cw721TokensList: FC<Cw721TokensListProps> = (props) => {
   const { collectionId, contractAddress } = props;
   const { data: allTokens } = useGetCw721Tokens(contractAddress);
   const [filterOpen, setFilterOpen] = useState(false);
 
   return (
-    <Box>
+    <Box data-testid="cw721-tokens-list">
       <HStack>
         <Button
           onClick={() => setFilterOpen((prev) => !prev)}
           leftIcon={<SlidersHorizontal height={16} />}
           variant="outline"
+          data-testid="filter-button"
         >
           Filter
         </Button>
         <InputGroup>
-          <InputLeftElement pointerEvents="none">
+          <InputLeftElement pointerEvents="none" data-testid="search-icon">
             <SearchIcon width={16} />
           </InputLeftElement>
-          <Input placeholder="Collection, item or user" w="full" />
+          <Input placeholder="Collection, item or user" w="full" data-testid="search-input" />
         </InputGroup>
         <Menu placement="bottom-end">
-          <MenuButton as={Button} variant="outline" minW="max-content">
+          <MenuButton as={Button} variant="outline" minW="max-content" data-testid="sort-menu-button">
             Price: low to high
           </MenuButton>
-          <MenuList>
-            <MenuItem>Price: low to high</MenuItem>
-            <MenuItem>Price: high to low</MenuItem>
-            <MenuItem>Recently listed</MenuItem>
-            <MenuItem>Auction ending soon</MenuItem>
+          <MenuList data-testid="sort-menu-list">
+            <MenuItem data-testid="sort-low-to-high">Price: low to high</MenuItem>
+            <MenuItem data-testid="sort-high-to-low">Price: high to low</MenuItem>
+            <MenuItem data-testid="sort-recently-listed">Recently listed</MenuItem>
+            <MenuItem data-testid="sort-auction-ending-soon">Auction ending soon</MenuItem>
           </MenuList>
         </Menu>
       </HStack>
@@ -69,13 +71,14 @@ const Cw721TokensList: FC<Cw721TokensListProps> = (props) => {
               position="sticky"
               alignSelf="start"
               p="10"
+              data-testid="filter-container"
             >
               Filter
             </Box>
           )}
           <SimpleGrid columns={filterOpen ? 3 : 4} spacing={4} w="full">
             {allTokens?.map((tokenId) => (
-              <GridItem key={tokenId}>
+              <GridItem key={tokenId} data-testid={`token-card-${tokenId}`}>
                 <Cw721TokenCard contractAddress={contractAddress} tokenId={tokenId} collectionId={collectionId} />
               </GridItem>
             ))}
@@ -85,4 +88,5 @@ const Cw721TokensList: FC<Cw721TokensListProps> = (props) => {
     </Box>
   );
 };
+
 export default Cw721TokensList;

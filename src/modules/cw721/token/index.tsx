@@ -1,6 +1,6 @@
 import { useGetCw721, useGetCw721Token, useGetCw721Tokens } from "@/lib/graphql/hooks/cw721";
-import { Box, GridItem, Image, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import React, { FC } from "react"
+import { Box, GridItem, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import React, { FC } from "react";
 import Cw721TokenCard from "../components/Cw721TokenCard";
 import Overview from "./Overview";
 import Properties from "./Properties";
@@ -17,13 +17,14 @@ interface Props {
 
 const Cw721TokenPage: FC<Props> = (props) => {
     const { contractAddress, tokenId, collection } = props;
-    const { data: token } = useGetCw721Token(contractAddress, tokenId)
-    const { data: allTokens } = useGetCw721Tokens(contractAddress)
+    const { data: token } = useGetCw721Token(contractAddress, tokenId);
+    const { data: allTokens } = useGetCw721Tokens(contractAddress);
+
     return (
-        <Box>
+        <Box data-testid="cw721-token-page">
             <SimpleGrid columns={2}>
                 <GridItem>
-                    <Box>
+                    <Box data-testid="token-image">
                         <FallbackImage
                             src={token?.metadata?.image}
                             alt="Image"
@@ -31,16 +32,16 @@ const Cw721TokenPage: FC<Props> = (props) => {
                             maxW="md"
                         />
                     </Box>
-                    <Box py="2" mt="12">
+                    <Box py="2" mt="12" data-testid="token-details-tabs">
                         <Tabs colorScheme="purple">
                             <TabList>
-                                <Tab>Overview</Tab>
-                                <Tab>Properties</Tab>
+                                <Tab data-testid="tab-overview">Overview</Tab>
+                                <Tab data-testid="tab-properties">Properties</Tab>
                                 {collection.type === ICollectionType.AUCTION &&
-                                    <Tab>Bids</Tab>
+                                    <Tab data-testid="tab-bids">Bids</Tab>
                                 }
                                 {collection.type === ICollectionType.MARKETPLACE &&
-                                    <Tab>History</Tab>
+                                    <Tab data-testid="tab-history">History</Tab>
                                 }
                             </TabList>
                             <TabPanels>
@@ -65,7 +66,7 @@ const Cw721TokenPage: FC<Props> = (props) => {
                     </Box>
                 </GridItem>
                 <GridItem>
-                    <Box maxW="sm" ml="auto" position="sticky" top="4">
+                    <Box maxW="sm" ml="auto" position="sticky" top="4" data-testid="token-action">
                         <Cw721TokenAction
                             collection={collection}
                             tokenId={tokenId}
@@ -73,7 +74,7 @@ const Cw721TokenPage: FC<Props> = (props) => {
                     </Box>
                 </GridItem>
             </SimpleGrid>
-            <Box mt="24">
+            <Box mt="24" data-testid="more-from-collection">
                 <Text fontWeight="bold" fontSize="xl">
                     More from this collection
                 </Text>
@@ -84,12 +85,13 @@ const Cw721TokenPage: FC<Props> = (props) => {
                             tokenId={tokenId}
                             collectionId={props.collection.id}
                             contractAddress={contractAddress}
+                            data-testid={`more-token-${tokenId}`}
                         />
                     ))}
                 </SimpleGrid>
             </Box>
         </Box>
-    )
-}
+    );
+};
 
-export default Cw721TokenPage
+export default Cw721TokenPage;

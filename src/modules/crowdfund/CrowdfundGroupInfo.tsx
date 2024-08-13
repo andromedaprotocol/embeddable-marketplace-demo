@@ -15,19 +15,17 @@ import { ICrowdfundCollection } from "@/lib/app/types";
 import CrowdfundGroupBuyButton from "../common/cta/components/crowdfundGroupBuy/components/Button";
 import { Flame } from "lucide-react";
 
-
 interface CrowdfundGroupInfoProps {
   collection: ICrowdfundCollection;
   collectionName: string;
 }
+
 const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
   const { collection, collectionName } = props;
 
-  const { data: crowdfundState } = useGetCrowdfund(
-    collection.crowdfund
-  )
+  const { data: crowdfundState } = useGetCrowdfund(collection.crowdfund);
 
-  // get crowdfund variables
+  // Get crowdfund variables
   const min_tokens_sold = crowdfundState?.state.min_tokens_sold || 0;
   const price = parseInt(crowdfundState?.state.price.amount || "");
   const denom = crowdfundState?.state.price.denom;
@@ -36,7 +34,7 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
 
   const total_amount_sold = amount_to_send + amount_transferred;
   const total_sold = crowdfundState?.state?.amount_sold || 0;
-  const progress = Math.floor(total_sold / min_tokens_sold * 100);
+  const progress = Math.floor((total_sold / min_tokens_sold) * 100);
 
   console.log(crowdfundState, "Crowdfund");
   const expires = getTime(crowdfundState?.state.end_time ?? {});
@@ -57,18 +55,17 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
     return () => clearInterval(tId);
   }, [crowdfundState]);
 
-
   return (
-    <Box w="full">
+    <Box w="full" data-testid="crowdfund-group-info">
       <HStack justify="space-between">
         <Box>
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text fontSize="2xl" fontWeight="bold" data-testid="collection-name">
+            {collectionName}
           </Text>
           <Text fontSize="xs" fontWeight="thin" fontStyle="light">
             Collection: <b>{collectionName}</b>
           </Text>
         </Box>
-
       </HStack>
 
       <Box
@@ -79,8 +76,8 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
         p="4"
         minW="xs"
         w="full"
+        data-testid="crowdfund-details"
       >
-
         <Text
           bg="#e6f2e6"
           p={2}
@@ -89,8 +86,8 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
           alignItems="center"
           width="62px"
           height="14px"
+          data-testid="crowdfund-status"
         >
-
           <Text ml={2} fontSize="xs" color="green">
             Open
           </Text>
@@ -102,41 +99,30 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
           alignItems="center"
           fontSize={"lg"}
           fontWeight={"bold"}
+          data-testid="total-amount-sold"
         >
           {total_amount_sold} {denom}
         </Text>
 
-        <Text
-          display="inline-flex"
-          alignItems="center"
-          fontSize={"sm"}
-        >
+        <Text display="inline-flex" alignItems="center" fontSize={"sm"} data-testid="pledged-amount">
           pledged of {min_tokens_sold * price} {denom} goal
-
         </Text>
-        <Progress colorScheme='green' size='sm' mt="3" value={progress} borderRadius="md" />
-        <Flex gap="1" align="center" mt='2'>
+        <Progress colorScheme="green" size="sm" mt="3" value={progress} borderRadius="md" data-testid="progress-bar" />
+        <Flex gap="1" align="center" mt="2">
           <Flame color="orange" width={14} />
           {isEnded ? (
-            <Badge colorScheme="red" fontSize='2xs'>
+            <Badge colorScheme="red" fontSize="2xs" data-testid="sale-ended-badge">
               Sale Ended
             </Badge>
           ) : (
-            <Text fontWeight="bold" fontSize="sm">
+            <Text fontWeight="bold" fontSize="sm" data-testid="sale-ends-on">
               Ends on {formatTime(expires)}
             </Text>
           )}
         </Flex>
-        <SimpleGrid
-          spacing="4"
-          columns={3}
-          mt="4"
-          alignSelf="start"
-          maxW="max-content"
-          ml="1"
-        >
+        <SimpleGrid spacing="4" columns={3} mt="4" alignSelf="start" maxW="max-content" ml="1">
           <Box>
-            <Text fontWeight="bold" fontSize="md" ml="0.5">
+            <Text fontWeight="bold" fontSize="md" ml="0.5" data-testid="duration-hours">
               {duration.asHours().toFixed(0)}
             </Text>
             <Text fontSize="xs" textStyle="light">
@@ -144,7 +130,7 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
             </Text>
           </Box>
           <Box>
-            <Text fontWeight="bold" fontSize="md" ml="0.5">
+            <Text fontWeight="bold" fontSize="md" ml="0.5" data-testid="duration-minutes">
               {duration.minutes()}
             </Text>
             <Text fontSize="xs" textStyle="light">
@@ -152,7 +138,7 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
             </Text>
           </Box>
           <Box>
-            <Text fontWeight="bold" fontSize="md" ml="0.5">
+            <Text fontWeight="bold" fontSize="md" ml="0.5" data-testid="duration-seconds">
               {duration.seconds()}
             </Text>
             <Text fontSize="xs" textStyle="light">
@@ -164,9 +150,11 @@ const CrowdfundGroupInfo: FC<CrowdfundGroupInfoProps> = (props) => {
           disabled={!((crowdfundState?.availableTokens?.length ?? 0) > 0)}
           crowdfundAddress={collection.crowdfund}
           mt="4"
+          data-testid="buy-button"
         />
       </Box>
     </Box>
   );
 };
+
 export default CrowdfundGroupInfo;

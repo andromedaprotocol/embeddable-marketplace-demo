@@ -26,42 +26,43 @@ interface CrowdfundTokensListProps {
   collectionId: string;
   contractAddress: string;
 }
+
 const CrowdfundTokensList: FC<CrowdfundTokensListProps> = (props) => {
   const { collectionId, contractAddress } = props;
   const { data: crowdfund } = useGetCrowdfund(contractAddress);
-  console.log(crowdfund)
   const [filterOpen, setFilterOpen] = useState(false);
   const collection = useGetCollection<ICrowdfundCollection>(collectionId);
 
   return (
-    <Box>
+    <Box data-testid="crowdfund-tokens-list">
       <HStack>
         <Button
           onClick={() => setFilterOpen((prev) => !prev)}
           leftIcon={<SlidersHorizontal height={16} />}
           variant="outline"
+          data-testid="filter-button"
         >
           Filter
         </Button>
         <InputGroup>
           <InputLeftElement pointerEvents="none">
-            <SearchIcon width={16} />
+            <SearchIcon width={16} data-testid="search-icon" />
           </InputLeftElement>
-          <Input placeholder="Collection, item or user" w="full" />
+          <Input placeholder="Collection, item or user" w="full" data-testid="search-input" />
         </InputGroup>
         <Menu placement="bottom-end">
-          <MenuButton as={Button} variant="outline" minW="max-content">
+          <MenuButton as={Button} variant="outline" minW="max-content" data-testid="sort-menu-button">
             Price: low to high
           </MenuButton>
-          <MenuList>
-            <MenuItem>Price: low to high</MenuItem>
-            <MenuItem>Price: high to low</MenuItem>
-            <MenuItem>Recently listed</MenuItem>
-            <MenuItem>Auction ending soon</MenuItem>
+          <MenuList data-testid="sort-menu-list">
+            <MenuItem data-testid="sort-low-to-high">Price: low to high</MenuItem>
+            <MenuItem data-testid="sort-high-to-low">Price: high to low</MenuItem>
+            <MenuItem data-testid="sort-recently-listed">Recently listed</MenuItem>
+            <MenuItem data-testid="sort-auction-ending-soon">Auction ending soon</MenuItem>
           </MenuList>
         </Menu>
       </HStack>
-      <Box mt="4">
+      <Box mt="4" data-testid="tokens-container">
         <Flex direction="row" gap="4">
           {filterOpen && (
             <Box
@@ -74,14 +75,19 @@ const CrowdfundTokensList: FC<CrowdfundTokensListProps> = (props) => {
               position="sticky"
               alignSelf="start"
               p="10"
+              data-testid="filter-container"
             >
               Filter
             </Box>
           )}
           <SimpleGrid columns={filterOpen ? 3 : 4} spacing={4} w="full">
             {crowdfund?.availableTokens?.map((tokenId) => (
-              <GridItem key={tokenId}>
-                <Cw721TokenCard contractAddress={collection.cw721} tokenId={tokenId} collectionId={collectionId} />
+              <GridItem key={tokenId} data-testid={`token-card-${tokenId}`}>
+                <Cw721TokenCard
+                  contractAddress={collection.cw721}
+                  tokenId={tokenId}
+                  collectionId={collectionId}
+                />
               </GridItem>
             ))}
           </SimpleGrid>
@@ -90,4 +96,5 @@ const CrowdfundTokensList: FC<CrowdfundTokensListProps> = (props) => {
     </Box>
   );
 };
+
 export default CrowdfundTokensList;

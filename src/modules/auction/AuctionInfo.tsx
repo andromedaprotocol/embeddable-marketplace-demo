@@ -22,10 +22,11 @@ interface AuctionInfoProps {
   name: string;
   collectionName: string;
 }
+
 const AuctionInfo: FC<AuctionInfoProps> = (props) => {
   const { tokenId, collection, name } = props;
 
-  //Auction variables:
+  // Auction variables:
   const { data: auctionState } = useGetTokenAuctionState(
     collection.cw721,
     collection.auction,
@@ -36,17 +37,9 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
   const endTime = getTime(auctionState?.end_time ?? {});
 
   const isStarted = startTime.isBefore(new Date());
-
-  // might be a is cancelled 
-  // need to have a is claimed
-  // claim prompt for 'needs to be claimed' status
-
   const isEnded = endTime.isBefore(new Date());
 
   const [duration, setDuration] = useState(dayjs.duration(0));
-
-
-
 
   useEffect(() => {
     if (!auctionState) return;
@@ -66,19 +59,18 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
     return () => clearInterval(tId);
   }, [auctionState, isStarted, isEnded]);
 
-
   return (
-    <Box w="full">
-      <HStack justify="space-between">
+    <Box w="full" data-testid="auction-info">
+      <HStack justify="space-between" data-testid="auction-header">
         <Box>
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text fontSize="2xl" fontWeight="bold" data-testid="auction-name">
             {name}
           </Text>
           <Text fontSize="xs" fontWeight="thin" fontStyle="light">
-            Collection: <b>{props.collectionName}</b>
+            Collection: <b data-testid="auction-collection">{props.collectionName}</b>
           </Text>
         </Box>
-        <Button leftIcon={<Share width={16} />} variant="outline">
+        <Button leftIcon={<Share width={16} />} variant="outline" data-testid="auction-share-button">
           Share
         </Button>
       </HStack>
@@ -90,6 +82,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
         p="4"
         minW="xs"
         w="full"
+        data-testid="auction-details"
       >
         <SimpleGrid columns={2} spacing="2">
           <Box>
@@ -97,11 +90,9 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
               Floor price
             </Text>
             <Flex gap="2">
-              <Text fontWeight="bold" fontSize="sm">
-                {auctionState?.min_bid ?? 0}{" "}
-                {auctionState?.coin_denom?.toUpperCase()}
+              <Text fontWeight="bold" fontSize="sm" data-testid="auction-floor-price">
+                {auctionState?.min_bid ?? 0} {auctionState?.coin_denom?.toUpperCase()}
               </Text>
-
             </Flex>
           </Box>
           <Box>
@@ -109,9 +100,8 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
               Highest Bid
             </Text>
             <Flex gap="2">
-              <Text fontWeight="bold" fontSize="sm">
-                {auctionState?.high_bidder_amount}{" "}
-                {auctionState?.coin_denom?.toUpperCase()}
+              <Text fontWeight="bold" fontSize="sm" data-testid="auction-highest-bid">
+                {auctionState?.high_bidder_amount} {auctionState?.coin_denom?.toUpperCase()}
               </Text>
             </Flex>
           </Box>
@@ -120,6 +110,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
         <AuctionStartStat
           collection={collection}
           tokenId={tokenId}
+          data-testid="auction-start-stat"
         />
         <SimpleGrid
           spacing="4"
@@ -130,7 +121,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
           ml="1"
         >
           <Box>
-            <Text fontWeight="bold" fontSize="md" ml="0.5">
+            <Text fontWeight="bold" fontSize="md" ml="0.5" data-testid="auction-hours">
               {duration.asHours().toFixed(0)}
             </Text>
             <Text fontSize="xs" textStyle="light">
@@ -138,7 +129,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
             </Text>
           </Box>
           <Box>
-            <Text fontWeight="bold" fontSize="md" ml="0.5">
+            <Text fontWeight="bold" fontSize="md" ml="0.5" data-testid="auction-minutes">
               {duration.minutes()}
             </Text>
             <Text fontSize="xs" textStyle="light">
@@ -146,7 +137,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
             </Text>
           </Box>
           <Box>
-            <Text fontWeight="bold" fontSize="md" ml="0.5">
+            <Text fontWeight="bold" fontSize="md" ml="0.5" data-testid="auction-seconds">
               {duration.seconds()}
             </Text>
             <Text fontSize="xs" textStyle="light">
@@ -160,6 +151,7 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
           auctionAddress={collection.auction}
           tokenId={tokenId}
           mt="4"
+          data-testid="place-bid-button"
         >
           {isEnded ? "Sale ended" : !isStarted ? "Sale starting soon" : "Place a bid"}
         </PlaceBidButton>
@@ -167,4 +159,5 @@ const AuctionInfo: FC<AuctionInfoProps> = (props) => {
     </Box>
   );
 };
+
 export default AuctionInfo;
