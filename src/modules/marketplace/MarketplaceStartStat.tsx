@@ -1,8 +1,7 @@
-import { IAuctionCollection, IMarketplaceCollection } from "@/lib/app/types";
+import { IMarketplaceCollection } from "@/lib/app/types";
 import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
-import { Badge, Flex, Text } from "@chakra-ui/react";
-import { Flame } from "lucide-react";
-import React, { FC, ReactNode } from "react"
+import { Badge, Flex } from "@chakra-ui/react";
+import React, { FC } from "react";
 
 interface Props {
     collection: IMarketplaceCollection;
@@ -15,28 +14,28 @@ const MarketplaceStartStat: FC<Props> = (props) => {
         collection.marketplace,
         collection.cw721,
         tokenId
-    )
+    );
 
-    const isOpen = marketplaceState?.latestSaleState?.status === 'open'
-    const isClosed = marketplaceState?.latestSaleState?.status === 'executed'
+    const isOpen = marketplaceState?.latestSaleState?.status === 'open';
+    const isClosed = marketplaceState?.latestSaleState?.status === 'executed';
 
     return (
-        <Flex gap="1" align="center">
+        <Flex gap="1" align="center" data-testid="marketplace-start-stat">
             {isClosed ? (
-                <Badge colorScheme="red" fontSize='2xs'>
+                <Badge colorScheme="red" fontSize='2xs' data-testid="status-sold-out">
                     Sold Out
                 </Badge>
             ) : isOpen ? (
-                <Badge colorScheme="green" fontSize='2xs'>
+                <Badge colorScheme="green" fontSize='2xs' data-testid="status-for-sale">
                     For Sale
                 </Badge>
             ) : (
-                <Badge colorScheme="purple" fontSize='2xs'>
+                <Badge colorScheme="purple" fontSize='2xs' data-testid="status-not-for-sale">
                     Not for sale
                 </Badge>
             )}
         </Flex>
-    )
+    );
 }
 
-export default MarketplaceStartStat
+export default MarketplaceStartStat;
