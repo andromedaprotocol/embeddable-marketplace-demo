@@ -4,12 +4,20 @@ import React, { FC } from "react";
 interface BannerProps {
   image: string;
 }
+
 const Banner: FC<BannerProps> = (props) => {
   const { image } = props;
 
   return (
-    <Box h="60" pos="relative" rounded="2xl" overflow="hidden">
-      <Image src={image} alt="Image" w="full" h="full" fit="cover" />
+    <Box h="60" pos="relative" rounded="2xl" overflow="hidden" data-testid="banner">
+      <Image
+        src={image}
+        alt="Main Image"
+        w="full"
+        h="full"
+        fit="cover"
+        data-testid="banner-main-image"
+      />
       <Image
         _hover={{
           scale: '105%',
@@ -23,11 +31,13 @@ const Banner: FC<BannerProps> = (props) => {
         left="4"
         border="2px solid white"
         src={image}
-        alt="Image"
+        alt="Overlay Image"
         h="28"
         fit="contain"
+        data-testid="banner-overlay-image"
       />
     </Box>
   );
 };
+
 export default Banner;

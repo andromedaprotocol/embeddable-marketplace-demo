@@ -3,7 +3,7 @@ import { useGetTokenMarketplaceInfo } from "@/lib/graphql/hooks/marketplace";
 import MarketplaceStartStat from "@/modules/marketplace/MarketplaceStartStat";
 import { MoreHorizontalIcon } from "@/theme/icons";
 import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
-import React, { FC, ReactNode } from "react"
+import React, { FC } from "react";
 
 interface Props {
     collection: IMarketplaceCollection;
@@ -19,15 +19,15 @@ const Cw721MarketplaceState: FC<Props> = (props) => {
     );
 
     return (
-        <Box>
-            <Box mb='1'>
+        <Box data-testid="marketplace-state">
+            <Box mb='1' data-testid="marketplace-start-stat">
                 <MarketplaceStartStat
                     collection={collection}
                     tokenId={tokenId}
                 />
             </Box>
             <Flex justify="space-between" align="start" gap="2">
-                <Box>
+                <Box data-testid="price-info">
                     <Text fontSize="xs" textStyle="light">
                         Price
                     </Text>
@@ -44,16 +44,17 @@ const Cw721MarketplaceState: FC<Props> = (props) => {
                         icon={<MoreHorizontalIcon width={16} />}
                         variant="link"
                         alignSelf="end"
+                        data-testid="menu-button"
                     />
-                    <MenuList>
-                        <MenuItem>Burn</MenuItem>
-                        <MenuItem>Archive</MenuItem>
-                        <MenuItem>Sell</MenuItem>
+                    <MenuList data-testid="menu-list">
+                        <MenuItem data-testid="menu-item-burn">Burn</MenuItem>
+                        <MenuItem data-testid="menu-item-archive">Archive</MenuItem>
+                        <MenuItem data-testid="menu-item-sell">Sell</MenuItem>
                     </MenuList>
                 </Menu>
             </Flex>
         </Box>
-    )
+    );
 }
 
-export default Cw721MarketplaceState
+export default Cw721MarketplaceState;
