@@ -31,6 +31,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
+## Deploy on Replit
+
+If you already have a github and a Replit account, then click the run on Replit button below to import this template on and deploy it to Replit. 
+
+[![Run on Replit](https://replit.com/badge/github/andromedaprotocol/embeddable-marketplace-demo)](https://replit.com/github/andromedaprotocol/embeddable-marketplace-demo)
+
+
+## Next.js Details
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ## Licensing
