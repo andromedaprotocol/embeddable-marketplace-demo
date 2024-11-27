@@ -31,11 +31,11 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   );
 
   const { data: rate } = useGetRate(marketplaceAddress, "Buy")
-
+  const rateValue = rate?.local.value;
   const rateType = rate?.local.rate_type
-  const flatRate = rate?.local.value.flat?.amount
-  const flatRateDenom = rate?.local.value.flat?.denom
-  const percentRate = rate?.local.value.percent?.percent
+  const flatRate = (rateValue && "flat" in rateValue) ? rateValue.flat : undefined;
+  const flatRateDenom = flatRate?.denom;
+  const percentRate = (rateValue && "percent" in rateValue) ? rateValue.percent : undefined
   const marketplaceAmount = marketplaceState?.latestSaleState.price
   const floatMarketplaceAmount = parseFloat(marketplaceAmount ?? "0")
   const commaSeparatedAmount = Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(floatMarketplaceAmount)
@@ -43,11 +43,11 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const calcAmount = (): Coin | undefined => {
     if (flatRate && flatRateDenom) {
       return {
-        amount: flatRate,
+        amount: flatRate.amount,
         denom: flatRateDenom
       }
     } else if (percentRate) {
-      const percentAmount = parseFloat(percentRate!) * floatMarketplaceAmount
+      const percentAmount = parseFloat(percentRate.percent) * floatMarketplaceAmount
       return {
         amount: percentAmount.toFixed(0),
         denom: marketplaceState!.latestSaleState.coin_denom
@@ -59,10 +59,10 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
   const DENOM = marketplaceState?.latestSaleState.coin_denom ?? config?.coinDenom ?? "ujunox";
   const rateCoin = calcAmount();
   const rateCoinAmount = parseFloat(rateCoin?.amount ?? "0")
-  const commaSeparatedRateCoinAunt = Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(rateCoinAmount)
-  const markeplaceCoin = coin(marketplaceAmount ?? "0", DENOM);
+  const commaSeparatedRateCoinAmount = Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(rateCoinAmount)
+  const marketplaceCoin = coin(marketplaceAmount ?? "0", DENOM);
 
-  const totalAmount = (rateCoin && rateType === "additive") ? sumCoins([rateCoin, markeplaceCoin]) : [markeplaceCoin];
+  const totalAmount = (rateCoin && rateType === "additive") ? sumCoins([rateCoin, marketplaceCoin]) : [marketplaceCoin];
   console.log(totalAmount)
 
 
@@ -131,7 +131,7 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
                 </Box>
                 <Box w="100%" h="7" padding={1} textAlign={"end"} marginBottom={1} borderBottom={"1px"} borderBottomColor={"blackAlpha.300"}>
                   <Text textStyle="light">
-                    {rateType === "additive" ? "+" : ""} {commaSeparatedRateCoinAunt} {rateCoin?.denom}
+                    {rateType === "additive" ? "+" : ""} {commaSeparatedRateCoinAmount} {rateCoin?.denom}
                   </Text>
                 </Box>
 
@@ -148,12 +148,10 @@ const BuyNowModal: FC<BuyNowModalProps> = (props) => {
               <Box w="100%" h="7" padding={1} textAlign={"end"} marginBottom={1} >
                 {totalAmount?.map(item => {
                   return (
-                    <>
-                      <Text textStyle="light">
-                        {
-                          Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(parseFloat(item.amount))} {item.denom}
-                      </Text>
-                    </>
+                    <Text key={item.denom} textStyle="light">
+                      {
+                        Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(parseFloat(item.amount))} {item.denom}
+                    </Text>
                   )
                 })}
               </Box>
