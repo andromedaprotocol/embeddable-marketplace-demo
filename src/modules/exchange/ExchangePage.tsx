@@ -1,5 +1,5 @@
 import { IExchangeCollection } from "@/lib/app/types";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React, { ChangeEvent, FC, useState } from "react";
 import ExchangeIntro from "./ExchangeIntro";
 import ExchangeCard from "./ExchangeCard";
@@ -47,19 +47,23 @@ const ExchangePage: FC<Props> = (props) => {
                     data-testid="exchange-card"
                 />
             </Flex>
-            <Flex direction={"column"} width={663} justifyContent={'space-between'}>
-                <Text fontWeight="bold" fontSize="2xl" mt="2" lineHeight="shorter" data-testid="add-contract-addr" mb='2' color={'blackAlpha.800'}>
-                    Add your cw20 token to Keplr for easy balance tracking
-                </Text>
-                <Text fontSize="md" color={'blackAlpha.700'} mb='4'>
-                    • You only need to do this once per token.
-                    <br />
-                    • Make sure your Keplr wallet is connected before proceeding.
-                    <br />
-                    • After adding, you can find the token in your Keplr asset list.
-                </Text>
-                <PromiseButton width={"fit-content"} backgroundColor={"gray.800"} display={"block"} size={"md"} paddingX={'12'} onClick={handleAddToKeplr}>Add token to keplr</PromiseButton>
-            </Flex>
+            <Box borderWidth='1px' borderRadius='lg' padding={6} backgroundColor={"gray.50"} mt="4" mb="4">
+                <Flex direction={"column"} justifyContent={'space-between'} padding={4}>
+                    <Text fontWeight="bold" fontSize="3xl" mt="2" lineHeight="shorter" data-testid="add-contract-addr" mb='2' color={'blackAlpha.800'}>
+                        Add your cw20 token to Keplr for easy balance tracking
+                    </Text>
+                    <Text fontSize="md" color={'blackAlpha.700'} mb='4'>
+                        • You only need to do this once per token.
+                        <br />
+                        • Make sure your Keplr wallet is connected before proceeding.
+                        <br />
+                        • After adding, you can find the token in your Keplr asset list.
+                    </Text>
+                    <Flex justify={"center"}>
+                        <PromiseButton width={"fit-content"} backgroundColor={"gray.900"} display={"block"} size={"md"} paddingX={'12'} onClick={handleAddToKeplr}>Add token to keplr</PromiseButton>
+                    </Flex>
+                </Flex>
+            </Box>
         </Flex>
     )
 }
