@@ -39,10 +39,10 @@ const Cw721TokenCard: FC<Cw721TokenCardProps> = ({ tokenId, collectionId, contra
         />
       </HStack>
       <Box mt="1" data-testid="card-status">
-        {collection?.type === ICollectionType.AUCTION && (
+        {collection?.type === ICollectionType["embeddables-auction"] && (
           <Cw721AuctionState collection={collection} tokenId={tokenId} data-testid="auction-state" />
         )}
-        {collection?.type === ICollectionType.MARKETPLACE && (
+        {collection?.type === ICollectionType["embeddables-marketplace"] && (
           <Cw721MarketplaceState collection={collection} tokenId={tokenId} data-testid="marketplace-state" />
         )}
       </Box>

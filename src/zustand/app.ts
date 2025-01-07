@@ -1,6 +1,6 @@
 "use client";
 import { APP_ENV } from "@/appEnv";
-import { IConfig } from "@/lib/app";
+import type { IConfig } from "@/lib/app";
 import { create } from "zustand";
 
 
@@ -8,6 +8,7 @@ export interface IAppStore {
     config: IConfig;
     isPreview: boolean;
 }
+
 
 export const useAppStore = create<IAppStore>((set, get) => ({
     config: APP_ENV.DEFAULT_CONFIG,

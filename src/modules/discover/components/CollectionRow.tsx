@@ -11,17 +11,17 @@ const CollectionRow: FC<CollectionRowProps> = (props) => {
   const { collectionId } = props;
   const collection = useGetCollection(collectionId);
 
-  if (collection?.type === ICollectionType.AUCTION) {
+  if (collection?.type === ICollectionType["embeddables-auction"]) {
     return <Cw721CollectionRow collectionId={collectionId} />
   }
 
-  if (collection?.type === ICollectionType.MARKETPLACE) {
+  if (collection?.type === ICollectionType["embeddables-marketplace"]) {
     return <Cw721CollectionRow collectionId={collectionId} />
   }
-  if (collection?.type === ICollectionType.CROWDFUND) {
+  if (collection?.type === ICollectionType["embeddables-crowdfund"]) {
     return <Cw721CollectionRow collectionId={collectionId} />
   }
-  if (collection?.type === ICollectionType.EXCHANGE) {
+  if (collection?.type === ICollectionType["embeddables-exchange"]) {
     return <Cw20CollectionRow collectionId={collectionId} />
   }
 

@@ -13,12 +13,12 @@ const CollectionRouter: FC<Props> = (props) => {
     const { collectionId } = props;
     const collection = useGetCollection(collectionId);
     switch (collection.type) {
-        case ICollectionType.AUCTION:
-        case ICollectionType.MARKETPLACE:
+        case ICollectionType["embeddables-auction"]:
+        case ICollectionType["embeddables-marketplace"]:
             return <Cw721Page collection={collection} contractAddress={collection.cw721} />
-        case ICollectionType.CROWDFUND:
+        case ICollectionType["embeddables-crowdfund"]:
             return <CrowdfundPage collection={collection} />
-        case ICollectionType.EXCHANGE:
+        case ICollectionType["embeddables-exchange"]:
             return <ExchangePage collection={collection} />
     }
     return null;

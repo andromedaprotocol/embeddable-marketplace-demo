@@ -1,0 +1,16 @@
+{
+  "coinDenom": "uandr",
+  "name": "Token Exchange",
+  "description": "This is description",
+  "collections": [
+    {
+      "exchange": "andr1g2h29s6j8792x7xqgr8325zqwn4s5veezurd6000s86075dtlhssurs994",
+      "cw20": "andr1ycq8tsxzy0aqtj5pugt6uvq2f0m72u7ytzj8hvr05ayzcmzx3ldsrrpwe6",
+      "name": "New token exchange",
+      "type": "embeddables-exchange",
+      "id": "embeddables-exchange-1"
+    }
+  ],
+  "$type": "nft",
+  "chainId": "galileo-4"
+}

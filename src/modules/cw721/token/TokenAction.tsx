@@ -15,7 +15,7 @@ const Cw721TokenAction: FC<Props> = (props) => {
     const { data: cw721 } = useGetCw721(collection.cw721);
     const { data: token } = useGetCw721Token(collection.cw721, tokenId)
 
-    if (collection.type === ICollectionType.AUCTION) return (
+    if (collection.type === ICollectionType["embeddables-auction"]) return (
         <AuctionInfo
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
@@ -23,7 +23,7 @@ const Cw721TokenAction: FC<Props> = (props) => {
             name={token?.metadata?.name ?? tokenId}
         />
     )
-    if (collection.type === ICollectionType.MARKETPLACE) return (
+    if (collection.type === ICollectionType["embeddables-marketplace"]) return (
         <MarketplaceInfo
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}
@@ -31,7 +31,7 @@ const Cw721TokenAction: FC<Props> = (props) => {
             name={token?.metadata?.name ?? tokenId}
         />
     )
-    if (collection.type === ICollectionType.CROWDFUND) return (
+    if (collection.type === ICollectionType["embeddables-crowdfund"]) return (
         <CrowdfundInfo
             collection={collection}
             collectionName={cw721?.contractInfo.name ?? 'Loading...'}

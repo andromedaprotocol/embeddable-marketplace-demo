@@ -1,7 +1,12 @@
 import config from './config'
-import { IConfig } from './lib/app/types';
+import { ConfigSchema, IConfig } from './lib/app/types';
+
+const parsedConfig = ConfigSchema.parse({
+    ...config,
+})
+
 export namespace APP_ENV {
-    export const DEFAULT_CONFIG: IConfig = config;
+    export const DEFAULT_CONFIG: IConfig = parsedConfig;
     DEFAULT_CONFIG.id = 'andromeda';
 
     export const FEATURED_APPS = ['andromeda'];
@@ -9,3 +14,4 @@ export namespace APP_ENV {
     export const OVERRIDE_DATABASE: Record<string, string> = {
     }
 }
+
