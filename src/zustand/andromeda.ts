@@ -5,6 +5,7 @@ import AndromedaClient from "@andromedaprotocol/andromeda.js";
 import { refetchChainConfigQuery, refetchKeplrConfigQuery, IChainConfigQuery, IKeplrConfigQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 import { GasPrice } from "@cosmjs/stargate/build/fee";
 import type { AccountData, Keplr } from "@keplr-wallet/types";
+import { features } from "process";
 import { create } from "zustand";
 
 export enum KeplrConnectionStatus {
@@ -82,7 +83,7 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
             const keplrConfig = await apolloClient.query<IKeplrConfigQuery>(refetchKeplrConfigQuery({
                 'identifier': chainId
             }))
-            await keplr.experimentalSuggestChain(keplrConfig.data.keplrConfigs.config);
+            await keplr.experimentalSuggestChain({ ...keplrConfig.data.keplrConfigs.config, features: ["cosmwasm"] });
         }
 
         const config = (await apolloClient.query<IChainConfigQuery>(refetchChainConfigQuery({
