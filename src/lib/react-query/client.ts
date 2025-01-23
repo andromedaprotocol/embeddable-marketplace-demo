@@ -10,23 +10,25 @@ const reactQueryClient = new QueryClient({
             staleTime: 1 * 60 * 1000
         },
         mutations: {
-            onError: (err) => {
-                if ("error" in err) {
-                    err = err.error as Error
+            onError: (err: unknown) => {
+                let error: Error;
+                if (typeof err === 'object' && err !== null && 'error' in err) {
+                    error = (err as { error: Error }).error;
+                } else if (err instanceof Error) {
+                    error = err;
+                } else {
+                    error = new Error('Unknown error occurred');
                 }
-                let message: string = err?.message ?? "No Description"
+                
+                const message = error.message ?? "No Description";
                 toast({
                     description: shortenString(message, 100),
                     status: "error",
                     position: "top-right",
                     duration: 3000,
                     isClosable: true
-                }
-
-                )
-
+                });
             }
-
         }
     }
 })
