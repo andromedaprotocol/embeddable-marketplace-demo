@@ -8,7 +8,7 @@ const PromiseButton = React.forwardRef<any, Props>(function PromiseButton(props,
     const { children, onClick, isLoading, ...buttonProps } = props;
     const [loading, setLoading] = useState(false);
 
-    const promiseOnClick: typeof onClick = useCallback(async (e) => {
+    const promiseOnClick: typeof onClick = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
         if (loading) return;
         try {
             setLoading(true);
@@ -16,7 +16,7 @@ const PromiseButton = React.forwardRef<any, Props>(function PromiseButton(props,
         } finally {
             setLoading(false);
         }
-    }, [onClick])
+    }, [onClick, loading])
     return (
         <Button
             onClick={promiseOnClick}
