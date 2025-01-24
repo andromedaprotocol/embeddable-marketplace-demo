@@ -1,4 +1,4 @@
-import { useGetCw721, useGetCw721Token, useGetCw721Tokens } from "@/lib/graphql/hooks/cw721";
+import { useGetCw721Token, useGetCw721Tokens } from "@/lib/graphql/hooks/cw721";
 import { Box, GridItem, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Cw721TokenCard from "../components/Cw721TokenCard";
@@ -37,10 +37,10 @@ const Cw721TokenPage: FC<Props> = (props) => {
                             <TabList>
                                 <Tab data-testid="tab-overview">Overview</Tab>
                                 <Tab data-testid="tab-properties">Properties</Tab>
-                                {collection.type === ICollectionType.AUCTION &&
+                                {collection.type === ICollectionType["embeddables-auction"] &&
                                     <Tab data-testid="tab-bids">Bids</Tab>
                                 }
-                                {collection.type === ICollectionType.MARKETPLACE &&
+                                {collection.type === ICollectionType["embeddables-marketplace"] &&
                                     <Tab data-testid="tab-history">History</Tab>
                                 }
                             </TabList>
@@ -53,12 +53,12 @@ const Cw721TokenPage: FC<Props> = (props) => {
                                         <Properties metadata={token.metadata} />
                                     )}
                                 </TabPanel>
-                                {collection.type === ICollectionType.AUCTION &&
+                                {collection.type === ICollectionType["embeddables-auction"] &&
                                     <TabPanel>
                                         <Cw721AuctionBids auctionAddress={collection.auction} tokenAddress={contractAddress} tokenId={tokenId} />
                                     </TabPanel>
                                 }
-                                {collection.type === ICollectionType.MARKETPLACE &&
+                                {collection.type === ICollectionType["embeddables-marketplace"] &&
                                     <TabPanel>History</TabPanel>
                                 }
                             </TabPanels>
