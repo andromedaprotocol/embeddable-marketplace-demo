@@ -1,0 +1,22 @@
+name: Vercel Preview Deployment
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Deploy-Preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --no-wait --token=${{ secrets.VERCEL_TOKEN }}
