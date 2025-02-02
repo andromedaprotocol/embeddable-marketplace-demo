@@ -33,20 +33,24 @@ const Cw20CollectionRow: FC<Cw20CollectionRowProps> = (props) => {
 
   return (
     <Box p="12" rounded="2xl" bg="gray.100" data-testid="cw20-collection-row">
-      <SimpleGrid columns={4} spacing="6">
-        <GridItem data-testid="collection-logo">
-          <FallbackImage
-            src={tokenInfo?.marketingInfo?.logo?.url}
-            alt="Image"
-            borderRadius="lg"
-            cursor='pointer'
-            _hover={{ scale: "110%" }}
-            transform='auto'
-            transition='ease-in'
-            transitionProperty='all'
-            transitionDuration='150ms'
-          />
-        </GridItem>
+      <SimpleGrid
+        templateColumns="repeat(auto-fit, minmax(150px, 1fr))" spacing="6">
+        {tokenInfo?.marketingInfo?.logo ?
+          <GridItem data-testid="collection-logo">
+            <FallbackImage
+              src={tokenInfo?.marketingInfo?.logo?.url}
+              alt="Image"
+              borderRadius="lg"
+              cursor='pointer'
+              _hover={{ scale: "110%" }}
+              transform='auto'
+              transition='ease-in'
+              transitionProperty='all'
+              transitionDuration='150ms'
+            />
+          </GridItem>
+          : ""
+        }
         <GridItem colSpan={3} data-testid="collection-details">
           <Flex direction="column" gap="4" alignItems="stretch">
             <HStack w='full' data-testid="collection-header">
