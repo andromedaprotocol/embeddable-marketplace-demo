@@ -18,6 +18,7 @@ const ExchangeIntro: FC<ExchangeIntroProps> = (props) => {
   const { data: tokenInfo } = useGetCw20MarketingInfo(cw20);
 
 
+
   return (
     <Flex direction="row" justify={"space-between"} my={"auto"} data-testid="exchange-intro">
       <Flex direction="column" width={663}>
@@ -27,11 +28,16 @@ const ExchangeIntro: FC<ExchangeIntroProps> = (props) => {
         <Text fontWeight="light" fontSize="md" mt="2" mb="2" data-testid="intro-description">
           {tokenInfo?.marketingInfo?.description}
         </Text>
-        <Link href={tokenInfo?.marketingInfo?.project} target="_blank" data-testid="learn-more-link">
-          <PromiseButton width={"fit-content"} backgroundColor={"gray.900"} paddingX={12} data-testid="learn-more-button">
-            Learn more
-          </PromiseButton>
-        </Link>
+
+        {tokenInfo?.marketingInfo?.project ?
+          <Link href={tokenInfo?.marketingInfo?.project} target="_blank" data-testid="learn-more-link">
+            <PromiseButton width={"fit-content"} backgroundColor={"gray.900"} paddingX={12} data-testid="learn-more-button">
+              Learn more
+            </PromiseButton>
+          </Link>
+          : ""
+        }
+
       </Flex>
     </Flex>
   );
